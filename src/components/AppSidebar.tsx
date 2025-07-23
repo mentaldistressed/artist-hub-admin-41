@@ -1,4 +1,4 @@
-import { Users, DollarSign, Settings, LogOut, Home, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Users, DollarSign, Settings, LogOut, Home } from 'lucide-react';
 import { NavLink, useLocation } from 'react-router-dom';
 import {
   Sidebar,
@@ -10,11 +10,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-  SidebarFooter,
-  SidebarHeader,
 } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { useAuth } from '@/hooks/useAuth';
 
 interface NavItem {
@@ -37,7 +34,7 @@ const adminItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
-  const { state, toggleSidebar } = useSidebar();
+  const { state } = useSidebar();
   const { profile, signOut } = useAuth();
   const location = useLocation();
   const currentPath = location.pathname;
@@ -46,131 +43,76 @@ export function AppSidebar() {
   const collapsed = state === 'collapsed';
   
   const isActive = (path: string) => currentPath === path;
+  const getNavCls = ({ isActive }: { isActive: boolean }) =>
+    isActive 
+      ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium border-l-2 border-primary' 
+      : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground';
 
   const handleSignOut = async () => {
     await signOut();
   };
 
-  const getUserInitials = () => {
-    const name = profile?.role === 'admin' ? profile?.name : profile?.pseudonym;
-    return name ? name.split(' ').map(word => word[0]).join('').toUpperCase() : '?';
-  };
-
-  const getUserName = () => {
-    return profile?.role === 'admin' ? profile?.name : profile?.pseudonym;
-  };
-
-  const getRoleLabel = () => {
-    return profile?.role === 'admin' ? 'администратор' : 'артист';
-  };
-
   return (
     <Sidebar
-      className={`transition-all duration-300 ease-in-out ${collapsed ? 'w-16' : 'w-72'} border-r border-sidebar-border bg-gradient-to-b from-sidebar-background to-sidebar-background/80`}
+      className={collapsed ? 'w-14' : 'w-64'}
       collapsible="icon"
     >
-      {/* Header */}
-      <SidebarHeader className="border-b border-sidebar-border/50 px-3 py-4">
-        <div className="flex items-center justify-between">
-          {!collapsed && (
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center">
-                <span className="text-white font-bold text-sm">🎵</span>
-              </div>
-              <div>
-                <h2 className="text-sm font-semibold text-sidebar-foreground">музыкальный лейбл</h2>
-                <p className="text-xs text-sidebar-foreground/60">{getRoleLabel()}</p>
-              </div>
-            </div>
-          )}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleSidebar}
-            className="h-8 w-8 text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent/50"
-          >
-            {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-          </Button>
-        </div>
-      </SidebarHeader>
-
-      <SidebarContent className="px-3 py-4">
+      <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className={`text-xs font-medium text-sidebar-foreground/60 mb-3 ${collapsed ? 'sr-only' : ''}`}>
-            навигация
+          <SidebarGroupLabel className="px-2 text-sm font-medium text-muted-foreground">
+            {!collapsed && (
+              profile?.role === 'admin' ? 'панель администратора' : 'панель артиста'
+            )}
           </SidebarGroupLabel>
           
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-1">
-              {items.map((item) => {
-                const active = isActive(item.url);
-                return (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <NavLink 
-                        to={item.url} 
-                        end 
-                        className={`
-                          group flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 relative
-                          ${active 
-                            ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20' 
-                            : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
-                          }
-                          ${collapsed ? 'justify-center' : ''}
-                        `}
-                      >
-                        <item.icon className={`${collapsed ? 'h-5 w-5' : 'h-4 w-4'} flex-shrink-0`} />
-                        {!collapsed && (
-                          <span className="font-medium text-sm">{item.title}</span>
-                        )}
-                        {active && !collapsed && (
-                          <div className="absolute right-2 w-1.5 h-1.5 rounded-full bg-primary-foreground/80"></div>
-                        )}
-                      </NavLink>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                )
-              })}
+            <SidebarMenu>
+              {items.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                     <NavLink 
+                       to={item.url} 
+                       end 
+                       className={({ isActive }) => `flex items-center gap-2 px-3 py-2 rounded-md transition-all duration-200 ${getNavCls({ isActive })}`}
+                     >
+                      <item.icon className="h-4 w-4" />
+                      {!collapsed && <span>{item.title}</span>}
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-      </SidebarContent>
 
-      {/* Footer with user info */}
-      <SidebarFooter className="border-t border-sidebar-border/50 p-3">
-        <div className={`flex items-center gap-3 ${collapsed ? 'justify-center' : ''}`}>
-          <Avatar className="h-8 w-8 ring-2 ring-primary/20">
-            <AvatarImage src="" alt={getUserName()} />
-            <AvatarFallback className="text-xs font-semibold bg-gradient-to-br from-primary/10 to-primary/5 text-primary">
-              {getUserInitials()}
-            </AvatarFallback>
-          </Avatar>
-          
-          {!collapsed && (
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-sidebar-foreground truncate">
-                {getUserName()}
-              </p>
-              <p className="text-xs text-sidebar-foreground/60 truncate">
-                {getRoleLabel()}
-              </p>
+        {/* Информация о пользователе */}
+        <SidebarGroup className="mt-auto">
+          <SidebarGroupContent>
+            <div className={`px-2 py-2 ${collapsed ? 'text-center' : ''}`}>
+              {!collapsed && (
+                <div className="text-sm">
+                  <p className="font-medium text-foreground">
+                    {profile?.role === 'admin' ? profile?.name : profile?.pseudonym}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {profile?.role === 'admin' ? 'администратор' : 'артист'}
+                  </p>
+                </div>
+              )}
+              
+              <Button
+                onClick={handleSignOut}
+                variant="ghost"
+                size={collapsed ? "icon" : "sm"}
+                className={`mt-2 ${collapsed ? 'w-8 h-8' : 'w-full justify-start'}`}
+              >
+                <LogOut className="h-4 w-4" />
+                {!collapsed && <span className="ml-2">выйти</span>}
+              </Button>
             </div>
-          )}
-        </div>
-        
-        <Button
-          onClick={handleSignOut}
-          variant="ghost"
-          size={collapsed ? "icon" : "sm"}
-          className={`
-            mt-3 text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-destructive/10 hover:text-destructive
-            ${collapsed ? 'w-8 h-8' : 'w-full justify-start'}
-          `}
-        >
-          <LogOut className="h-4 w-4" />
-          {!collapsed && <span className="ml-2 text-sm">выйти</span>}
-        </Button>
-      </SidebarFooter>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
     </Sidebar>
   );
 }

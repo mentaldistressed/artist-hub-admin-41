@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { Layout } from '@/components/Layout';
 import { Plus, Search, Edit } from 'lucide-react';
 
 interface Profile {
@@ -172,7 +173,8 @@ const AdminUsers = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <Layout>
+      <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-foreground">пользователи</h1>
@@ -386,7 +388,8 @@ const AdminUsers = () => {
           </form>
         </DialogContent>
       </Dialog>
-    </div>
+      </div>
+    </Layout>
   );
 };
 

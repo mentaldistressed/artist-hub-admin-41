@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { Layout } from '@/components/Layout';
 import { DollarSign, TrendingUp, Users, Edit } from 'lucide-react';
 
 interface Profile {
@@ -97,7 +98,8 @@ const AdminFinances = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <Layout>
+      <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-foreground">управление финансами</h1>
         <p className="text-muted-foreground">контроль балансов и финансовых операций</p>
@@ -231,7 +233,8 @@ const AdminFinances = () => {
           </form>
         </DialogContent>
       </Dialog>
-    </div>
+      </div>
+    </Layout>
   );
 };
 

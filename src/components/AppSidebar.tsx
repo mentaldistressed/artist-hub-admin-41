@@ -1,4 +1,4 @@
-import { Users, DollarSign, Settings, LogOut } from 'lucide-react';
+import { Users, DollarSign, Settings, LogOut, Home } from 'lucide-react';
 import { NavLink, useLocation } from 'react-router-dom';
 import {
   Sidebar,
@@ -22,10 +22,12 @@ interface NavItem {
 }
 
 const artistItems: NavItem[] = [
+  { title: 'главная', url: '/', icon: Home, role: 'artist' },
   { title: 'финансы', url: '/finances', icon: DollarSign, role: 'artist' },
 ];
 
 const adminItems: NavItem[] = [
+  { title: 'главная', url: '/', icon: Home, role: 'admin' },
   { title: 'пользователи', url: '/users', icon: Users, role: 'admin' },
   { title: 'финансы', url: '/admin-finances', icon: DollarSign, role: 'admin' },
   { title: 'настройки', url: '/settings', icon: Settings, role: 'admin' },
@@ -42,7 +44,9 @@ export function AppSidebar() {
   
   const isActive = (path: string) => currentPath === path;
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
-    isActive ? 'bg-primary text-primary-foreground font-medium' : 'hover:bg-accent';
+    isActive 
+      ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium border-l-2 border-primary' 
+      : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground';
 
   const handleSignOut = async () => {
     await signOut();
@@ -66,11 +70,11 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <NavLink 
-                      to={item.url} 
-                      end 
-                      className={getNavCls}
-                    >
+                     <NavLink 
+                       to={item.url} 
+                       end 
+                       className={({ isActive }) => `flex items-center gap-2 px-3 py-2 rounded-md transition-all duration-200 ${getNavCls({ isActive })}`}
+                     >
                       <item.icon className="h-4 w-4" />
                       {!collapsed && <span>{item.title}</span>}
                     </NavLink>

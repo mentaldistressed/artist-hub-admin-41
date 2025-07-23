@@ -19,7 +19,7 @@ export const Layout = ({ children }: LayoutProps) => {
             <SidebarTrigger />
             <div className="ml-4">
               <h1 className="text-lg font-semibold">
-                музыкальный лейбл - {profile?.role === 'admin' ? 'администратор' : 'артист'}
+                rplus » портал {profile?.role === 'admin' ? 'администратор' : 'артист'}а
               </h1>
             </div>
           </header>

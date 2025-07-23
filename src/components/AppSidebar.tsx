@@ -61,7 +61,7 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel className="px-2 text-sm font-medium text-muted-foreground">
             {!collapsed && (
-              profile?.role === 'admin' ? 'панель администратора' : 'панель артиста'
+              profile?.role === 'admin' ? 'портал администратора' : 'портал артиста'
             )}
           </SidebarGroupLabel>
           

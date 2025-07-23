@@ -117,8 +117,8 @@ export const AuthForm = () => {
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">музыкальный лейбл</CardTitle>
-          <CardDescription>добро пожаловать в нашу систему</CardDescription>
+          <CardTitle className="text-2xl font-bold">rplus » портал выплат</CardTitle>
+          <CardDescription>добро пожаловать</CardDescription>
         </CardHeader>
         
         <CardContent>
@@ -179,13 +179,13 @@ export const AuthForm = () => {
                       id="artist-pseudonym"
                       value={artistData.pseudonym}
                       onChange={(e) => setArtistData(prev => ({ ...prev, pseudonym: e.target.value }))}
-                      placeholder="ваш творческий псевдоним"
+                      placeholder="ваш псевдоним"
                       required
                     />
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="artist-telegram">телеграм контакт</Label>
+                    <Label htmlFor="artist-telegram">telegram контакт</Label>
                     <Input
                       id="artist-telegram"
                       value={artistData.telegram_contact}
@@ -202,7 +202,7 @@ export const AuthForm = () => {
                       type="email"
                       value={artistData.email}
                       onChange={(e) => setArtistData(prev => ({ ...prev, email: e.target.value }))}
-                      placeholder="example@domain.com"
+                      placeholder="mymail@gmail.com"
                       required
                     />
                   </div>
@@ -230,17 +230,17 @@ export const AuthForm = () => {
                   </div>
                   
                   <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? "регистрация..." : "зарегистрироваться как артист"}
+                    {isLoading ? "регистрация..." : "зарегистрироваться"}
                   </Button>
                   
-                  <Button 
+                  {/* <Button 
                     type="button" 
                     variant="outline" 
                     className="w-full"
                     onClick={() => setShowAdminForm(true)}
                   >
                     регистрация администратора
-                  </Button>
+                  </Button> */}
                 </form>
               ) : (
                 <form onSubmit={handleAdminSignUp} className="space-y-4">

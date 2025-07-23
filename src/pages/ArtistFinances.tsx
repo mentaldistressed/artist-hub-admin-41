@@ -12,7 +12,6 @@ const ArtistFinances = () => {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-foreground">финансы</h1>
-          <p className="text-muted-foreground">управление вашими доходами и выплатами</p>
         </div>
 
         <Alert>
@@ -24,7 +23,13 @@ const ArtistFinances = () => {
           </AlertDescription>
         </Alert>
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    <div className="p-6 border rounded-lg">
+              <h3 className="font-semibold">ваш баланс</h3>
+              <p className="text-2xl font-bold mt-2">{profile.balance_rub.toFixed(2)} ₽</p>
+            </div>
+
+
+        {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">текущий баланс</CardTitle>
@@ -54,7 +59,7 @@ const ArtistFinances = () => {
               <p className="text-xs text-muted-foreground">дата выплаты</p>
             </CardContent>
           </Card>
-        </div>
+        </div> */}
 
         <Card>
           <CardHeader>
@@ -67,7 +72,7 @@ const ArtistFinances = () => {
             <div className="flex items-start space-x-3">
               <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
               <div>
-                <p className="font-medium">просмотр доходов</p>
+                <p className="font-medium">просмотр отчетов</p>
                 <p className="text-sm text-muted-foreground">детальная статистика по всем платформам</p>
               </div>
             </div>
@@ -81,15 +86,8 @@ const ArtistFinances = () => {
             <div className="flex items-start space-x-3">
               <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
               <div>
-                <p className="font-medium">аналитика</p>
-                <p className="text-sm text-muted-foreground">графики и отчеты по доходам</p>
-              </div>
-            </div>
-            <div className="flex items-start space-x-3">
-              <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
-              <div>
                 <p className="font-medium">настройка выплат</p>
-                <p className="text-sm text-muted-foreground">управление реквизитами и периодичностью</p>
+                <p className="text-sm text-muted-foreground">управление реквизитами</p>
               </div>
             </div>
           </CardContent>

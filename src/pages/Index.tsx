@@ -28,7 +28,7 @@ const Index = () => {
             добро пожаловать, {profile.role === 'admin' ? profile.name : profile.pseudonym}!
           </h1>
           <p className="text-muted-foreground">
-            {profile.role === 'admin' ? 'панель администратора музыкального лейбла' : 'ваш личный кабинет артиста'}
+            {profile.role === 'admin' ? 'панель администратора' : 'ваш личный кабинет артиста'}
           </p>
         </div>
         
@@ -37,12 +37,8 @@ const Index = () => {
             <div className="p-6 border rounded-lg">
               <h3 className="font-semibold">финансы</h3>
               <p className="text-sm text-muted-foreground mt-1">
-                раздел скоро откроется. планируем запуск к 10 августа
+                раздел финансов скоро откроется. планируем запуск к 10 августа
               </p>
-            </div>
-            <div className="p-6 border rounded-lg">
-              <h3 className="font-semibold">ваш баланс</h3>
-              <p className="text-2xl font-bold mt-2">{profile.balance_rub.toFixed(2)} ₽</p>
             </div>
           </div>
         ) : (

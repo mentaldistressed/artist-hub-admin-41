@@ -28,9 +28,9 @@ const artistItems: NavItem[] = [
 
 const adminItems: NavItem[] = [
   { title: 'главная', url: '/', icon: Home, role: 'admin' },
-  { title: 'пользователи', url: '/users', icon: Users, role: 'admin' },
+  { title: 'пользователи', url: '/admin-users', icon: Users, role: 'admin' },
   { title: 'финансы', url: '/admin-finances', icon: DollarSign, role: 'admin' },
-  { title: 'настройки', url: '/settings', icon: Settings, role: 'admin' },
+  { title: 'настройки', url: '/admin-settings', icon: Settings, role: 'admin' },
 ];
 
 export function AppSidebar() {

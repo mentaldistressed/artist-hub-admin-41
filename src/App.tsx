@@ -23,9 +23,9 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/finances" element={<ArtistFinances />} />
-            <Route path="/users" element={<AdminUsers />} />
+            <Route path="/admin-users" element={<AdminUsers />} />
             <Route path="/admin-finances" element={<AdminFinances />} />
-            <Route path="/settings" element={<AdminSettings />} />
+            <Route path="/admin-settings" element={<AdminSettings />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

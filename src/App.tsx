@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import ArtistFinances from "./pages/ArtistFinances";
 import AdminUsers from "./pages/AdminUsers";
@@ -21,11 +22,31 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/finances" element={<ArtistFinances />} />
-            <Route path="/users" element={<AdminUsers />} />
-            <Route path="/admin-finances" element={<AdminFinances />} />
-            <Route path="/settings" element={<AdminSettings />} />
+            <Route path="/" element={
+              <ProtectedRoute>
+                <Index />
+              </ProtectedRoute>
+            } />
+            <Route path="/finances" element={
+              <ProtectedRoute requiredRole="artist">
+                <ArtistFinances />
+              </ProtectedRoute>
+            } />
+            <Route path="/users" element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminUsers />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin-finances" element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminFinances />
+              </ProtectedRoute>
+            } />
+            <Route path="/settings" element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminSettings />
+              </ProtectedRoute>
+            } />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

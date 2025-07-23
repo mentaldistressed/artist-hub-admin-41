@@ -1,0 +1,92 @@
+import { useAuth } from '@/hooks/useAuth';
+import { AuthForm } from '@/components/AuthForm';
+import { Layout } from '@/components/Layout';
+import { useLocation } from 'react-router-dom';
+import ArtistFinances from './ArtistFinances';
+import AdminUsers from './AdminUsers';
+import AdminFinances from './AdminFinances';
+import AdminSettings from './AdminSettings';
+
+const Index = () => {
+  const { user, profile, loading } = useAuth();
+  const location = useLocation();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-2 text-muted-foreground">загрузка...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user || !profile) {
+    return <AuthForm />;
+  }
+
+  const renderPageContent = () => {
+    switch (location.pathname) {
+      case '/finances':
+        return <ArtistFinances />;
+      case '/users':
+        return <AdminUsers />;
+      case '/admin-finances':
+        return <AdminFinances />;
+      case '/settings':
+        return <AdminSettings />;
+      default:
+        return (
+          <div className="space-y-6">
+            <div>
+              <h1 className="text-3xl font-bold text-foreground">
+                добро пожаловать, {profile.role === 'admin' ? profile.name : profile.pseudonym}!
+              </h1>
+              <p className="text-muted-foreground">
+                {profile.role === 'admin' ? 'панель администратора музыкального лейбла' : 'ваш личный кабинет артиста'}
+              </p>
+            </div>
+            
+            {profile.role === 'artist' ? (
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="p-6 border rounded-lg">
+                  <h3 className="font-semibold">финансы</h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    раздел скоро откроется. планируем запуск к 10 августа
+                  </p>
+                </div>
+                <div className="p-6 border rounded-lg">
+                  <h3 className="font-semibold">ваш баланс</h3>
+                  <p className="text-2xl font-bold mt-2">{profile.balance_rub.toFixed(2)} ₽</p>
+                </div>
+              </div>
+            ) : (
+              <div className="grid gap-4 md:grid-cols-3">
+                <div className="p-6 border rounded-lg">
+                  <h3 className="font-semibold">пользователи</h3>
+                  <p className="text-sm text-muted-foreground mt-1">управление артистами и администраторами</p>
+                </div>
+                <div className="p-6 border rounded-lg">
+                  <h3 className="font-semibold">финансы</h3>
+                  <p className="text-sm text-muted-foreground mt-1">контроль балансов и выплат</p>
+                </div>
+                <div className="p-6 border rounded-lg">
+                  <h3 className="font-semibold">настройки</h3>
+                  <p className="text-sm text-muted-foreground mt-1">конфигурация системы</p>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+    }
+  };
+
+  return (
+    <Layout>
+      {renderPageContent()}
+    </Layout>
+  );
+};
+
+export default Index;

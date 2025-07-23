@@ -17,7 +17,7 @@ const AdminSettings = () => {
         <AlertDescription>
           <strong>раздел в разработке</strong>
           <br />
-          здесь скоро появятся настройки системы, управление лейблом и другие административные функции
+          здесь скоро появятся настройки системы и другие административные функции
         </AlertDescription>
       </Alert>
 
@@ -28,13 +28,7 @@ const AdminSettings = () => {
             <CardDescription>что планируется добавить</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
-            <div className="flex items-start space-x-3">
-              <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
-              <div>
-                <p className="font-medium">настройки лейбла</p>
-                <p className="text-sm text-muted-foreground">название, описание, контакты</p>
-              </div>
-            </div>
+
             <div className="flex items-start space-x-3">
               <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
               <div>
@@ -60,11 +54,11 @@ const AdminSettings = () => {
           <CardContent className="space-y-3">
             <div className="flex justify-between">
               <span className="text-sm text-muted-foreground">версия системы</span>
-              <span className="text-sm font-mono">v0.3.1</span>
+              <span className="text-sm font-mono">v0.0.1</span>
             </div>
             <div className="flex justify-between">
               <span className="text-sm text-muted-foreground">последнее обновление</span>
-              <span className="text-sm font-mono">22.07.2025</span>
+              <span className="text-sm font-mono">24.07.2025</span>
             </div>
           </CardContent>
         </Card>

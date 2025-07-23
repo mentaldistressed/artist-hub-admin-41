@@ -77,7 +77,7 @@ export const AuthForm = () => {
     } else {
       toast({
         title: "регистрация успешна",
-        description: "добро пожаловать в лейбл!",
+        description: "добро пожаловать!",
       });
     }
     

@@ -144,7 +144,7 @@ const AdminFinances = () => {
         <CardHeader>
           <CardTitle>балансы пользователей</CardTitle>
           <CardDescription>
-            управление финансами артистов и администраторов
+            управление финансами артистов
           </CardDescription>
         </CardHeader>
         <CardContent>

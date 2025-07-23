@@ -185,7 +185,7 @@ export const AuthForm = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="artist-telegram">telegram контакт</Label>
+                    <Label htmlFor="artist-telegram">telegram контакт (для удобной связи в случае чего)</Label>
                     <Input
                       id="artist-telegram"
                       value={artistData.telegram_contact}

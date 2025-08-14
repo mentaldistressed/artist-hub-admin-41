@@ -11,20 +11,24 @@ export const Layout = ({ children }: LayoutProps) => {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full">
+      <div className="min-h-screen flex w-full bg-background">
         <AppSidebar />
         
         <div className="flex-1 flex flex-col">
-          <header className="h-14 flex items-center border-b bg-background px-4">
-            <SidebarTrigger />
-            <div className="ml-4">
-              <h1 className="text-lg font-semibold">
-                rplus » портал {profile?.role === 'admin' ? 'администратор' : 'артист'}а
+          <header className="h-14 flex items-center border-b border-border/50 bg-background px-6">
+            <SidebarTrigger className="mr-4" />
+            <div className="flex items-center">
+              <h1 className="text-sm font-medium text-foreground">
+                rplus
               </h1>
+              <span className="mx-2 text-muted-foreground">•</span>
+              <span className="text-sm text-muted-foreground">
+                {profile?.role === 'admin' ? 'администратор' : 'артист'}
+              </span>
             </div>
           </header>
           
-          <main className="flex-1 p-6">
+          <main className="flex-1 p-6 bg-background">
             {children}
           </main>
         </div>

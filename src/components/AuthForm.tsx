@@ -114,199 +114,235 @@ export const AuthForm = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">rplus » портал выплат</CardTitle>
-          <CardDescription>добро пожаловать</CardDescription>
-        </CardHeader>
-        
-        <CardContent>
-          <Tabs defaultValue="signin" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="signin">вход</TabsTrigger>
-              <TabsTrigger value="signup">регистрация</TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="signin" className="space-y-4">
-              <form onSubmit={handleSignIn} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="signin-email">электронная почта</Label>
-                  <Input
-                    id="signin-email"
-                    type="email"
-                    value={signInData.email}
-                    onChange={(e) => setSignInData(prev => ({ ...prev, email: e.target.value }))}
-                    placeholder="example@domain.com"
-                    required
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="signin-password">пароль</Label>
-                  <div className="relative">
-                    <Input
-                      id="signin-password"
-                      type={showPassword ? "text" : "password"}
-                      value={signInData.password}
-                      onChange={(e) => setSignInData(prev => ({ ...prev, password: e.target.value }))}
-                      required
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                    </Button>
-                  </div>
-                </div>
-                
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? "вход..." : "войти в систему"}
-                </Button>
-              </form>
-            </TabsContent>
-            
-            <TabsContent value="signup" className="space-y-4">
-              {!showAdminForm ? (
-                <form onSubmit={handleArtistSignUp} className="space-y-4">
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="w-full max-w-md mx-auto">
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-semibold tracking-tight text-foreground mb-2">
+            rplus
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            портал выплат для артистов
+          </p>
+        </div>
+
+        <Card className="border-border/50 shadow-none">
+          <CardContent className="p-6">
+            <Tabs defaultValue="signin" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted/30">
+                <TabsTrigger value="signin" className="text-sm">вход</TabsTrigger>
+                <TabsTrigger value="signup" className="text-sm">регистрация</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="signin" className="space-y-4 mt-0">
+                <form onSubmit={handleSignIn} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="artist-pseudonym">псевдоним</Label>
+                    <Label htmlFor="signin-email" className="text-sm font-medium">
+                      электронная почта
+                    </Label>
                     <Input
-                      id="artist-pseudonym"
-                      value={artistData.pseudonym}
-                      onChange={(e) => setArtistData(prev => ({ ...prev, pseudonym: e.target.value }))}
-                      placeholder="ваш псевдоним"
-                      required
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="artist-telegram">telegram контакт (для удобной связи в случае чего)</Label>
-                    <Input
-                      id="artist-telegram"
-                      value={artistData.telegram_contact}
-                      onChange={(e) => setArtistData(prev => ({ ...prev, telegram_contact: e.target.value }))}
-                      placeholder="@username"
-                      required
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="artist-email">электронная почта</Label>
-                    <Input
-                      id="artist-email"
+                      id="signin-email"
                       type="email"
-                      value={artistData.email}
-                      onChange={(e) => setArtistData(prev => ({ ...prev, email: e.target.value }))}
-                      placeholder="mymail@gmail.com"
-                      required
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="artist-password">пароль</Label>
-                    <div className="relative">
-                      <Input
-                        id="artist-password"
-                        type={showPassword ? "text" : "password"}
-                        value={artistData.password}
-                        onChange={(e) => setArtistData(prev => ({ ...prev, password: e.target.value }))}
-                        required
-                      />
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                      </Button>
-                    </div>
-                  </div>
-                  
-                  <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? "регистрация..." : "зарегистрироваться"}
-                  </Button>
-                  
-                  {/* <Button 
-                    type="button" 
-                    variant="outline" 
-                    className="w-full"
-                    onClick={() => setShowAdminForm(true)}
-                  >
-                    регистрация администратора
-                  </Button> */}
-                </form>
-              ) : (
-                <form onSubmit={handleAdminSignUp} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="admin-name">имя</Label>
-                    <Input
-                      id="admin-name"
-                      value={adminData.name}
-                      onChange={(e) => setAdminData(prev => ({ ...prev, name: e.target.value }))}
-                      placeholder="ваше имя"
-                      required
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="admin-email">электронная почта</Label>
-                    <Input
-                      id="admin-email"
-                      type="email"
-                      value={adminData.email}
-                      onChange={(e) => setAdminData(prev => ({ ...prev, email: e.target.value }))}
+                      value={signInData.email}
+                      onChange={(e) => setSignInData(prev => ({ ...prev, email: e.target.value }))}
                       placeholder="example@domain.com"
+                      className="h-10 border-border/50 focus:border-primary"
                       required
                     />
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="admin-password">пароль</Label>
+                    <Label htmlFor="signin-password" className="text-sm font-medium">
+                      пароль
+                    </Label>
                     <div className="relative">
                       <Input
-                        id="admin-password"
+                        id="signin-password"
                         type={showPassword ? "text" : "password"}
-                        value={adminData.password}
-                        onChange={(e) => setAdminData(prev => ({ ...prev, password: e.target.value }))}
+                        value={signInData.password}
+                        onChange={(e) => setSignInData(prev => ({ ...prev, password: e.target.value }))}
+                        className="h-10 border-border/50 focus:border-primary pr-10"
                         required
                       />
                       <Button
                         type="button"
                         variant="ghost"
                         size="icon"
-                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                        className="absolute right-0 top-0 h-10 w-10 hover:bg-transparent"
                         onClick={() => setShowPassword(!showPassword)}
                       >
                         {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                       </Button>
                     </div>
                   </div>
-                  
-                  <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? "регистрация..." : "зарегистрироваться как администратор"}
-                  </Button>
                   
                   <Button 
-                    type="button" 
-                    variant="outline" 
-                    className="w-full"
-                    onClick={() => setShowAdminForm(false)}
+                    type="submit" 
+                    className="w-full h-10 bg-primary hover:bg-primary/90 text-primary-foreground font-medium" 
+                    disabled={isLoading}
                   >
-                    назад к регистрации артиста
+                    {isLoading ? "вход..." : "войти"}
                   </Button>
                 </form>
-              )}
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
+              </TabsContent>
+              
+              <TabsContent value="signup" className="space-y-4 mt-0">
+                {!showAdminForm ? (
+                  <form onSubmit={handleArtistSignUp} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="artist-pseudonym" className="text-sm font-medium">
+                        псевдоним
+                      </Label>
+                      <Input
+                        id="artist-pseudonym"
+                        value={artistData.pseudonym}
+                        onChange={(e) => setArtistData(prev => ({ ...prev, pseudonym: e.target.value }))}
+                        placeholder="ваш псевдоним"
+                        className="h-10 border-border/50 focus:border-primary"
+                        required
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="artist-telegram" className="text-sm font-medium">
+                        telegram
+                      </Label>
+                      <Input
+                        id="artist-telegram"
+                        value={artistData.telegram_contact}
+                        onChange={(e) => setArtistData(prev => ({ ...prev, telegram_contact: e.target.value }))}
+                        placeholder="@username"
+                        className="h-10 border-border/50 focus:border-primary"
+                        required
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="artist-email" className="text-sm font-medium">
+                        электронная почта
+                      </Label>
+                      <Input
+                        id="artist-email"
+                        type="email"
+                        value={artistData.email}
+                        onChange={(e) => setArtistData(prev => ({ ...prev, email: e.target.value }))}
+                        placeholder="example@domain.com"
+                        className="h-10 border-border/50 focus:border-primary"
+                        required
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="artist-password" className="text-sm font-medium">
+                        пароль
+                      </Label>
+                      <div className="relative">
+                        <Input
+                          id="artist-password"
+                          type={showPassword ? "text" : "password"}
+                          value={artistData.password}
+                          onChange={(e) => setArtistData(prev => ({ ...prev, password: e.target.value }))}
+                          className="h-10 border-border/50 focus:border-primary pr-10"
+                          required
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="absolute right-0 top-0 h-10 w-10 hover:bg-transparent"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        </Button>
+                      </div>
+                    </div>
+                    
+                    <Button 
+                      type="submit" 
+                      className="w-full h-10 bg-primary hover:bg-primary/90 text-primary-foreground font-medium" 
+                      disabled={isLoading}
+                    >
+                      {isLoading ? "регистрация..." : "зарегистрироваться"}
+                    </Button>
+                  </form>
+                ) : (
+                  <form onSubmit={handleAdminSignUp} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="admin-name" className="text-sm font-medium">
+                        имя
+                      </Label>
+                      <Input
+                        id="admin-name"
+                        value={adminData.name}
+                        onChange={(e) => setAdminData(prev => ({ ...prev, name: e.target.value }))}
+                        placeholder="ваше имя"
+                        className="h-10 border-border/50 focus:border-primary"
+                        required
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="admin-email" className="text-sm font-medium">
+                        электронная почта
+                      </Label>
+                      <Input
+                        id="admin-email"
+                        type="email"
+                        value={adminData.email}
+                        onChange={(e) => setAdminData(prev => ({ ...prev, email: e.target.value }))}
+                        placeholder="example@domain.com"
+                        className="h-10 border-border/50 focus:border-primary"
+                        required
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="admin-password" className="text-sm font-medium">
+                        пароль
+                      </Label>
+                      <div className="relative">
+                        <Input
+                          id="admin-password"
+                          type={showPassword ? "text" : "password"}
+                          value={adminData.password}
+                          onChange={(e) => setAdminData(prev => ({ ...prev, password: e.target.value }))}
+                          className="h-10 border-border/50 focus:border-primary pr-10"
+                          required
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="absolute right-0 top-0 h-10 w-10 hover:bg-transparent"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        </Button>
+                      </div>
+                    </div>
+                    
+                    <Button 
+                      type="submit" 
+                      className="w-full h-10 bg-primary hover:bg-primary/90 text-primary-foreground font-medium" 
+                      disabled={isLoading}
+                    >
+                      {isLoading ? "регистрация..." : "зарегистрироваться как администратор"}
+                    </Button>
+                    
+                    <Button 
+                      type="button" 
+                      variant="ghost" 
+                      className="w-full h-10 text-sm"
+                      onClick={() => setShowAdminForm(false)}
+                    >
+                      назад к регистрации артиста
+                    </Button>
+                  </form>
+                )}
+              </TabsContent>
+            </Tabs>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };

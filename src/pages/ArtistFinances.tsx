@@ -9,84 +9,54 @@ const ArtistFinances = () => {
 
   return (
     <Layout>
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">финансы</h1>
+      <div className="max-w-4xl mx-auto space-y-6">
+        <div className="space-y-2">
+          <h1 className="text-2xl font-semibold tracking-tight text-foreground">финансы</h1>
+          <p className="text-sm text-muted-foreground">управление вашими выплатами</p>
         </div>
 
-        <Alert>
+        <Alert className="border-border/50">
           <Info className="h-4 w-4" />
-          <AlertDescription>
+          <AlertDescription className="text-sm">
             <strong>пока недоступно, но уже совсем скоро</strong>
             <br />
             мы уже почти закончили работу над финансовым разделом. планируем запустить к 10 августа
           </AlertDescription>
         </Alert>
 
-                    <div className="p-6 border rounded-lg">
-              <h3 className="font-semibold">ваш баланс</h3>
-              <p className="text-2xl font-bold mt-2">{profile.balance_rub.toFixed(2)} ₽</p>
-            </div>
+        <div className="p-6 border border-border/50 rounded-lg bg-card">
+          <div className="space-y-2">
+            <h3 className="font-medium text-foreground">ваш баланс</h3>
+            <p className="text-2xl font-semibold text-foreground">{profile?.balance_rub?.toFixed(2) || '0.00'} ₽</p>
+          </div>
+        </div>
 
-
-        {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">текущий баланс</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">скоро</div>
-              <p className="text-xs text-muted-foreground">рубли</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">доходы за месяц</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">скоро</div>
-              <p className="text-xs text-muted-foreground">рубли</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">следующая выплата</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">скоро</div>
-              <p className="text-xs text-muted-foreground">дата выплаты</p>
-            </CardContent>
-          </Card>
-        </div> */}
-
-        <Card>
+        <Card className="border-border/50">
           <CardHeader>
-            <CardTitle>что будет доступно</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-lg font-medium">что будет доступно</CardTitle>
+            <CardDescription className="text-sm text-muted-foreground">
               функции которые появятся в разделе финансов
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-3">
+          <CardContent className="space-y-4">
             <div className="flex items-start space-x-3">
-              <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
-              <div>
-                <p className="font-medium">просмотр отчетов</p>
+              <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2"></div>
+              <div className="space-y-1">
+                <p className="font-medium text-sm">просмотр отчетов</p>
                 <p className="text-sm text-muted-foreground">детальная статистика по всем платформам</p>
               </div>
             </div>
             <div className="flex items-start space-x-3">
-              <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
-              <div>
-                <p className="font-medium">история выплат</p>
+              <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2"></div>
+              <div className="space-y-1">
+                <p className="font-medium text-sm">история выплат</p>
                 <p className="text-sm text-muted-foreground">все предыдущие переводы и их статусы</p>
               </div>
             </div>
             <div className="flex items-start space-x-3">
-              <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
-              <div>
-                <p className="font-medium">настройка выплат</p>
+              <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2"></div>
+              <div className="space-y-1">
+                <p className="font-medium text-sm">настройка выплат</p>
                 <p className="text-sm text-muted-foreground">управление реквизитами</p>
               </div>
             </div>

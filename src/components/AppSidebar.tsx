@@ -45,8 +45,8 @@ export function AppSidebar() {
   const isActive = (path: string) => currentPath === path;
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
     isActive 
-      ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium border-l-2 border-primary' 
-      : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground';
+      ? 'bg-accent text-accent-foreground font-medium' 
+      : 'text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground';
 
   const handleSignOut = async () => {
     await signOut();
@@ -54,15 +54,13 @@ export function AppSidebar() {
 
   return (
     <Sidebar
-      className={collapsed ? 'w-14' : 'w-64'}
+      className={`${collapsed ? 'w-14' : 'w-64'} border-r border-border/50`}
       collapsible="icon"
     >
-      <SidebarContent>
+      <SidebarContent className="bg-background">
         <SidebarGroup>
-          <SidebarGroupLabel className="px-2 text-sm font-medium text-muted-foreground">
-            {!collapsed && (
-              profile?.role === 'admin' ? 'портал администратора' : 'портал артиста'
-            )}
+          <SidebarGroupLabel className="px-3 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+            {!collapsed && 'навигация'}
           </SidebarGroupLabel>
           
           <SidebarGroupContent>
@@ -73,7 +71,7 @@ export function AppSidebar() {
                      <NavLink 
                        to={item.url} 
                        end 
-                       className={({ isActive }) => `flex items-center gap-2 px-3 py-2 rounded-md transition-all duration-200 ${getNavCls({ isActive })}`}
+                       className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-md transition-all duration-200 text-sm ${getNavCls({ isActive })}`}
                      >
                       <item.icon className="h-4 w-4" />
                       {!collapsed && <span>{item.title}</span>}
@@ -88,13 +86,13 @@ export function AppSidebar() {
         {/* Информация о пользователе */}
         <SidebarGroup className="mt-auto">
           <SidebarGroupContent>
-            <div className={`px-2 py-2 ${collapsed ? 'text-center' : ''}`}>
+            <div className={`px-3 py-3 border-t border-border/50 ${collapsed ? 'text-center' : ''}`}>
               {!collapsed && (
-                <div className="text-sm">
+                <div className="text-xs space-y-1 mb-3">
                   <p className="font-medium text-foreground">
                     {profile?.role === 'admin' ? profile?.name : profile?.pseudonym}
                   </p>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-muted-foreground">
                     {profile?.role === 'admin' ? 'администратор' : 'артист'}
                   </p>
                 </div>
@@ -104,10 +102,10 @@ export function AppSidebar() {
                 onClick={handleSignOut}
                 variant="ghost"
                 size={collapsed ? "icon" : "sm"}
-                className={`mt-2 ${collapsed ? 'w-8 h-8' : 'w-full justify-start'}`}
+                className={`${collapsed ? 'w-8 h-8' : 'w-full justify-start'} text-muted-foreground hover:text-foreground hover:bg-accent/50`}
               >
                 <LogOut className="h-4 w-4" />
-                {!collapsed && <span className="ml-2">выйти</span>}
+                {!collapsed && <span className="ml-2 text-sm">выйти</span>}
               </Button>
             </div>
           </SidebarGroupContent>

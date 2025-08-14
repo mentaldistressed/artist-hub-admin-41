@@ -114,32 +114,29 @@ export const AuthForm = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center gradient-bg">
+    <div className="min-h-screen flex items-center justify-center bg-background">
       <div className="w-full max-w-md mx-auto">
-        <div className="text-center mb-8 animate-fade-up">
-          <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center shadow-lg">
-            <span className="text-2xl font-bold text-white">R+</span>
-          </div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-2">
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-semibold tracking-tight text-foreground mb-2">
             rplus
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             портал выплат для артистов
           </p>
         </div>
 
-        <Card className="glass-effect shadow-xl border-0 animate-scale-in">
-          <CardContent className="p-8">
+        <Card className="border-border/50 shadow-none">
+          <CardContent className="p-6">
             <Tabs defaultValue="signin" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-8 bg-muted/50 p-1 rounded-xl">
-                <TabsTrigger value="signin" className="rounded-lg font-medium">вход</TabsTrigger>
-                <TabsTrigger value="signup" className="rounded-lg font-medium">регистрация</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted/30">
+                <TabsTrigger value="signin" className="text-sm">вход</TabsTrigger>
+                <TabsTrigger value="signup" className="text-sm">регистрация</TabsTrigger>
               </TabsList>
               
-              <TabsContent value="signin" className="space-y-6 mt-0">
-                <form onSubmit={handleSignIn} className="space-y-6">
+              <TabsContent value="signin" className="space-y-4 mt-0">
+                <form onSubmit={handleSignIn} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="signin-email" className="font-medium text-foreground">
+                    <Label htmlFor="signin-email" className="text-sm font-medium">
                       электронная почта
                     </Label>
                     <Input
@@ -148,13 +145,13 @@ export const AuthForm = () => {
                       value={signInData.email}
                       onChange={(e) => setSignInData(prev => ({ ...prev, email: e.target.value }))}
                       placeholder="example@domain.com"
-                      className="h-12 border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl transition-all"
+                      className="h-10 border-border/50 focus:border-primary"
                       required
                     />
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="signin-password" className="font-medium text-foreground">
+                    <Label htmlFor="signin-password" className="text-sm font-medium">
                       пароль
                     </Label>
                     <div className="relative">
@@ -163,14 +160,14 @@ export const AuthForm = () => {
                         type={showPassword ? "text" : "password"}
                         value={signInData.password}
                         onChange={(e) => setSignInData(prev => ({ ...prev, password: e.target.value }))}
-                        className="h-12 border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl pr-12 transition-all"
+                        className="h-10 border-border/50 focus:border-primary pr-10"
                         required
                       />
                       <Button
                         type="button"
                         variant="ghost"
                         size="icon"
-                        className="absolute right-0 top-0 h-12 w-12 hover:bg-transparent rounded-xl"
+                        className="absolute right-0 top-0 h-10 w-10 hover:bg-transparent"
                         onClick={() => setShowPassword(!showPassword)}
                       >
                         {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -180,7 +177,7 @@ export const AuthForm = () => {
                   
                   <Button 
                     type="submit" 
-                    className="w-full h-12 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02]" 
+                    className="w-full h-10 bg-primary hover:bg-primary/90 text-primary-foreground font-medium" 
                     disabled={isLoading}
                   >
                     {isLoading ? "вход..." : "войти"}
@@ -188,11 +185,11 @@ export const AuthForm = () => {
                 </form>
               </TabsContent>
               
-              <TabsContent value="signup" className="space-y-6 mt-0">
+              <TabsContent value="signup" className="space-y-4 mt-0">
                 {!showAdminForm ? (
-                  <form onSubmit={handleArtistSignUp} className="space-y-6">
+                  <form onSubmit={handleArtistSignUp} className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="artist-pseudonym" className="font-medium text-foreground">
+                      <Label htmlFor="artist-pseudonym" className="text-sm font-medium">
                         псевдоним
                       </Label>
                       <Input
@@ -200,13 +197,13 @@ export const AuthForm = () => {
                         value={artistData.pseudonym}
                         onChange={(e) => setArtistData(prev => ({ ...prev, pseudonym: e.target.value }))}
                         placeholder="ваш псевдоним"
-                        className="h-12 border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl transition-all"
+                        className="h-10 border-border/50 focus:border-primary"
                         required
                       />
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="artist-telegram" className="font-medium text-foreground">
+                      <Label htmlFor="artist-telegram" className="text-sm font-medium">
                         telegram
                       </Label>
                       <Input
@@ -214,13 +211,13 @@ export const AuthForm = () => {
                         value={artistData.telegram_contact}
                         onChange={(e) => setArtistData(prev => ({ ...prev, telegram_contact: e.target.value }))}
                         placeholder="@username"
-                        className="h-12 border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl transition-all"
+                        className="h-10 border-border/50 focus:border-primary"
                         required
                       />
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="artist-email" className="font-medium text-foreground">
+                      <Label htmlFor="artist-email" className="text-sm font-medium">
                         электронная почта
                       </Label>
                       <Input
@@ -229,13 +226,13 @@ export const AuthForm = () => {
                         value={artistData.email}
                         onChange={(e) => setArtistData(prev => ({ ...prev, email: e.target.value }))}
                         placeholder="example@domain.com"
-                        className="h-12 border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl transition-all"
+                        className="h-10 border-border/50 focus:border-primary"
                         required
                       />
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="artist-password" className="font-medium text-foreground">
+                      <Label htmlFor="artist-password" className="text-sm font-medium">
                         пароль
                       </Label>
                       <div className="relative">
@@ -244,14 +241,14 @@ export const AuthForm = () => {
                           type={showPassword ? "text" : "password"}
                           value={artistData.password}
                           onChange={(e) => setArtistData(prev => ({ ...prev, password: e.target.value }))}
-                          className="h-12 border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl pr-12 transition-all"
+                          className="h-10 border-border/50 focus:border-primary pr-10"
                           required
                         />
                         <Button
                           type="button"
                           variant="ghost"
                           size="icon"
-                          className="absolute right-0 top-0 h-12 w-12 hover:bg-transparent rounded-xl"
+                          className="absolute right-0 top-0 h-10 w-10 hover:bg-transparent"
                           onClick={() => setShowPassword(!showPassword)}
                         >
                           {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -261,16 +258,16 @@ export const AuthForm = () => {
                     
                     <Button 
                       type="submit" 
-                      className="w-full h-12 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02]" 
+                      className="w-full h-10 bg-primary hover:bg-primary/90 text-primary-foreground font-medium" 
                       disabled={isLoading}
                     >
                       {isLoading ? "регистрация..." : "зарегистрироваться"}
                     </Button>
                   </form>
                 ) : (
-                  <form onSubmit={handleAdminSignUp} className="space-y-6">
+                  <form onSubmit={handleAdminSignUp} className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="admin-name" className="font-medium text-foreground">
+                      <Label htmlFor="admin-name" className="text-sm font-medium">
                         имя
                       </Label>
                       <Input
@@ -278,13 +275,13 @@ export const AuthForm = () => {
                         value={adminData.name}
                         onChange={(e) => setAdminData(prev => ({ ...prev, name: e.target.value }))}
                         placeholder="ваше имя"
-                        className="h-12 border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl transition-all"
+                        className="h-10 border-border/50 focus:border-primary"
                         required
                       />
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="admin-email" className="font-medium text-foreground">
+                      <Label htmlFor="admin-email" className="text-sm font-medium">
                         электронная почта
                       </Label>
                       <Input
@@ -293,13 +290,13 @@ export const AuthForm = () => {
                         value={adminData.email}
                         onChange={(e) => setAdminData(prev => ({ ...prev, email: e.target.value }))}
                         placeholder="example@domain.com"
-                        className="h-12 border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl transition-all"
+                        className="h-10 border-border/50 focus:border-primary"
                         required
                       />
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="admin-password" className="font-medium text-foreground">
+                      <Label htmlFor="admin-password" className="text-sm font-medium">
                         пароль
                       </Label>
                       <div className="relative">
@@ -308,14 +305,14 @@ export const AuthForm = () => {
                           type={showPassword ? "text" : "password"}
                           value={adminData.password}
                           onChange={(e) => setAdminData(prev => ({ ...prev, password: e.target.value }))}
-                          className="h-12 border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl pr-12 transition-all"
+                          className="h-10 border-border/50 focus:border-primary pr-10"
                           required
                         />
                         <Button
                           type="button"
                           variant="ghost"
                           size="icon"
-                          className="absolute right-0 top-0 h-12 w-12 hover:bg-transparent rounded-xl"
+                          className="absolute right-0 top-0 h-10 w-10 hover:bg-transparent"
                           onClick={() => setShowPassword(!showPassword)}
                         >
                           {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -325,7 +322,7 @@ export const AuthForm = () => {
                     
                     <Button 
                       type="submit" 
-                      className="w-full h-12 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02]" 
+                      className="w-full h-10 bg-primary hover:bg-primary/90 text-primary-foreground font-medium" 
                       disabled={isLoading}
                     >
                       {isLoading ? "регистрация..." : "зарегистрироваться как администратор"}
@@ -334,24 +331,12 @@ export const AuthForm = () => {
                     <Button 
                       type="button" 
                       variant="ghost" 
-                      className="w-full h-12 text-sm hover:bg-muted/50 rounded-xl transition-all"
+                      className="w-full h-10 text-sm"
                       onClick={() => setShowAdminForm(false)}
                     >
                       назад к регистрации артиста
                     </Button>
                   </form>
-                )}
-                
-                {!showAdminForm && (
-                  <div className="text-center pt-4 border-t border-border/50">
-                    <Button 
-                      variant="ghost" 
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                      onClick={() => setShowAdminForm(true)}
-                    >
-                      регистрация администратора
-                    </Button>
-                  </div>
                 )}
               </TabsContent>
             </Tabs>

@@ -1,5 +1,6 @@
 import { Users, DollarSign, Settings, LogOut, Home, FileText, Send } from 'lucide-react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   Sidebar,
   SidebarContent,
@@ -40,6 +41,7 @@ export function AppSidebar() {
   const { state } = useSidebar();
   const { profile, signOut } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
   const currentPath = location.pathname;
 
   const items = profile?.role === 'admin' ? adminItems : artistItems;
@@ -52,7 +54,10 @@ export function AppSidebar() {
       : 'text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground';
 
   const handleSignOut = async () => {
-    await signOut();
+    const { error } = await signOut();
+    if (!error) {
+      navigate('/');
+    }
   };
 
   return (

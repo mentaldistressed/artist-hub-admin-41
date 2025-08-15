@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Index from "./pages/Index";
 import ArtistFinances from "./pages/ArtistFinances";
 import ArtistReports from "./pages/ArtistReports";
@@ -25,13 +26,41 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/finances" element={<ArtistFinances />} />
-            <Route path="/reports" element={<ArtistReports />} />
-            <Route path="/admin-users" element={<AdminUsers />} />
-            <Route path="/admin-finances" element={<AdminFinances />} />
-            <Route path="/admin-reports" element={<AdminReports />} />
-            <Route path="/admin-payouts" element={<AdminPayouts />} />
-            <Route path="/admin-settings" element={<AdminSettings />} />
+            <Route path="/finances" element={
+              <ProtectedRoute requiredRole="artist">
+                <ArtistFinances />
+              </ProtectedRoute>
+            } />
+            <Route path="/reports" element={
+              <ProtectedRoute requiredRole="artist">
+                <ArtistReports />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin-users" element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminUsers />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin-finances" element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminFinances />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin-reports" element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminReports />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin-payouts" element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminPayouts />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin-settings" element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminSettings />
+              </ProtectedRoute>
+            } />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

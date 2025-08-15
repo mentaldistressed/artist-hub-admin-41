@@ -1,9 +1,11 @@
 import { useAuth } from '@/hooks/useAuth';
 import { AuthForm } from '@/components/AuthForm';
 import { Layout } from '@/components/Layout';
+import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
   const { user, profile, loading } = useAuth();
+  const navigate = useNavigate();
 
   if (loading) {
     return (
@@ -34,18 +36,35 @@ const Index = () => {
         
         {profile.role === 'artist' ? (
           <div className="grid gap-4">
-            <div className="p-6 border border-border/50 rounded-lg bg-card">
+            <div 
+              className="p-6 border border-border/20 rounded-lg bg-card hover:border-border/40 transition-colors cursor-pointer"
+              onClick={() => navigate('/finances')}
+            >
               <div className="space-y-2">
                 <h3 className="font-medium text-foreground">финансы</h3>
                 <p className="text-sm text-muted-foreground">
-                  раздел финансов скоро откроется. планируем запуск к 10 августа
+                  управление балансом и выплатами
+                </p>
+              </div>
+            </div>
+            <div 
+              className="p-6 border border-border/20 rounded-lg bg-card hover:border-border/40 transition-colors cursor-pointer"
+              onClick={() => navigate('/reports')}
+            >
+              <div className="space-y-2">
+                <h3 className="font-medium text-foreground">отчеты</h3>
+                <p className="text-sm text-muted-foreground">
+                  просмотр отчетов и заявки на выплаты
                 </p>
               </div>
             </div>
           </div>
         ) : (
           <div className="grid gap-4 md:grid-cols-3">
-            <div className="p-6 border border-border/50 rounded-lg bg-card hover:border-border transition-colors">
+            <div 
+              className="p-6 border border-border/20 rounded-lg bg-card hover:border-border/40 transition-colors cursor-pointer"
+              onClick={() => navigate('/admin-users')}
+            >
               <div className="space-y-2">
                 <h3 className="font-medium text-foreground">пользователи</h3>
                 <p className="text-sm text-muted-foreground">
@@ -53,7 +72,10 @@ const Index = () => {
                 </p>
               </div>
             </div>
-            <div className="p-6 border border-border/50 rounded-lg bg-card hover:border-border transition-colors">
+            <div 
+              className="p-6 border border-border/20 rounded-lg bg-card hover:border-border/40 transition-colors cursor-pointer"
+              onClick={() => navigate('/admin-finances')}
+            >
               <div className="space-y-2">
                 <h3 className="font-medium text-foreground">финансы</h3>
                 <p className="text-sm text-muted-foreground">
@@ -61,7 +83,32 @@ const Index = () => {
                 </p>
               </div>
             </div>
-            <div className="p-6 border border-border/50 rounded-lg bg-card hover:border-border transition-colors">
+            <div 
+              className="p-6 border border-border/20 rounded-lg bg-card hover:border-border/40 transition-colors cursor-pointer"
+              onClick={() => navigate('/admin-reports')}
+            >
+              <div className="space-y-2">
+                <h3 className="font-medium text-foreground">отчеты</h3>
+                <p className="text-sm text-muted-foreground">
+                  управление отчетами артистов
+                </p>
+              </div>
+            </div>
+            <div 
+              className="p-6 border border-border/20 rounded-lg bg-card hover:border-border/40 transition-colors cursor-pointer"
+              onClick={() => navigate('/admin-payouts')}
+            >
+              <div className="space-y-2">
+                <h3 className="font-medium text-foreground">выплаты</h3>
+                <p className="text-sm text-muted-foreground">
+                  обработка заявок на выплаты
+                </p>
+              </div>
+            </div>
+            <div 
+              className="p-6 border border-border/20 rounded-lg bg-card hover:border-border/40 transition-colors cursor-pointer"
+              onClick={() => navigate('/admin-settings')}
+            >
               <div className="space-y-2">
                 <h3 className="font-medium text-foreground">настройки</h3>
                 <p className="text-sm text-muted-foreground">

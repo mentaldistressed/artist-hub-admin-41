@@ -7,10 +7,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { Eye, EyeOff } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export const AuthForm = () => {
   const { signIn, signUp } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
   
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -49,6 +51,12 @@ export const AuthForm = () => {
         description: error.message,
         variant: "destructive",
       });
+    } else {
+      toast({
+        title: "вход выполнен",
+        description: "добро пожаловать!",
+      });
+      navigate('/');
     }
     
     setIsLoading(false);
@@ -79,6 +87,7 @@ export const AuthForm = () => {
         title: "регистрация успешна",
         description: "добро пожаловать!",
       });
+      navigate('/');
     }
     
     setIsLoading(false);
@@ -108,6 +117,7 @@ export const AuthForm = () => {
         title: "администратор зарегистрирован",
         description: "добро пожаловать!",
       });
+      navigate('/');
     }
     
     setIsLoading(false);
@@ -340,6 +350,25 @@ export const AuthForm = () => {
                 )}
               </TabsContent>
             </Tabs>
+                  {!showAdminForm && (
+                    <Button 
+                      type="button" 
+                      variant="ghost" 
+                      className="text-xs text-muted-foreground hover:text-foreground"
+                      onClick={() => setShowAdminForm(true)}
+                    >
+                      регистрация администратора
+                    </Button>
+                  )}
+                </div>
+              </TabsContent>
+            </Tabs>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+};
           </CardContent>
         </Card>
       </div>

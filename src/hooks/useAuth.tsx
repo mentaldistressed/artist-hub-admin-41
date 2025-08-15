@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
+import { useNavigate } from 'react-router-dom';
 
 interface Profile {
   id: string;
@@ -70,13 +71,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // Слушаем изменения авторизации
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        console.log('Auth state changed:', event, session?.user?.id);
         setSession(session);
         setUser(session?.user ?? null);
         
         if (session?.user) {
-          setTimeout(() => {
-            fetchProfile(session.user.id);
-          }, 0);
+          await fetchProfile(session.user.id);
         } else {
           setProfile(null);
         }
@@ -86,22 +86,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     );
 
     // Проверяем текущую сессию
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    const initializeAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
       setSession(session);
       setUser(session?.user ?? null);
       
       if (session?.user) {
-        fetchProfile(session.user.id);
+        await fetchProfile(session.user.id);
       }
       
       setLoading(false);
-    });
+    };
+
+    initializeAuth();
 
     return () => subscription.unsubscribe();
   }, []);
 
   const signUp = async (email: string, password: string, role: 'artist' | 'admin', additionalData: any) => {
-    const redirectUrl = `${window.location.origin}/`;
+    setLoading(true);
     
     const metadata: any = { role };
     
@@ -112,29 +115,42 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       metadata.name = additionalData.name;
     }
     
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        emailRedirectTo: redirectUrl,
         data: metadata
       }
     });
     
+    setLoading(false);
     return { error };
   };
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
+    setLoading(true);
+    
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
     
+    setLoading(false);
     return { error };
   };
 
   const signOut = async () => {
+    setLoading(true);
+    
     const { error } = await supabase.auth.signOut();
+    
+    if (!error) {
+      setUser(null);
+      setSession(null);
+      setProfile(null);
+    }
+    
+    setLoading(false);
     return { error };
   };
 

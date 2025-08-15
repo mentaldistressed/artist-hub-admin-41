@@ -296,44 +296,27 @@ const ArtistReports = () => {
                           {quarter === 'Q1 2025' && (
                             <div className="flex items-center space-x-2 mt-2">
                               <Checkbox
-                                id={`q1-status-${profile?.id}`}
-                                checked={hasPayoutRequest?.requires_q1_2025_status || false}
+                                id={`q1-status-${quarter}`}
+                                checked={profile?.requires_q1_2025_status || false}
                                 onCheckedChange={async (checked) => {
                                   try {
-                                    if (hasPayoutRequest) {
-                                      // Обновляем существующую заявку
-                                      const { error } = await supabase
-                                        .from('payout_requests')
-                                        .update({ requires_q1_2025_status: checked as boolean })
-                                        .eq('id', hasPayoutRequest.id);
+                                    // Обновляем статус в профиле пользователя
+                                    const { error } = await supabase
+                                      .from('profiles')
+                                      .update({ requires_q1_2025_status: checked as boolean })
+                                      .eq('id', profile?.id);
 
-                                      if (error) throw error;
-                                    } else if (checked && profile?.id) {
-                                      // Создаем новую заявку только при установке галочки
-                                      const { error } = await supabase
-                                        .from('payout_requests')
-                                        .insert({
-                                          artist_id: profile.id,
-                                          quarter: quarter,
-                                          amount_rub: 0,
-                                          inn: '',
-                                          full_name: '',
-                                          bik: '',
-                                          account_number: '',
-                                          is_self_employed: false,
-                                          status: 'pending',
-                                          requires_q1_2025_status: true
-                                        });
-
-                                      if (error) throw error;
-                                    }
+                                    if (error) throw error;
 
                                     toast({
                                       title: "статус обновлен",
                                       description: checked ? "отмечено как требующее статус" : "статус снят",
                                     });
 
-                                    await fetchPayoutRequests();
+                                    // Обновляем локальный профиль
+                                    if (profile) {
+                                      profile.requires_q1_2025_status = checked as boolean;
+                                    }
                                   } catch (error) {
                                     console.error('Error updating Q1 2025 status:', error);
                                     toast({
@@ -344,7 +327,7 @@ const ArtistReports = () => {
                                   }
                                 }}
                               />
-                              <Label htmlFor={`q1-status-${profile?.id}`} className="text-xs text-muted-foreground">
+                              <Label htmlFor={`q1-status-${quarter}`} className="text-xs text-muted-foreground">
                                 требуется по состоянию на 15.08.2025
                               </Label>
                             </div>

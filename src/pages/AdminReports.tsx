@@ -33,6 +33,7 @@ interface Report {
 const AdminReports = () => {
   const [artists, setArtists] = useState<Profile[]>([]);
   const [reports, setReports] = useState<Report[]>([]);
+  const [q1StatusRequests, setQ1StatusRequests] = useState<{ [key: string]: boolean }>({});
   const [selectedQuarter, setSelectedQuarter] = useState('Q1 2025');
   const [loading, setLoading] = useState(true);
   const [uploadingFiles, setUploadingFiles] = useState<{ [key: string]: boolean }>({});
@@ -72,6 +73,11 @@ const AdminReports = () => {
         newAmounts[report.artist_id] = report.amount_rub.toString();
       });
       setAmounts(newAmounts);
+      
+      // Загружаем статусы Q1 2025 если выбран этот квартал
+      if (selectedQuarter === 'Q1 2025') {
+        await fetchQ1StatusRequests();
+      }
     } catch (error) {
       console.error('Error fetching reports:', error);
     } finally {
@@ -88,6 +94,26 @@ const AdminReports = () => {
       fetchReports();
     }
   }, [selectedQuarter]);
+
+  const fetchQ1StatusRequests = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('payout_requests')
+        .select('artist_id, requires_q1_2025_status')
+        .eq('quarter', 'Q1 2025')
+        .eq('requires_q1_2025_status', true);
+
+      if (error) throw error;
+      
+      const statusMap: { [key: string]: boolean } = {};
+      data?.forEach(request => {
+        statusMap[request.artist_id] = request.requires_q1_2025_status;
+      });
+      setQ1StatusRequests(statusMap);
+    } catch (error) {
+      console.error('Error fetching Q1 status requests:', error);
+    }
+  };
 
   const handleFileUpload = async (artistId: string, file: File) => {
     setUploadingFiles(prev => ({ ...prev, [artistId]: true }));
@@ -297,37 +323,11 @@ const AdminReports = () => {
                       <TableCell>
                         <div className={`font-medium text-sm ${isComplete ? 'text-green-700 dark:text-green-400' : ''}`}>
                           {artist.pseudonym}
-                          {selectedQuarter === 'Q1 2025' && (() => {
-                            // Проверяем есть ли у артиста заявка на выплату с требованием статуса
-                            const [hasQ1StatusRequirement, setHasQ1StatusRequirement] = useState(false);
-                            
-                            useEffect(() => {
-                              const checkQ1Status = async () => {
-                                try {
-                                  const { data, error } = await supabase
-                                    .from('payout_requests')
-                                    .select('requires_q1_2025_status')
-                                    .eq('artist_id', artist.id)
-                                    .eq('quarter', 'Q1 2025')
-                                    .single();
-                                  
-                                  if (!error && data?.requires_q1_2025_status) {
-                                    setHasQ1StatusRequirement(true);
-                                  }
-                                } catch (error) {
-                                  // Игнорируем ошибки если заявки нет
-                                }
-                              };
-                              
-                              checkQ1Status();
-                            }, [artist.id]);
-                            
-                            return hasQ1StatusRequirement ? (
-                              <div className="text-xs text-orange-600 bg-orange-50 px-2 py-1 rounded border border-orange-200 mt-1 inline-block dark:bg-orange-900/30 dark:text-orange-400 dark:border-orange-800">
-                                ⚠ требуется статус на 15.08.2025
-                              </div>
-                            ) : null;
-                          })()}
+                          {selectedQuarter === 'Q1 2025' && q1StatusRequests[artist.id] && !report?.file_url && (
+                            <div className="text-xs text-orange-600 bg-orange-50 px-2 py-1 rounded border border-orange-200 mt-1 inline-block dark:bg-orange-900/30 dark:text-orange-400 dark:border-orange-800">
+                              ⚠ требуется статус на 15.08.2025
+                            </div>
+                          )}
                           {isComplete && (
                             <div className="text-xs text-green-600 dark:text-green-500 mt-1">
                               отчет направлен

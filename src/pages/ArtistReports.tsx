@@ -296,7 +296,7 @@ const ArtistReports = () => {
                           {quarter === 'Q1 2025' && (
                             <div className="flex items-center space-x-2 mt-2">
                               <Checkbox
-                                id={`q1-status-${quarter}-${profile?.id}`}
+                                id={`q1-status-${profile?.id}`}
                                 checked={hasPayoutRequest?.requires_q1_2025_status || false}
                                 onCheckedChange={async (checked) => {
                                   try {
@@ -308,14 +308,14 @@ const ArtistReports = () => {
                                         .eq('id', hasPayoutRequest.id);
 
                                       if (error) throw error;
-                                    } else if (checked) {
-                                      // Создаем новую заявку с минимальными данными
+                                    } else if (checked && profile?.id) {
+                                      // Создаем новую заявку только при установке галочки
                                       const { error } = await supabase
                                         .from('payout_requests')
                                         .insert({
                                           artist_id: profile.id,
                                           quarter: quarter,
-                                          amount_rub: report?.amount_rub || 0,
+                                          amount_rub: 0,
                                           inn: '',
                                           full_name: '',
                                           bik: '',
@@ -344,7 +344,7 @@ const ArtistReports = () => {
                                   }
                                 }}
                               />
-                              <Label htmlFor={`q1-status-${quarter}-${profile?.id}`} className="text-xs text-muted-foreground">
+                              <Label htmlFor={`q1-status-${profile?.id}`} className="text-xs text-muted-foreground">
                                 требуется по состоянию на 15.08.2025
                               </Label>
                             </div>

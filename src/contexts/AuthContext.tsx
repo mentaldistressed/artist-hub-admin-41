@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -25,17 +25,17 @@ interface AuthContextType {
   refreshProfile: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextType>({} as AuthContextType);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) {
+  if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 };
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -71,80 +71,48 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // Инициализация авторизации
+  const initializeAuth = async () => {
+    try {
+      console.log('Initializing auth...');
+      
+      // Получаем текущую сессию
+      const { data: { session: currentSession }, error } = await supabase.auth.getSession();
+      
+      if (error) {
+        console.error('Session error:', error);
+        throw error;
+      }
+
+      console.log('Current session:', currentSession ? 'exists' : 'none');
+
+      if (currentSession?.user) {
+        setSession(currentSession);
+        setUser(currentSession.user);
+        
+        // Загружаем профиль
+        const profileData = await fetchProfile(currentSession.user.id);
+        setProfile(profileData);
+      } else {
+        setSession(null);
+        setUser(null);
+        setProfile(null);
+      }
+    } catch (error) {
+      console.error('Auth initialization error:', error);
+      // При ошибке очищаем все данные
+      setSession(null);
+      setUser(null);
+      setProfile(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    let isMounted = true;
-    
-    const initializeAuth = async () => {
-      try {
-        console.log('Initializing auth...');
-        
-        // Получаем текущую сессию
-        const { data: { session: currentSession }, error: sessionError } = await supabase.auth.getSession();
-        
-        if (sessionError) {
-          console.error('Session error:', sessionError);
-          // Очищаем поврежденную сессию
-          await supabase.auth.signOut();
-          if (isMounted) {
-            setSession(null);
-            setUser(null);
-            setProfile(null);
-            setLoading(false);
-          }
-          return;
-        }
-
-        console.log('Current session:', currentSession ? 'exists' : 'none');
-
-        if (isMounted) {
-          setSession(currentSession);
-          setUser(currentSession?.user ?? null);
-          
-          if (currentSession?.user) {
-            console.log('User found, fetching profile...');
-            const profileData = await fetchProfile(currentSession.user.id);
-            if (isMounted) {
-              setProfile(profileData);
-            }
-          } else {
-            console.log('No user found');
-            setProfile(null);
-          }
-          
-          setLoading(false);
-        }
-      } catch (error) {
-        console.error('Auth initialization error:', error);
-        if (isMounted) {
-          setSession(null);
-          setUser(null);
-          setProfile(null);
-          setLoading(false);
-        }
-      }
-    };
-
-    // Таймаут для принудительного завершения загрузки
-    const timeout = setTimeout(() => {
-      if (isMounted && loading) {
-        console.warn('Auth initialization timeout - forcing completion');
-        setLoading(false);
-      }
-    }, 8000);
-
+    // Инициализация при загрузке
     initializeAuth();
 
-    return () => {
-      isMounted = false;
-      clearTimeout(timeout);
-    };
-  }, []); // Пустой массив зависимостей - инициализация только один раз
-
-  // Слушатель изменений авторизации
-  useEffect(() => {
-    console.log('Setting up auth state listener...');
-    
+    // Слушатель изменений авторизации
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         console.log('Auth state changed:', event, session ? 'session exists' : 'no session');
@@ -159,20 +127,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           setProfile(null);
         }
         
-        // Убеждаемся, что loading выключен после любого изменения состояния
         setLoading(false);
       }
     );
 
     return () => {
-      console.log('Cleaning up auth state listener');
       subscription.unsubscribe();
     };
   }, []);
 
   const signUp = async (email: string, password: string, role: 'artist' | 'admin', additionalData: any) => {
-    setLoading(true);
-    
     try {
       const metadata: any = { role };
       
@@ -183,7 +147,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         metadata.name = additionalData.name;
       }
       
-      const { data, error } = await supabase.auth.signUp({
+      const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -191,34 +155,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
       });
       
-      setLoading(false);
       return { error };
     } catch (error) {
-      setLoading(false);
       return { error };
     }
   };
 
   const signIn = async (email: string, password: string) => {
-    setLoading(true);
-    
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
       
-      setLoading(false);
       return { error };
     } catch (error) {
-      setLoading(false);
       return { error };
     }
   };
 
   const signOut = async () => {
-    setLoading(true);
-    
     try {
       const { error } = await supabase.auth.signOut();
       
@@ -228,10 +184,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setProfile(null);
       }
       
-      setLoading(false);
       return { error };
     } catch (error) {
-      setLoading(false);
       return { error };
     }
   };

@@ -1,33 +1,12 @@
+import React from 'react';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/AppSidebar';
-import { useAuth } from '@/hooks/useAuth';
-import { AuthForm } from '@/components/AuthForm';
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
-export const Layout = ({ children }: LayoutProps) => {
-  const { user, profile, loading } = useAuth();
-
-  console.log('Layout render:', { user: !!user, profile: !!profile, loading });
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-6 w-6 border-2 border-primary border-t-transparent mx-auto"></div>
-          <p className="mt-3 text-sm text-muted-foreground">загрузка...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!user || !profile) {
-    console.log('No user or profile in Layout, showing auth form');
-    return <AuthForm />;
-  }
-
+export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">
@@ -40,10 +19,6 @@ export const Layout = ({ children }: LayoutProps) => {
               <h1 className="text-sm font-medium text-foreground">
                 rplus
               </h1>
-              <span className="mx-2 text-muted-foreground">•</span>
-              <span className="text-sm text-muted-foreground">
-                {profile?.role === 'admin' ? 'администратор' : 'артист'}
-              </span>
             </div>
           </header>
           

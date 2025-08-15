@@ -1,4 +1,5 @@
-import { useAuth } from '@/hooks/useAuth';
+import React from 'react';
+import { useAuth } from '@/contexts/AuthContext';
 import { AuthForm } from '@/components/AuthForm';
 
 interface ProtectedRouteProps {
@@ -6,27 +7,27 @@ interface ProtectedRouteProps {
   requiredRole?: 'artist' | 'admin';
 }
 
-const ProtectedRoute = ({ children, requiredRole }: ProtectedRouteProps) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole }) => {
   const { user, profile, loading } = useAuth();
 
-  console.log('ProtectedRoute render:', { user: !!user, profile: !!profile, loading });
-
+  // Показываем загрузку
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-6 w-6 border-2 border-primary border-t-transparent mx-auto"></div>
-          <p className="mt-3 text-sm text-muted-foreground">загрузка...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent mx-auto"></div>
+          <p className="mt-4 text-sm text-muted-foreground">загрузка...</p>
         </div>
       </div>
     );
   }
 
+  // Если нет пользователя или профиля - показываем форму авторизации
   if (!user || !profile) {
-    console.log('No user or profile, showing auth form');
     return <AuthForm />;
   }
 
+  // Проверяем роль если требуется
   if (requiredRole && profile.role !== requiredRole) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -38,7 +39,6 @@ const ProtectedRoute = ({ children, requiredRole }: ProtectedRouteProps) => {
     );
   }
 
-  console.log('User authenticated, showing protected content');
   return <>{children}</>;
 };
 

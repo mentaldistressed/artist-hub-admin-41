@@ -27,11 +27,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [emailConfirmationSent, setEmailConfirmationSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [emailConfirmationSent, setEmailConfirmationSent] = useState(false);
   const { toast } = useToast();
 
   const clearError = () => setError(null);
+  const clearEmailConfirmation = () => setEmailConfirmationSent(false);
   const clearEmailConfirmation = () => setEmailConfirmationSent(false);
 
   const loadProfile = async (userId: string): Promise<any | null> => {
@@ -232,9 +234,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return { error: error.message };
       }
 
-      // Показываем сообщение о подтверждении email
+      // Показываем сообщение о подтверждении email и останавливаем загрузку
       setEmailConfirmationSent(true);
-      // Success will be handled by onAuthStateChange
+      setIsLoading(false);
       return { error: null };
     } catch (error: any) {
       console.error("Unexpected signup error:", error);
@@ -272,6 +274,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     user,
     profile,
     emailConfirmationSent,
+    emailConfirmationSent,
     signIn,
     signUp,
     signOut,
@@ -280,6 +283,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     clearError,
     refreshProfile,
     isInitialized,
+    clearEmailConfirmation,
     clearEmailConfirmation,
   };
 

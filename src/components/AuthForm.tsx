@@ -11,11 +11,10 @@ import { useNavigate } from 'react-router-dom';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 export const AuthForm = () => {
-  const { login, signUp, error, clearError, emailConfirmationSent, clearEmailConfirmation } = useAuth();
+  const { signIn, signUp, error, clearError, emailConfirmationSent, clearEmailConfirmation, isLoading } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   
-  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showAdminForm, setShowAdminForm] = useState(false);
   
@@ -42,31 +41,21 @@ export const AuthForm = () => {
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
     clearError();
     
-    const { error } = await signIn(signInData.email, signInData.password);
+    const success = await signIn(signInData.email, signInData.password);
     
-    if (error) {
-      toast({
-        title: "ошибка входа",
-        description: error.message,
-        variant: "destructive",
-      });
-    } else {
+    if (success) {
       toast({
         title: "вход выполнен",
         description: "добро пожаловать!",
       });
       navigate('/');
     }
-    
-    setIsLoading(false);
   };
 
   const handleArtistSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
     clearError();
     
     const { error } = await signUp(
@@ -85,20 +74,12 @@ export const AuthForm = () => {
         description: error.message,
         variant: "destructive",
       });
-    } else {
-      toast({
-        title: "регистрация успешна",
-        description: "добро пожаловать!",
-      });
-      navigate('/');
     }
-    
-    setIsLoading(false);
+    // Если нет ошибки, покажется окно подтверждения email
   };
 
   const handleAdminSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
     clearError();
     
     const { error } = await signUp(
@@ -116,15 +97,8 @@ export const AuthForm = () => {
         description: error.message,
         variant: "destructive",
       });
-    } else {
-      toast({
-        title: "администратор зарегистрирован",
-        description: "добро пожаловать!",
-      });
-      navigate('/');
     }
-    
-    setIsLoading(false);
+    // Если нет ошибки, покажется окно подтверждения email
   };
 
   // Если отправлено подтверждение email, показываем соответствующее сообщение

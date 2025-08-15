@@ -9,10 +9,10 @@ interface LayoutProps {
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <SidebarProvider defaultOpen={true}>
-      <div className="min-h-screen w-full bg-gradient-to-br from-background via-background to-muted/20">
+      <div className="min-h-screen w-full bg-gradient-to-br from-background via-background to-muted/20 flex">
         <AppSidebar />
         
-        <main className="flex-1 flex flex-col transition-all duration-300 ease-in-out">
+        <div className="flex-1 flex flex-col min-w-0">
           <header className="h-16 flex items-center border-b border-border/30 bg-background/80 backdrop-blur-xl px-6 premium-shadow sticky top-0 z-40">
             <SidebarTrigger className="mr-4" />
             <div className="flex items-center gap-3">
@@ -25,10 +25,10 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
             </div>
           </header>
           
-          <div className="flex-1 p-8 bg-transparent overflow-auto">
+          <main className="flex-1 p-8 bg-transparent overflow-auto">
             {children}
-          </div>
-        </main>
+          </main>
+        </div>
       </div>
     </SidebarProvider>
   );

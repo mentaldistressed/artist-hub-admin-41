@@ -4,7 +4,7 @@ import { Layout } from '@/components/Layout';
 import { useNavigate } from 'react-router-dom';
 
 const Index: React.FC = () => {
-  const { profile } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   return (
@@ -12,17 +12,17 @@ const Index: React.FC = () => {
       <div className="max-w-5xl mx-auto space-y-10 animate-fade-in">
         <div className="space-y-3">
           <h1 className="text-3xl font-bold tracking-tight text-foreground text-premium">
-            добро пожаловать, {profile?.role === 'admin' ? profile.name : profile?.pseudonym}
+            добро пожаловать, {user?.role === 'admin' ? user.name : user?.name}
           </h1>
           <p className="text-base text-muted-foreground">
-            {profile?.role === 'admin' ? 'панель администратора' : 'ваш личный кабинет'}
+            {user?.role === 'admin' ? 'панель администратора' : 'ваш личный кабинет'}
           </p>
         </div>
         
-        {profile?.role === 'artist' ? (
+        {user?.role === 'artist' ? (
           <div className="grid gap-6 md:grid-cols-2">
             <div 
-              className="group p-8 card-premium-interactive animate-slide-up"
+              className="group p-8 card-premium-interactive animate-slide-up cursor-pointer"
               onClick={() => navigate('/finances')}
             >
               <div className="space-y-3">
@@ -36,7 +36,7 @@ const Index: React.FC = () => {
               </div>
             </div>
             <div 
-              className="group p-8 card-premium-interactive animate-slide-up"
+              className="group p-8 card-premium-interactive animate-slide-up cursor-pointer"
               style={{ animationDelay: '0.1s' }}
               onClick={() => navigate('/reports')}
             >
@@ -54,7 +54,7 @@ const Index: React.FC = () => {
         ) : (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <div 
-              className="group p-8 card-premium-interactive animate-slide-up"
+              className="group p-8 card-premium-interactive animate-slide-up cursor-pointer"
               onClick={() => navigate('/admin-users')}
             >
               <div className="space-y-3">
@@ -68,7 +68,7 @@ const Index: React.FC = () => {
               </div>
             </div>
             <div 
-              className="group p-8 card-premium-interactive animate-slide-up"
+              className="group p-8 card-premium-interactive animate-slide-up cursor-pointer"
               style={{ animationDelay: '0.1s' }}
               onClick={() => navigate('/admin-finances')}
             >
@@ -83,7 +83,7 @@ const Index: React.FC = () => {
               </div>
             </div>
             <div 
-              className="group p-8 card-premium-interactive animate-slide-up"
+              className="group p-8 card-premium-interactive animate-slide-up cursor-pointer"
               style={{ animationDelay: '0.2s' }}
               onClick={() => navigate('/admin-reports')}
             >
@@ -98,7 +98,7 @@ const Index: React.FC = () => {
               </div>
             </div>
             <div 
-              className="group p-8 card-premium-interactive animate-slide-up"
+              className="group p-8 card-premium-interactive animate-slide-up cursor-pointer"
               style={{ animationDelay: '0.3s' }}
               onClick={() => navigate('/admin-payouts')}
             >
@@ -113,7 +113,7 @@ const Index: React.FC = () => {
               </div>
             </div>
             <div 
-              className="group p-8 card-premium-interactive animate-slide-up"
+              className="group p-8 card-premium-interactive animate-slide-up cursor-pointer"
               style={{ animationDelay: '0.4s' }}
               onClick={() => navigate('/admin-settings')}
             >

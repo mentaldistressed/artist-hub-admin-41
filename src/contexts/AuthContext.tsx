@@ -29,11 +29,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isInitialized, setIsInitialized] = useState(false);
   const [emailConfirmationSent, setEmailConfirmationSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [emailConfirmationSent, setEmailConfirmationSent] = useState(false);
   const { toast } = useToast();
 
   const clearError = () => setError(null);
-  const clearEmailConfirmation = () => setEmailConfirmationSent(false);
   const clearEmailConfirmation = () => setEmailConfirmationSent(false);
 
   const loadProfile = async (userId: string): Promise<any | null> => {
@@ -274,7 +272,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     user,
     profile,
     emailConfirmationSent,
-    emailConfirmationSent,
     signIn,
     signUp,
     signOut,
@@ -283,7 +280,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     clearError,
     refreshProfile,
     isInitialized,
-    clearEmailConfirmation,
     clearEmailConfirmation,
   };
 

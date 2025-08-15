@@ -168,7 +168,7 @@ const AdminPayouts = () => {
                           {request.artist?.pseudonym}
                           {request.quarter === 'Q1 2025' && request.artist?.requires_q1_2025_status && (
                             <div className="text-xs text-orange-600 bg-orange-50 px-2 py-1 rounded border border-orange-200 mt-1 inline-block">
-                              ⚠ требуется статус на 15.08.2025
+                              ⚠ требуется на 15.08.2025
                             </div>
                           )}
                         </div>

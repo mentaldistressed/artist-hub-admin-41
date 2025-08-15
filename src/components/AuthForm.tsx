@@ -113,10 +113,10 @@ export const AuthForm = () => {
               </svg>
             </div>
             <h1 className="text-3xl font-bold tracking-tight text-foreground mb-3 text-premium-tight">
-              проверьте почту
+              Проверьте почту
             </h1>
             <p className="text-muted-foreground mb-6">
-              мы отправили письмо с подтверждением на вашу электронную почту
+              Мы отправили письмо с подтверждением на вашу электронную почту
             </p>
           </div>
 
@@ -132,20 +132,21 @@ export const AuthForm = () => {
                   
                   <div className="space-y-2">
                     <h3 className="text-lg font-semibold text-foreground">
-                      подтвердите регистрацию
+                      Подтвердите регистрацию
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                      перейдите по ссылке в письме, чтобы активировать аккаунт
+                      Перейдите по ссылке в письме, чтобы активировать аккаунт
                     </p>
                   </div>
                   
                   <div className="bg-muted/50 rounded-xl p-4 text-left space-y-2">
                     <p className="text-xs font-medium text-foreground">что делать дальше:</p>
+                    <p className="text-xs font-medium text-foreground">Что делать дальше:</p>
                     <ul className="text-xs text-muted-foreground space-y-1">
-                      <li>• откройте свою электронную почту</li>
-                      <li>• найдите письмо от rplus</li>
-                      <li>• нажмите на ссылку подтверждения</li>
-                      <li>• вернитесь сюда для входа в систему</li>
+                      <li>• Откройте свою электронную почту</li>
+                      <li>• Найдите письмо от rplus</li>
+                      <li>• Нажмите на ссылку подтверждения</li>
+                      <li>• Вернитесь сюда для входа в систему</li>
                     </ul>
                   </div>
                 </div>
@@ -155,11 +156,11 @@ export const AuthForm = () => {
                     onClick={clearEmailConfirmation}
                     className="w-full h-12 btn-premium bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground font-semibold rounded-xl text-base"
                   >
-                    понятно, перейти к входу
+                    Понятно, перейти к входу
                   </Button>
                   
                   <p className="text-xs text-center text-muted-foreground">
-                    не получили письмо? проверьте папку "спам"
+                    Не получили письмо? Проверьте папку "спам"
                   </p>
                 </div>
               </div>
@@ -181,7 +182,7 @@ export const AuthForm = () => {
             rplus
           </h1>
           <p className="text-muted-foreground">
-            портал выплат для артистов
+            Портал выплат для артистов
           </p>
           {error && (
             <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-xl border border-destructive/20 mt-4">
@@ -194,15 +195,15 @@ export const AuthForm = () => {
           <CardContent className="p-8">
             <Tabs defaultValue="signin" className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-8 bg-muted/50 p-1 rounded-xl">
-                <TabsTrigger value="signin" className="text-sm font-medium rounded-lg">вход</TabsTrigger>
-                <TabsTrigger value="signup" className="text-sm font-medium rounded-lg">регистрация</TabsTrigger>
+                <TabsTrigger value="signin" className="text-sm font-medium rounded-lg">Вход</TabsTrigger>
+                <TabsTrigger value="signup" className="text-sm font-medium rounded-lg">Регистрация</TabsTrigger>
               </TabsList>
               
               <TabsContent value="signin" className="space-y-6 mt-0">
                 <form onSubmit={handleSignIn} className="space-y-6">
                   <div className="space-y-3">
                     <Label htmlFor="signin-email" className="text-sm font-semibold text-foreground">
-                      электронная почта
+                      Электронная почта
                     </Label>
                     <Input
                       id="signin-email"
@@ -217,7 +218,7 @@ export const AuthForm = () => {
                   
                   <div className="space-y-3">
                     <Label htmlFor="signin-password" className="text-sm font-semibold text-foreground">
-                      пароль
+                      Пароль
                     </Label>
                     <div className="relative">
                       <Input
@@ -245,7 +246,7 @@ export const AuthForm = () => {
                     className="w-full h-12 btn-premium bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground font-semibold rounded-xl text-base" 
                     disabled={isLoading}
                   >
-                    {isLoading ? <LoadingSpinner size="sm" message="" /> : "войти"}
+                    {isLoading ? <LoadingSpinner size="sm" message="" /> : "Войти"}
                   </Button>
                 </form>
               </TabsContent>
@@ -255,13 +256,14 @@ export const AuthForm = () => {
                   <form onSubmit={handleArtistSignUp} className="space-y-6">
                     <div className="space-y-3">
                       <Label htmlFor="artist-pseudonym" className="text-sm font-semibold text-foreground">
-                        псевдоним
+                        Псевдоним
                       </Label>
                       <Input
                         id="artist-pseudonym"
                         value={artistData.pseudonym}
                         onChange={(e) => setArtistData(prev => ({ ...prev, pseudonym: e.target.value }))}
                         placeholder="ваш псевдоним"
+                        placeholder="Ваш псевдоним"
                         className="h-12 input-premium rounded-xl text-base"
                         required
                       />
@@ -269,7 +271,7 @@ export const AuthForm = () => {
                     
                     <div className="space-y-3">
                       <Label htmlFor="artist-telegram" className="text-sm font-semibold text-foreground">
-                        telegram
+                        Telegram
                       </Label>
                       <Input
                         id="artist-telegram"
@@ -283,7 +285,7 @@ export const AuthForm = () => {
                     
                     <div className="space-y-3">
                       <Label htmlFor="artist-email" className="text-sm font-semibold text-foreground">
-                        электронная почта
+                        Электронная почта
                       </Label>
                       <Input
                         id="artist-email"
@@ -298,7 +300,7 @@ export const AuthForm = () => {
                     
                     <div className="space-y-3">
                       <Label htmlFor="artist-password" className="text-sm font-semibold text-foreground">
-                        пароль
+                        Пароль
                       </Label>
                       <div className="relative">
                         <Input
@@ -326,20 +328,21 @@ export const AuthForm = () => {
                       className="w-full h-12 btn-premium bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground font-semibold rounded-xl text-base" 
                       disabled={isLoading}
                     >
-                      {isLoading ? <LoadingSpinner size="sm" message="" /> : "зарегистрироваться"}
+                      {isLoading ? <LoadingSpinner size="sm" message="" /> : "Зарегистрироваться"}
                     </Button>
                   </form>
                 ) : (
                   <form onSubmit={handleAdminSignUp} className="space-y-6">
                     <div className="space-y-3">
                       <Label htmlFor="admin-name" className="text-sm font-semibold text-foreground">
-                        имя
+                        Имя
                       </Label>
                       <Input
                         id="admin-name"
                         value={adminData.name}
                         onChange={(e) => setAdminData(prev => ({ ...prev, name: e.target.value }))}
                         placeholder="ваше имя"
+                        placeholder="Ваше имя"
                         className="h-12 input-premium rounded-xl text-base"
                         required
                       />
@@ -347,7 +350,7 @@ export const AuthForm = () => {
                     
                     <div className="space-y-3">
                       <Label htmlFor="admin-email" className="text-sm font-semibold text-foreground">
-                        электронная почта
+                        Электронная почта
                       </Label>
                       <Input
                         id="admin-email"
@@ -362,7 +365,7 @@ export const AuthForm = () => {
                     
                     <div className="space-y-3">
                       <Label htmlFor="admin-password" className="text-sm font-semibold text-foreground">
-                        пароль
+                        Пароль
                       </Label>
                       <div className="relative">
                         <Input
@@ -390,7 +393,7 @@ export const AuthForm = () => {
                       className="w-full h-12 btn-premium bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground font-semibold rounded-xl text-base" 
                       disabled={isLoading}
                     >
-                      {isLoading ? <LoadingSpinner size="sm" message="" /> : "зарегистрироваться как администратор"}
+                      {isLoading ? <LoadingSpinner size="sm" message="" /> : "Зарегистрироваться как администратор"}
                     </Button>
                     
                     <Button 
@@ -399,7 +402,7 @@ export const AuthForm = () => {
                       className="w-full h-12 text-sm font-medium rounded-xl"
                       onClick={() => setShowAdminForm(false)}
                     >
-                      назад к регистрации артиста
+                      Назад к регистрации артиста
                     </Button>
                   </form>
                 )}

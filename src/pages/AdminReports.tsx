@@ -241,8 +241,8 @@ const AdminReports = () => {
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-medium text-foreground">отчеты</h1>
-            <p className="text-sm text-muted-foreground">управление отчетами артистов</p>
+            <h1 className="text-2xl font-medium text-foreground">Отчеты</h1>
+            <p className="text-sm text-muted-foreground">Управление отчетами артистов</p>
           </div>
           
           <Select value={selectedQuarter} onValueChange={setSelectedQuarter}>
@@ -261,20 +261,20 @@ const AdminReports = () => {
 
         <Card className="border-border/20">
           <CardHeader>
-            <CardTitle className="text-lg font-medium">отчеты за {selectedQuarter}</CardTitle>
+            <CardTitle className="text-lg font-medium">Отчеты за {selectedQuarter}</CardTitle>
             <CardDescription className="text-sm">
-              загрузка файлов и указание сумм для артистов
+              Загрузка файлов и указание сумм для артистов
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow className="border-border/20">
-                  <TableHead className="text-muted-foreground">статус</TableHead>
-                  <TableHead className="text-muted-foreground">артист</TableHead>
-                  <TableHead className="text-muted-foreground">файл отчета</TableHead>
-                  <TableHead className="text-muted-foreground">сумма (₽)</TableHead>
-                  <TableHead className="text-muted-foreground">действия</TableHead>
+                  <TableHead className="text-muted-foreground">Статус</TableHead>
+                  <TableHead className="text-muted-foreground">Артист</TableHead>
+                  <TableHead className="text-muted-foreground">Файл отчета</TableHead>
+                  <TableHead className="text-muted-foreground">Сумма (₽)</TableHead>
+                  <TableHead className="text-muted-foreground">Действия</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -298,18 +298,18 @@ const AdminReports = () => {
                         <div className="flex items-center gap-2">
                           {completionStatus.status === 'complete' && (
                             <Badge variant="secondary" className="bg-green-100 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800">
-                              {completionStatus.label}
+                              Готов
                             </Badge>
                           )}
                           {completionStatus.status === 'partial' && (
                             <Badge variant="secondary" className="bg-yellow-100 text-yellow-700 border-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-400 dark:border-yellow-800">
                               <AlertCircle className="h-3 w-3 mr-1" />
-                              {completionStatus.label}
+                              Частично готов
                             </Badge>
                           )}
                           {completionStatus.status === 'empty' && (
                             <Badge variant="outline" className="text-muted-foreground border-muted-foreground/30">
-                              {completionStatus.label}
+                              Не готов
                             </Badge>
                           )}
                         </div>
@@ -319,12 +319,12 @@ const AdminReports = () => {
                           {artist.pseudonym}
                           {selectedQuarter === 'Q1 2025' && (artist as any).requires_q1_2025_status && !report?.file_url && (
                             <div className="text-xs text-orange-600 bg-orange-50 px-2 py-1 rounded border border-orange-200 mt-1 inline-block dark:bg-orange-900/30 dark:text-orange-400 dark:border-orange-800">
-                              ⚠ требуется на 15.08.2025
+                              ⚠ Требуется на 15.08.2025
                             </div>
                           )}
                           {isComplete && (
                             <div className="text-xs text-green-600 dark:text-green-500 mt-1">
-                              отчет направлен
+                              Отчет направлен
                             </div>
                           )}
                         </div>

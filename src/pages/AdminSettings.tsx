@@ -9,15 +9,17 @@ const AdminSettings = () => {
       <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-foreground">настройки</h1>
-        <p className="text-muted-foreground">конфигурация системы и параметры лейбла</p>
+        <h1 className="text-3xl font-bold text-foreground">Настройки</h1>
+        <p className="text-muted-foreground">Конфигурация системы и параметры лейбла</p>
       </div>
 
       <Alert>
         <Settings className="h-4 w-4" />
         <AlertDescription>
           <strong>раздел в разработке</strong>
+          <strong>Раздел в разработке</strong>
           <br />
-          здесь скоро появятся настройки системы и другие административные функции
+          Здесь скоро появятся настройки системы и другие административные функции
         </AlertDescription>
       </Alert>
 
@@ -25,7 +27,8 @@ const AdminSettings = () => {
         <Card>
           <CardHeader>
             <CardTitle className="text-lg">будущие настройки</CardTitle>
-            <CardDescription>что планируется добавить</CardDescription>
+            <CardTitle className="text-lg">Будущие настройки</CardTitle>
+            <CardDescription>Что планируется добавить</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
 
@@ -33,14 +36,16 @@ const AdminSettings = () => {
               <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
               <div>
                 <p className="font-medium">финансовые параметры</p>
-                <p className="text-sm text-muted-foreground">комиссии, валюты, реквизиты</p>
+                <p className="font-medium">Финансовые параметры</p>
+                <p className="text-sm text-muted-foreground">Комиссии, валюты, реквизиты</p>
               </div>
             </div>
             <div className="flex items-start space-x-3">
               <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
               <div>
                 <p className="font-medium">уведомления</p>
-                <p className="text-sm text-muted-foreground">email, telegram, push-уведомления</p>
+                <p className="font-medium">Уведомления</p>
+                <p className="text-sm text-muted-foreground">Email, telegram, push-уведомления</p>
               </div>
             </div>
           </CardContent>
@@ -49,15 +54,18 @@ const AdminSettings = () => {
         <Card>
           <CardHeader>
             <CardTitle className="text-lg">системная информация</CardTitle>
-            <CardDescription>текущее состояние</CardDescription>
+            <CardTitle className="text-lg">Системная информация</CardTitle>
+            <CardDescription>Текущее состояние</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex justify-between">
               <span className="text-sm text-muted-foreground">версия системы</span>
+              <span className="text-sm text-muted-foreground">Версия системы</span>
               <span className="text-sm font-mono">v1.0</span>
             </div>
             <div className="flex justify-between">
               <span className="text-sm text-muted-foreground">последнее обновление</span>
+              <span className="text-sm text-muted-foreground">Последнее обновление</span>
               <span className="text-sm font-mono">15.08.2025</span>
             </div>
           </CardContent>

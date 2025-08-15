@@ -56,7 +56,8 @@ const ArtistReports = () => {
     full_name: '',
     bik: '',
     account_number: '',
-    is_self_employed: false
+    is_self_employed: false,
+    requires_q1_2025_status: false
   });
 
   const fetchReports = async () => {
@@ -136,6 +137,7 @@ const ArtistReports = () => {
           bik: payoutData.bik,
           account_number: payoutData.account_number,
           is_self_employed: payoutData.is_self_employed,
+          requires_q1_2025_status: payoutData.requires_q1_2025_status,
           status: 'pending'
         });
 
@@ -151,7 +153,8 @@ const ArtistReports = () => {
         full_name: '',
         bik: '',
         account_number: '',
-        is_self_employed: false
+        is_self_employed: false,
+        requires_q1_2025_status: false
       });
 
       await fetchPayoutRequests();
@@ -305,7 +308,8 @@ const ArtistReports = () => {
                                       full_name: '',
                                       bik: '',
                                       account_number: '',
-                                      is_self_employed: false
+                                      is_self_employed: false,
+                                      requires_q1_2025_status: false
                                     });
                                   }}
                                   className="h-8 text-xs"
@@ -384,6 +388,21 @@ const ArtistReports = () => {
                                       открытие самозанятости / ИП
                                     </Label>
                                   </div>
+                                  
+                                  {report.quarter === 'Q1 2025' && (
+                                    <div className="flex items-center space-x-2">
+                                      <Checkbox
+                                        id="requires_q1_2025_status"
+                                        checked={payoutData.requires_q1_2025_status}
+                                        onCheckedChange={(checked) => 
+                                          setPayoutData(prev => ({ ...prev, requires_q1_2025_status: checked as boolean }))
+                                        }
+                                      />
+                                      <Label htmlFor="requires_q1_2025_status" className="text-sm">
+                                        требуется по состоянию на 15.08.2025
+                                      </Label>
+                                    </div>
+                                  )}
                                   
                                   <div className="flex gap-2 pt-4">
                                     <Button type="submit" size="sm" className="h-9 text-sm">

@@ -263,55 +263,6 @@ const ArtistReports = () => {
                   <CardDescription className="text-sm">
                     отчет за {quarter.toLowerCase()}
                   </CardDescription>
-                  {quarter === 'Q1 2025' && (
-                    <div className="flex items-center space-x-2 pt-2">
-                      <Checkbox
-                        id={`q1-status-${quarter}`}
-                        checked={(() => {
-                          const request = getPayoutRequestForQuarter(quarter);
-                          return request?.requires_q1_2025_status || false;
-                        })()}
-                        onCheckedChange={async (checked) => {
-                          try {
-                            const request = getPayoutRequestForQuarter(quarter);
-                            if (request) {
-                              const { error } = await supabase
-                                .from('payout_requests')
-                                .update({ requires_q1_2025_status: checked as boolean })
-                                .eq('id', request.id);
-
-                              if (error) throw error;
-                            } else {
-                              // Если заявки нет, создаем временную запись или показываем предупреждение
-                              toast({
-                                title: "создайте заявку на выплату",
-                                description: "сначала подайте заявку на выплату для этого квартала",
-                                variant: "destructive",
-                              });
-                              return;
-                            }
-
-                            toast({
-                              title: "статус обновлен",
-                              description: checked ? "отмечено как требующее статус" : "статус снят",
-                            });
-
-                            await fetchPayoutRequests();
-                          } catch (error) {
-                            console.error('Error updating Q1 2025 status:', error);
-                            toast({
-                              title: "ошибка обновления",
-                              description: "не удалось обновить статус",
-                              variant: "destructive",
-                            });
-                          }
-                        }}
-                      />
-                      <Label htmlFor={`q1-status-${quarter}`} className="text-xs text-muted-foreground">
-                        требуется по состоянию на 15.08.2025
-                      </Label>
-                    </div>
-                  )}
                 </CardHeader>
                 <CardContent>
                   {!report ? (

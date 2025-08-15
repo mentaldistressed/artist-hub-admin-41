@@ -9,20 +9,23 @@ interface LayoutProps {
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-background">
+      <div className="min-h-screen flex w-full bg-gradient-to-br from-background via-background to-muted/20">
         <AppSidebar />
         
         <div className="flex-1 flex flex-col">
-          <header className="h-14 flex items-center border-b border-border/50 bg-background px-6">
+          <header className="h-16 flex items-center border-b border-border/30 bg-background/80 backdrop-blur-xl px-6 premium-shadow">
             <SidebarTrigger className="mr-4" />
-            <div className="flex items-center">
-              <h1 className="text-sm font-medium text-foreground">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center">
+                <span className="text-primary-foreground font-bold text-sm">R</span>
+              </div>
+              <h1 className="text-lg font-semibold text-foreground tracking-tight">
                 rplus
               </h1>
             </div>
           </header>
           
-          <main className="flex-1 p-6 bg-background">
+          <main className="flex-1 p-8 bg-transparent">
             {children}
           </main>
         </div>

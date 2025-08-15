@@ -4,88 +4,106 @@
 
 @layer base {
   :root {
-    /* Минималистичная цветовая схема */
-    --background: 0 0% 100%;
-    --foreground: 0 0% 9%;
+    /* Премиальная цветовая схема с глубиной */
+    --background: 0 0% 99%;
+    --foreground: 220 13% 9%;
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 9%;
+    --card-foreground: 220 13% 9%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 9%;
+    --popover-foreground: 220 13% 9%;
 
-    --primary: 0 0% 9%;
+    --primary: 220 13% 9%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 9%;
+    --secondary: 220 13% 97%;
+    --secondary-foreground: 220 13% 9%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 220 13% 96%;
+    --muted-foreground: 220 9% 46%;
 
-    --accent: 0 0% 96%;
-    --accent-foreground: 0 0% 9%;
+    --accent: 220 13% 95%;
+    --accent-foreground: 220 13% 9%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 0 0% 9%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 220 13% 9%;
 
     --success: 142 76% 36%;
     --warning: 38 92% 50%;
     --info: 199 89% 48%;
 
-    --radius: 0.375rem;
+    --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 0 0% 9%;
-    --sidebar-primary: 0 0% 9%;
+    /* Премиальные цвета для sidebar */
+    --sidebar-background: 220 13% 98%;
+    --sidebar-foreground: 220 13% 9%;
+    --sidebar-primary: 220 13% 9%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 0 0% 96%;
-    --sidebar-accent-foreground: 0 0% 9%;
-    --sidebar-border: 0 0% 90%;
-    --sidebar-ring: 0 0% 9%;
+    --sidebar-accent: 220 13% 95%;
+    --sidebar-accent-foreground: 220 13% 9%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 220 13% 9%;
+
+    /* Премиальные градиенты */
+    --gradient-primary: linear-gradient(135deg, hsl(220 13% 9%) 0%, hsl(220 13% 15%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(220 13% 97%) 0%, hsl(220 13% 99%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(220 13% 95%) 0%, hsl(220 13% 97%) 100%);
+    
+    /* Тени для глубины */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   }
 
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
+    --background: 220 13% 3%;
+    --foreground: 220 13% 98%;
 
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --card: 220 13% 4%;
+    --card-foreground: 220 13% 98%;
 
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 220 13% 4%;
+    --popover-foreground: 220 13% 98%;
 
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
+    --primary: 220 13% 98%;
+    --primary-foreground: 220 13% 9%;
 
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 220 13% 10%;
+    --secondary-foreground: 220 13% 98%;
 
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
+    --muted: 220 13% 10%;
+    --muted-foreground: 220 9% 63%;
 
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 220 13% 10%;
+    --accent-foreground: 220 13% 98%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 220 13% 98%;
 
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
+    --border: 220 13% 15%;
+    --input: 220 13% 15%;
+    --ring: 220 13% 91%;
 
-    --sidebar-background: 0 0% 3.9%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 0 0% 98%;
-    --sidebar-primary-foreground: 0 0% 9%;
-    --sidebar-accent: 0 0% 14.9%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 0 0% 14.9%;
-    --sidebar-ring: 0 0% 83.1%;
+    --sidebar-background: 220 13% 2%;
+    --sidebar-foreground: 220 13% 98%;
+    --sidebar-primary: 220 13% 98%;
+    --sidebar-primary-foreground: 220 13% 9%;
+    --sidebar-accent: 220 13% 10%;
+    --sidebar-accent-foreground: 220 13% 98%;
+    --sidebar-border: 220 13% 15%;
+    --sidebar-ring: 220 13% 91%;
+
+    /* Темные градиенты */
+    --gradient-primary: linear-gradient(135deg, hsl(220 13% 98%) 0%, hsl(220 13% 90%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(220 13% 4%) 0%, hsl(220 13% 6%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(220 13% 10%) 0%, hsl(220 13% 8%) 100%);
   }
 }
 
@@ -96,9 +114,157 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     font-feature-settings: "cv01", "cv02", "cv03", "cv04";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.01em;
+  }
+
+  /* Премиальные утилиты */
+  .glass-effect {
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .dark .glass-effect {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .premium-shadow {
+    box-shadow: 
+      0 1px 2px 0 rgb(0 0 0 / 0.05),
+      0 1px 3px 0 rgb(0 0 0 / 0.1),
+      0 0 0 1px rgb(0 0 0 / 0.05);
+  }
+
+  .premium-shadow-lg {
+    box-shadow: 
+      0 4px 6px -1px rgb(0 0 0 / 0.1),
+      0 2px 4px -2px rgb(0 0 0 / 0.1),
+      0 0 0 1px rgb(0 0 0 / 0.05);
+  }
+
+  .premium-border {
+    border: 1px solid hsl(var(--border));
+    background: linear-gradient(to bottom, 
+      hsl(var(--card)) 0%, 
+      hsl(var(--card)) 100%);
+  }
+
+  /* Анимации */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { 
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to { 
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scaleIn {
+    from { 
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to { 
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Улучшенные скроллбары */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 3px;
+    transition: background 0.2s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+
+  /* Улучшенные фокусы */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  /* Премиальные переходы */
+  .transition-premium {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+@layer components {
+  /* Премиальные карточки */
+  .card-premium {
+    @apply bg-card border border-border/50 rounded-lg premium-shadow transition-smooth hover:premium-shadow-lg hover:border-border/80;
+  }
+
+  .card-premium-interactive {
+    @apply card-premium cursor-pointer hover:scale-[1.02] active:scale-[0.98];
+  }
+
+  /* Премиальные кнопки */
+  .btn-premium {
+    @apply relative overflow-hidden transition-all duration-200 ease-out;
+  }
+
+  .btn-premium::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] transition-transform duration-500;
+  }
+
+  .btn-premium:hover::before {
+    @apply translate-x-[100%];
+  }
+
+  /* Премиальные инпуты */
+  .input-premium {
+    @apply transition-all duration-200 ease-out border-border/50 focus:border-primary/50 focus:shadow-sm;
+  }
+
+  /* Премиальная типографика */
+  .text-premium {
+    @apply tracking-tight;
+  }
+
+  .text-premium-tight {
+    @apply tracking-tighter;
   }
 }

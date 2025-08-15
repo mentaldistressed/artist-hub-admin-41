@@ -128,34 +128,37 @@ export const AuthForm = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="w-full max-w-md mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-2xl font-semibold tracking-tight text-foreground mb-2">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-muted/20 p-4">
+      <div className="w-full max-w-md mx-auto animate-scale-in">
+        <div className="text-center mb-10">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center mx-auto mb-6 premium-shadow-lg">
+            <span className="text-primary-foreground font-bold text-2xl">R</span>
+          </div>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground mb-3 text-premium-tight">
             rplus
           </h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground">
             портал выплат для артистов
           </p>
           {error && (
-            <div className="text-sm text-destructive bg-destructive/10 p-2 rounded">
+            <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-xl border border-destructive/20 mt-4">
               {error}
             </div>
           )}
         </div>
 
-        <Card className="border-border/50 shadow-none">
-          <CardContent className="p-6">
+        <Card className="card-premium border-border/30 premium-shadow-lg">
+          <CardContent className="p-8">
             <Tabs defaultValue="signin" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted/30">
-                <TabsTrigger value="signin" className="text-sm">вход</TabsTrigger>
-                <TabsTrigger value="signup" className="text-sm">регистрация</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-2 mb-8 bg-muted/50 p-1 rounded-xl">
+                <TabsTrigger value="signin" className="text-sm font-medium rounded-lg">вход</TabsTrigger>
+                <TabsTrigger value="signup" className="text-sm font-medium rounded-lg">регистрация</TabsTrigger>
               </TabsList>
               
-              <TabsContent value="signin" className="space-y-4 mt-0">
-                <form onSubmit={handleSignIn} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="signin-email" className="text-sm font-medium">
+              <TabsContent value="signin" className="space-y-6 mt-0">
+                <form onSubmit={handleSignIn} className="space-y-6">
+                  <div className="space-y-3">
+                    <Label htmlFor="signin-email" className="text-sm font-semibold text-foreground">
                       электронная почта
                     </Label>
                     <Input
@@ -164,13 +167,13 @@ export const AuthForm = () => {
                       value={signInData.email}
                       onChange={(e) => setSignInData(prev => ({ ...prev, email: e.target.value }))}
                       placeholder="example@domain.com"
-                      className="h-10 border-border/50 focus:border-primary"
+                      className="h-12 input-premium rounded-xl text-base"
                       required
                     />
                   </div>
                   
-                  <div className="space-y-2">
-                    <Label htmlFor="signin-password" className="text-sm font-medium">
+                  <div className="space-y-3">
+                    <Label htmlFor="signin-password" className="text-sm font-semibold text-foreground">
                       пароль
                     </Label>
                     <div className="relative">
@@ -179,24 +182,24 @@ export const AuthForm = () => {
                         type={showPassword ? "text" : "password"}
                         value={signInData.password}
                         onChange={(e) => setSignInData(prev => ({ ...prev, password: e.target.value }))}
-                        className="h-10 border-border/50 focus:border-primary pr-10"
+                        className="h-12 input-premium rounded-xl text-base pr-12"
                         required
                       />
                       <Button
                         type="button"
                         variant="ghost"
                         size="icon"
-                        className="absolute right-0 top-0 h-10 w-10 hover:bg-transparent"
+                        className="absolute right-0 top-0 h-12 w-12 hover:bg-transparent rounded-xl"
                         onClick={() => setShowPassword(!showPassword)}
                       >
-                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                       </Button>
                     </div>
                   </div>
                   
                   <Button 
                     type="submit" 
-                    className="w-full h-10 bg-primary hover:bg-primary/90 text-primary-foreground font-medium" 
+                    className="w-full h-12 btn-premium bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground font-semibold rounded-xl text-base" 
                     disabled={isLoading}
                   >
                     {isLoading ? <LoadingSpinner size="sm" message="" /> : "войти"}
@@ -204,11 +207,11 @@ export const AuthForm = () => {
                 </form>
               </TabsContent>
               
-              <TabsContent value="signup" className="space-y-4 mt-0">
+              <TabsContent value="signup" className="space-y-6 mt-0">
                 {!showAdminForm ? (
-                  <form onSubmit={handleArtistSignUp} className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="artist-pseudonym" className="text-sm font-medium">
+                  <form onSubmit={handleArtistSignUp} className="space-y-6">
+                    <div className="space-y-3">
+                      <Label htmlFor="artist-pseudonym" className="text-sm font-semibold text-foreground">
                         псевдоним
                       </Label>
                       <Input
@@ -216,13 +219,13 @@ export const AuthForm = () => {
                         value={artistData.pseudonym}
                         onChange={(e) => setArtistData(prev => ({ ...prev, pseudonym: e.target.value }))}
                         placeholder="ваш псевдоним"
-                        className="h-10 border-border/50 focus:border-primary"
+                        className="h-12 input-premium rounded-xl text-base"
                         required
                       />
                     </div>
                     
-                    <div className="space-y-2">
-                      <Label htmlFor="artist-telegram" className="text-sm font-medium">
+                    <div className="space-y-3">
+                      <Label htmlFor="artist-telegram" className="text-sm font-semibold text-foreground">
                         telegram
                       </Label>
                       <Input
@@ -230,13 +233,13 @@ export const AuthForm = () => {
                         value={artistData.telegram_contact}
                         onChange={(e) => setArtistData(prev => ({ ...prev, telegram_contact: e.target.value }))}
                         placeholder="@username"
-                        className="h-10 border-border/50 focus:border-primary"
+                        className="h-12 input-premium rounded-xl text-base"
                         required
                       />
                     </div>
                     
-                    <div className="space-y-2">
-                      <Label htmlFor="artist-email" className="text-sm font-medium">
+                    <div className="space-y-3">
+                      <Label htmlFor="artist-email" className="text-sm font-semibold text-foreground">
                         электронная почта
                       </Label>
                       <Input
@@ -245,13 +248,13 @@ export const AuthForm = () => {
                         value={artistData.email}
                         onChange={(e) => setArtistData(prev => ({ ...prev, email: e.target.value }))}
                         placeholder="example@domain.com"
-                        className="h-10 border-border/50 focus:border-primary"
+                        className="h-12 input-premium rounded-xl text-base"
                         required
                       />
                     </div>
                     
-                    <div className="space-y-2">
-                      <Label htmlFor="artist-password" className="text-sm font-medium">
+                    <div className="space-y-3">
+                      <Label htmlFor="artist-password" className="text-sm font-semibold text-foreground">
                         пароль
                       </Label>
                       <div className="relative">
@@ -260,33 +263,33 @@ export const AuthForm = () => {
                           type={showPassword ? "text" : "password"}
                           value={artistData.password}
                           onChange={(e) => setArtistData(prev => ({ ...prev, password: e.target.value }))}
-                          className="h-10 border-border/50 focus:border-primary pr-10"
+                          className="h-12 input-premium rounded-xl text-base pr-12"
                           required
                         />
                         <Button
                           type="button"
                           variant="ghost"
                           size="icon"
-                          className="absolute right-0 top-0 h-10 w-10 hover:bg-transparent"
+                          className="absolute right-0 top-0 h-12 w-12 hover:bg-transparent rounded-xl"
                           onClick={() => setShowPassword(!showPassword)}
                         >
-                          {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                          {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                         </Button>
                       </div>
                     </div>
                     
                     <Button 
                       type="submit" 
-                      className="w-full h-10 bg-primary hover:bg-primary/90 text-primary-foreground font-medium" 
+                      className="w-full h-12 btn-premium bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground font-semibold rounded-xl text-base" 
                       disabled={isLoading}
                     >
                       {isLoading ? <LoadingSpinner size="sm" message="" /> : "зарегистрироваться"}
                     </Button>
                   </form>
                 ) : (
-                  <form onSubmit={handleAdminSignUp} className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="admin-name" className="text-sm font-medium">
+                  <form onSubmit={handleAdminSignUp} className="space-y-6">
+                    <div className="space-y-3">
+                      <Label htmlFor="admin-name" className="text-sm font-semibold text-foreground">
                         имя
                       </Label>
                       <Input
@@ -294,13 +297,13 @@ export const AuthForm = () => {
                         value={adminData.name}
                         onChange={(e) => setAdminData(prev => ({ ...prev, name: e.target.value }))}
                         placeholder="ваше имя"
-                        className="h-10 border-border/50 focus:border-primary"
+                        className="h-12 input-premium rounded-xl text-base"
                         required
                       />
                     </div>
                     
-                    <div className="space-y-2">
-                      <Label htmlFor="admin-email" className="text-sm font-medium">
+                    <div className="space-y-3">
+                      <Label htmlFor="admin-email" className="text-sm font-semibold text-foreground">
                         электронная почта
                       </Label>
                       <Input
@@ -309,13 +312,13 @@ export const AuthForm = () => {
                         value={adminData.email}
                         onChange={(e) => setAdminData(prev => ({ ...prev, email: e.target.value }))}
                         placeholder="example@domain.com"
-                        className="h-10 border-border/50 focus:border-primary"
+                        className="h-12 input-premium rounded-xl text-base"
                         required
                       />
                     </div>
                     
-                    <div className="space-y-2">
-                      <Label htmlFor="admin-password" className="text-sm font-medium">
+                    <div className="space-y-3">
+                      <Label htmlFor="admin-password" className="text-sm font-semibold text-foreground">
                         пароль
                       </Label>
                       <div className="relative">
@@ -324,24 +327,24 @@ export const AuthForm = () => {
                           type={showPassword ? "text" : "password"}
                           value={adminData.password}
                           onChange={(e) => setAdminData(prev => ({ ...prev, password: e.target.value }))}
-                          className="h-10 border-border/50 focus:border-primary pr-10"
+                          className="h-12 input-premium rounded-xl text-base pr-12"
                           required
                         />
                         <Button
                           type="button"
                           variant="ghost"
                           size="icon"
-                          className="absolute right-0 top-0 h-10 w-10 hover:bg-transparent"
+                          className="absolute right-0 top-0 h-12 w-12 hover:bg-transparent rounded-xl"
                           onClick={() => setShowPassword(!showPassword)}
                         >
-                          {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                          {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                         </Button>
                       </div>
                     </div>
                     
                     <Button 
                       type="submit" 
-                      className="w-full h-10 bg-primary hover:bg-primary/90 text-primary-foreground font-medium" 
+                      className="w-full h-12 btn-premium bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground font-semibold rounded-xl text-base" 
                       disabled={isLoading}
                     >
                       {isLoading ? <LoadingSpinner size="sm" message="" /> : "зарегистрироваться как администратор"}
@@ -349,8 +352,8 @@ export const AuthForm = () => {
                     
                     <Button 
                       type="button" 
-                      variant="ghost" 
-                      className="w-full h-10 text-sm"
+                      variant="outline" 
+                      className="w-full h-12 text-sm font-medium rounded-xl"
                       onClick={() => setShowAdminForm(false)}
                     >
                       назад к регистрации артиста
@@ -362,7 +365,7 @@ export const AuthForm = () => {
                 <Button 
                   type="button" 
                   variant="ghost" 
-                  className="text-xs text-muted-foreground hover:text-foreground mt-4"
+                  className="text-sm text-muted-foreground hover:text-foreground mt-6 w-full rounded-xl"
                   onClick={() => setShowAdminForm(true)}
                 >
                   регистрация администратора

@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from 'react-router-dom';
+import { SessionManager } from '@/utils/sessionManager';
 
 interface Profile {
   id: string;
@@ -68,6 +69,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
+    // Initialize session management
+    SessionManager.initializeSession();
+    
     // Слушаем изменения авторизации
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {

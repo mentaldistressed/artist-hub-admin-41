@@ -10,7 +10,21 @@ interface LayoutProps {
 export const Layout = ({ children }: LayoutProps) => {
   const { user, profile, loading } = useAuth();
 
-  if (loading) {
+  // Add timeout for loading state to prevent infinite loading
+  const [loadingTimeout, setLoadingTimeout] = useState(false);
+  
+  useEffect(() => {
+    if (loading) {
+      const timeout = setTimeout(() => {
+        setLoadingTimeout(true);
+      }, 15000); // 15 second timeout
+      
+      return () => clearTimeout(timeout);
+    } else {
+      setLoadingTimeout(false);
+    }
+  }, [loading]);
+  if (loading && !loadingTimeout) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
@@ -21,6 +35,25 @@ export const Layout = ({ children }: LayoutProps) => {
     );
   }
 
+  // If loading timed out, show error and clear session
+  if (loadingTimeout) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center space-y-4">
+          <div className="text-red-500">
+            <p className="text-lg font-medium">ошибка загрузки</p>
+            <p className="text-sm text-muted-foreground">попробуйте обновить страницу</p>
+          </div>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+          >
+            обновить страницу
+          </button>
+        </div>
+      </div>
+    );
+  }
   if (!user || !profile) {
     return <AuthForm />;
   }

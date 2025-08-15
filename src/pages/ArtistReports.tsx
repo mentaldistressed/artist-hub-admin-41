@@ -113,15 +113,21 @@ const ArtistReports = () => {
 
   const handleSubmitPayoutRequest = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!currentReport || !profile?.id) return;
+    if (!profile?.id) return;
+    
+    const formData = new FormData(e.target as HTMLFormElement);
+    const reportId = formData.get('reportId') as string;
+    const report = reports.find(r => r.id === reportId);
+    
+    if (!report) return;
 
     try {
       const { error } = await supabase
         .from('payout_requests')
         .insert({
           artist_id: profile.id,
-          quarter: currentReport.quarter,
-          amount_rub: currentReport.amount_rub,
+          quarter: report.quarter,
+          amount_rub: report.amount_rub,
           inn: payoutData.inn,
           full_name: payoutData.full_name,
           bik: payoutData.bik,
@@ -137,8 +143,6 @@ const ArtistReports = () => {
         description: "ваша заявка на выплату принята в обработку",
       });
 
-      setIsPayoutDialogOpen(false);
-      setCurrentReport(null);
       setPayoutData({
         inn: '',
         full_name: '',
@@ -233,26 +237,36 @@ const ArtistReports = () => {
                         <div className="flex flex-col items-end gap-2">
                           {payoutStatus}
                           {!hasPayoutRequest && (
-                            <Dialog open={isPayoutDialogOpen} onOpenChange={setIsPayoutDialogOpen}>
+                            <Dialog>
                               <DialogTrigger asChild>
                                 <Button
                                   size="sm"
-                                  onClick={() => setCurrentReport(report)}
+                                  onClick={() => {
+                                    setCurrentReport(report);
+                                    setPayoutData({
+                                      inn: '',
+                                      full_name: '',
+                                      bik: '',
+                                      account_number: '',
+                                      is_self_employed: false
+                                    });
+                                  }}
                                   className="h-8 text-xs"
                                 >
                                   <Send className="h-3 w-3 mr-1" />
                                   подать заявку на выплату
                                 </Button>
                               </DialogTrigger>
-                              <DialogContent>
+                              <DialogContent className="sm:max-w-md">
                                 <DialogHeader>
                                   <DialogTitle>заявка на выплату</DialogTitle>
                                   <DialogDescription>
-                                    заполните реквизиты для получения выплаты за {currentReport?.quarter}
+                                    заполните реквизиты для получения выплаты за {report.quarter}
                                   </DialogDescription>
                                 </DialogHeader>
                                 
                                 <form onSubmit={handleSubmitPayoutRequest} className="space-y-4">
+                                  <input type="hidden" name="reportId" value={report.id} />
                                   <div className="space-y-2">
                                     <Label htmlFor="inn" className="text-sm">ИНН</Label>
                                     <Input
@@ -322,7 +336,6 @@ const ArtistReports = () => {
                                       type="button" 
                                       variant="outline" 
                                       size="sm"
-                                      onClick={() => setIsPayoutDialogOpen(false)}
                                       className="h-9 text-sm"
                                     >
                                       отмена

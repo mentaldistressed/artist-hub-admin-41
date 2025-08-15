@@ -127,7 +127,7 @@ export const AuthForm = () => {
     <div className="min-h-screen flex items-center justify-center bg-background">
       <div className="w-full max-w-md mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-semibold tracking-tight text-foreground mb-2">
+          <h1 className="text-2xl font-medium tracking-tight text-foreground mb-2">
             rplus
           </h1>
           <p className="text-sm text-muted-foreground">
@@ -135,10 +135,10 @@ export const AuthForm = () => {
           </p>
         </div>
 
-        <Card className="border-border/50 shadow-none">
+        <Card className="border-border/20 shadow-none">
           <CardContent className="p-6">
             <Tabs defaultValue="signin" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted/30">
+              <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted/20">
                 <TabsTrigger value="signin" className="text-sm">вход</TabsTrigger>
                 <TabsTrigger value="signup" className="text-sm">регистрация</TabsTrigger>
               </TabsList>
@@ -155,7 +155,7 @@ export const AuthForm = () => {
                       value={signInData.email}
                       onChange={(e) => setSignInData(prev => ({ ...prev, email: e.target.value }))}
                       placeholder="example@domain.com"
-                      className="h-10 border-border/50 focus:border-primary"
+                      className="h-9 border-border/30 focus:border-primary/50"
                       required
                     />
                   </div>
@@ -170,14 +170,14 @@ export const AuthForm = () => {
                         type={showPassword ? "text" : "password"}
                         value={signInData.password}
                         onChange={(e) => setSignInData(prev => ({ ...prev, password: e.target.value }))}
-                        className="h-10 border-border/50 focus:border-primary pr-10"
+                        className="h-9 border-border/30 focus:border-primary/50 pr-9"
                         required
                       />
                       <Button
                         type="button"
                         variant="ghost"
                         size="icon"
-                        className="absolute right-0 top-0 h-10 w-10 hover:bg-transparent"
+                        className="absolute right-0 top-0 h-9 w-9 hover:bg-transparent"
                         onClick={() => setShowPassword(!showPassword)}
                       >
                         {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -187,7 +187,7 @@ export const AuthForm = () => {
                   
                   <Button 
                     type="submit" 
-                    className="w-full h-10 bg-primary hover:bg-primary/90 text-primary-foreground font-medium" 
+                    className="w-full h-9 bg-primary hover:bg-primary/90 text-primary-foreground font-medium" 
                     disabled={isLoading}
                   >
                     {isLoading ? "вход..." : "войти"}
@@ -207,7 +207,7 @@ export const AuthForm = () => {
                         value={artistData.pseudonym}
                         onChange={(e) => setArtistData(prev => ({ ...prev, pseudonym: e.target.value }))}
                         placeholder="ваш псевдоним"
-                        className="h-10 border-border/50 focus:border-primary"
+                        className="h-9 border-border/30 focus:border-primary/50"
                         required
                       />
                     </div>
@@ -221,7 +221,7 @@ export const AuthForm = () => {
                         value={artistData.telegram_contact}
                         onChange={(e) => setArtistData(prev => ({ ...prev, telegram_contact: e.target.value }))}
                         placeholder="@username"
-                        className="h-10 border-border/50 focus:border-primary"
+                        className="h-9 border-border/30 focus:border-primary/50"
                         required
                       />
                     </div>
@@ -236,7 +236,7 @@ export const AuthForm = () => {
                         value={artistData.email}
                         onChange={(e) => setArtistData(prev => ({ ...prev, email: e.target.value }))}
                         placeholder="example@domain.com"
-                        className="h-10 border-border/50 focus:border-primary"
+                        className="h-9 border-border/30 focus:border-primary/50"
                         required
                       />
                     </div>
@@ -251,14 +251,14 @@ export const AuthForm = () => {
                           type={showPassword ? "text" : "password"}
                           value={artistData.password}
                           onChange={(e) => setArtistData(prev => ({ ...prev, password: e.target.value }))}
-                          className="h-10 border-border/50 focus:border-primary pr-10"
+                          className="h-9 border-border/30 focus:border-primary/50 pr-9"
                           required
                         />
                         <Button
                           type="button"
                           variant="ghost"
                           size="icon"
-                          className="absolute right-0 top-0 h-10 w-10 hover:bg-transparent"
+                          className="absolute right-0 top-0 h-9 w-9 hover:bg-transparent"
                           onClick={() => setShowPassword(!showPassword)}
                         >
                           {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -268,7 +268,7 @@ export const AuthForm = () => {
                     
                     <Button 
                       type="submit" 
-                      className="w-full h-10 bg-primary hover:bg-primary/90 text-primary-foreground font-medium" 
+                      className="w-full h-9 bg-primary hover:bg-primary/90 text-primary-foreground font-medium" 
                       disabled={isLoading}
                     >
                       {isLoading ? "регистрация..." : "зарегистрироваться"}
@@ -285,7 +285,7 @@ export const AuthForm = () => {
                         value={adminData.name}
                         onChange={(e) => setAdminData(prev => ({ ...prev, name: e.target.value }))}
                         placeholder="ваше имя"
-                        className="h-10 border-border/50 focus:border-primary"
+                        className="h-9 border-border/30 focus:border-primary/50"
                         required
                       />
                     </div>
@@ -300,7 +300,7 @@ export const AuthForm = () => {
                         value={adminData.email}
                         onChange={(e) => setAdminData(prev => ({ ...prev, email: e.target.value }))}
                         placeholder="example@domain.com"
-                        className="h-10 border-border/50 focus:border-primary"
+                        className="h-9 border-border/30 focus:border-primary/50"
                         required
                       />
                     </div>
@@ -315,14 +315,14 @@ export const AuthForm = () => {
                           type={showPassword ? "text" : "password"}
                           value={adminData.password}
                           onChange={(e) => setAdminData(prev => ({ ...prev, password: e.target.value }))}
-                          className="h-10 border-border/50 focus:border-primary pr-10"
+                          className="h-9 border-border/30 focus:border-primary/50 pr-9"
                           required
                         />
                         <Button
                           type="button"
                           variant="ghost"
                           size="icon"
-                          className="absolute right-0 top-0 h-10 w-10 hover:bg-transparent"
+                          className="absolute right-0 top-0 h-9 w-9 hover:bg-transparent"
                           onClick={() => setShowPassword(!showPassword)}
                         >
                           {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -332,7 +332,7 @@ export const AuthForm = () => {
                     
                     <Button 
                       type="submit" 
-                      className="w-full h-10 bg-primary hover:bg-primary/90 text-primary-foreground font-medium" 
+                      className="w-full h-9 bg-primary hover:bg-primary/90 text-primary-foreground font-medium" 
                       disabled={isLoading}
                     >
                       {isLoading ? "регистрация..." : "зарегистрироваться как администратор"}
@@ -341,16 +341,16 @@ export const AuthForm = () => {
                     <Button 
                       type="button" 
                       variant="ghost" 
-                      className="w-full h-10 text-sm"
+                      className="w-full h-9 text-sm"
                       onClick={() => setShowAdminForm(false)}
                     >
                       назад к регистрации артиста
                     </Button>
                   </form>
                 )}
-              </TabsContent>
-            </Tabs>
-                  {!showAdminForm && (
+                
+                {!showAdminForm && (
+                  <div className="pt-4 border-t border-border/20">
                     <Button 
                       type="button" 
                       variant="ghost" 
@@ -359,16 +359,10 @@ export const AuthForm = () => {
                     >
                       регистрация администратора
                     </Button>
-                  )}
-                </div>
+                  </div>
+                )}
               </TabsContent>
             </Tabs>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
-  );
-};
           </CardContent>
         </Card>
       </div>

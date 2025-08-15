@@ -16,9 +16,15 @@ export type Database = {
     Tables: {
       profiles: {
         Row: {
+          account_number: string | null
           balance_rub: number | null
+          bik: string | null
+          contract_number: string | null
           created_at: string
+          full_name: string | null
           id: string
+          inn: string | null
+          is_self_employed: boolean | null
           name: string | null
           pseudonym: string | null
           requires_q1_2025_status: boolean | null
@@ -28,9 +34,15 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          account_number?: string | null
           balance_rub?: number | null
+          bik?: string | null
+          contract_number?: string | null
           created_at?: string
+          full_name?: string | null
           id?: string
+          inn?: string | null
+          is_self_employed?: boolean | null
           name?: string | null
           pseudonym?: string | null
           requires_q1_2025_status?: boolean | null
@@ -40,9 +52,15 @@ export type Database = {
           user_id: string
         }
         Update: {
+          account_number?: string | null
           balance_rub?: number | null
+          bik?: string | null
+          contract_number?: string | null
           created_at?: string
+          full_name?: string | null
           id?: string
+          inn?: string | null
+          is_self_employed?: boolean | null
           name?: string | null
           pseudonym?: string | null
           requires_q1_2025_status?: boolean | null

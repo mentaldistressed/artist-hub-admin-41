@@ -60,8 +60,10 @@ export function AppSidebar() {
 
   return (
     <Sidebar
-      className={`${collapsed ? 'w-16' : 'w-72'} border-r border-border/30 bg-sidebar/95 backdrop-blur-xl`}
+      className="border-r border-border/30 bg-sidebar/95 backdrop-blur-xl"
       collapsible="icon"
+      side="left"
+      variant="sidebar"
     >
       <SidebarContent className="bg-transparent">
         <SidebarGroup>

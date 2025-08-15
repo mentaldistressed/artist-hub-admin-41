@@ -26,8 +26,8 @@ const Index: React.FC = () => {
               onClick={() => navigate('/finances')}
             >
               <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200">
-                  <span className="text-white text-xl">₽</span>
+                <div className="w-12 h-12 rounded-xl bg-muted/50 border border-border/50 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/70">
+                  <span className="text-foreground text-xl font-semibold">₽</span>
                 </div>
                 <h3 className="text-xl font-semibold text-foreground text-premium">финансы</h3>
                 <p className="text-muted-foreground">
@@ -41,8 +41,8 @@ const Index: React.FC = () => {
               onClick={() => navigate('/reports')}
             >
               <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200">
-                  <span className="text-white text-xl">📊</span>
+                <div className="w-12 h-12 rounded-xl bg-muted/50 border border-border/50 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/70">
+                  <span className="text-foreground text-xl">📊</span>
                 </div>
                 <h3 className="text-xl font-semibold text-foreground text-premium">отчеты</h3>
                 <p className="text-muted-foreground">
@@ -58,8 +58,8 @@ const Index: React.FC = () => {
               onClick={() => navigate('/admin-users')}
             >
               <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200">
-                  <span className="text-white text-xl">👥</span>
+                <div className="w-12 h-12 rounded-xl bg-muted/50 border border-border/50 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/70">
+                  <span className="text-foreground text-xl">👥</span>
                 </div>
                 <h3 className="text-xl font-semibold text-foreground text-premium">пользователи</h3>
                 <p className="text-muted-foreground">
@@ -73,8 +73,8 @@ const Index: React.FC = () => {
               onClick={() => navigate('/admin-finances')}
             >
               <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200">
-                  <span className="text-white text-xl">💰</span>
+                <div className="w-12 h-12 rounded-xl bg-muted/50 border border-border/50 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/70">
+                  <span className="text-foreground text-xl">💰</span>
                 </div>
                 <h3 className="text-xl font-semibold text-foreground text-premium">финансы</h3>
                 <p className="text-muted-foreground">
@@ -88,8 +88,8 @@ const Index: React.FC = () => {
               onClick={() => navigate('/admin-reports')}
             >
               <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200">
-                  <span className="text-white text-xl">📈</span>
+                <div className="w-12 h-12 rounded-xl bg-muted/50 border border-border/50 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/70">
+                  <span className="text-foreground text-xl">📈</span>
                 </div>
                 <h3 className="text-xl font-semibold text-foreground text-premium">отчеты</h3>
                 <p className="text-muted-foreground">
@@ -103,8 +103,8 @@ const Index: React.FC = () => {
               onClick={() => navigate('/admin-payouts')}
             >
               <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200">
-                  <span className="text-white text-xl">💸</span>
+                <div className="w-12 h-12 rounded-xl bg-muted/50 border border-border/50 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/70">
+                  <span className="text-foreground text-xl">💸</span>
                 </div>
                 <h3 className="text-xl font-semibold text-foreground text-premium">выплаты</h3>
                 <p className="text-muted-foreground">
@@ -118,8 +118,8 @@ const Index: React.FC = () => {
               onClick={() => navigate('/admin-settings')}
             >
               <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-gray-500 to-gray-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200">
-                  <span className="text-white text-xl">⚙️</span>
+                <div className="w-12 h-12 rounded-xl bg-muted/50 border border-border/50 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/70">
+                  <span className="text-foreground text-xl">⚙️</span>
                 </div>
                 <h3 className="text-xl font-semibold text-foreground text-premium">настройки</h3>
                 <p className="text-muted-foreground">

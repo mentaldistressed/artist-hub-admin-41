@@ -75,7 +75,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       console.log('Initializing auth...');
       
-      const { data: { session }, error } = await supabase.auth.getSession();
       const { data: { session: currentSession }, error } = await supabase.auth.getSession();
       
       if (error) {

@@ -32,13 +32,6 @@ const AdminSettings = () => {
             <div className="flex items-start space-x-3">
               <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
               <div>
-                <p className="font-medium">финансовые параметры</p>
-                <p className="text-sm text-muted-foreground">комиссии, валюты, реквизиты</p>
-              </div>
-            </div>
-            <div className="flex items-start space-x-3">
-              <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
-              <div>
                 <p className="font-medium">уведомления</p>
                 <p className="text-sm text-muted-foreground">email, telegram, push-уведомления</p>
               </div>
@@ -54,11 +47,11 @@ const AdminSettings = () => {
           <CardContent className="space-y-3">
             <div className="flex justify-between">
               <span className="text-sm text-muted-foreground">версия системы</span>
-              <span className="text-sm font-mono">v0.0.1</span>
+              <span className="text-sm font-mono">v0.1</span>
             </div>
             <div className="flex justify-between">
               <span className="text-sm text-muted-foreground">последнее обновление</span>
-              <span className="text-sm font-mono">24.07.2025</span>
+              <span className="text-sm font-mono">15.08.2025</span>
             </div>
           </CardContent>
         </Card>

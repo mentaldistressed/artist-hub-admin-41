@@ -2,6 +2,7 @@ import React from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Layout } from '@/components/Layout';
 import { useNavigate } from 'react-router-dom';
+import { FileText, Save, CheckCircle, AlertCircle, Users, DollarSign, Send, Settings } from 'lucide-react';
 
 const Index: React.FC = () => {
   const { user } = useAuth();
@@ -20,21 +21,7 @@ const Index: React.FC = () => {
         </div>
         
         {user?.role === 'artist' ? (
-          <div className="grid gap-6 md:grid-cols-2">
-            <div 
-              className="group p-8 card-premium-interactive animate-slide-up cursor-pointer"
-              onClick={() => navigate('/finances')}
-            >
-              <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-muted/30 border border-border/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/50">
-                  <span className="text-muted-foreground text-xl font-semibold">₽</span>
-                </div>
-                <h3 className="text-xl font-semibold text-foreground text-premium">финансы</h3>
-                <p className="text-muted-foreground">
-                  управление балансом и выплатами
-                </p>
-              </div>
-            </div>
+          <div className="grid gap-6 md:grid-cols-3">
             <div 
               className="group p-8 card-premium-interactive animate-slide-up cursor-pointer"
               style={{ animationDelay: '0.1s' }}
@@ -64,21 +51,6 @@ const Index: React.FC = () => {
                 <h3 className="text-xl font-semibold text-foreground text-premium">пользователи</h3>
                 <p className="text-muted-foreground">
                   управление артистами и администраторами
-                </p>
-              </div>
-            </div>
-            <div 
-              className="group p-8 card-premium-interactive animate-slide-up cursor-pointer"
-              style={{ animationDelay: '0.1s' }}
-              onClick={() => navigate('/admin-finances')}
-            >
-              <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-muted/30 border border-border/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/50">
-                  <DollarSign className="h-6 w-6 text-muted-foreground" />
-                </div>
-                <h3 className="text-xl font-semibold text-foreground text-premium">финансы</h3>
-                <p className="text-muted-foreground">
-                  контроль балансов и выплат
                 </p>
               </div>
             </div>

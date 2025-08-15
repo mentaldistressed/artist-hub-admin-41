@@ -24,7 +24,6 @@ interface PayoutRequest {
   tax_receipt_url?: string;
   created_at: string;
   updated_at: string;
-  requires_q1_2025_status?: boolean;
   artist?: {
     pseudonym: string;
   };
@@ -155,7 +154,6 @@ const AdminPayouts = () => {
                     <TableHead className="text-muted-foreground">артист</TableHead>
                     <TableHead className="text-muted-foreground">сумма</TableHead>
                     <TableHead className="text-muted-foreground">реквизиты</TableHead>
-                    <TableHead className="text-muted-foreground">особые отметки</TableHead>
                     <TableHead className="text-muted-foreground">статус</TableHead>
                     <TableHead className="text-muted-foreground">чек об уплате налога</TableHead>
                     <TableHead className="text-muted-foreground">дата</TableHead>
@@ -164,22 +162,10 @@ const AdminPayouts = () => {
                 </TableHeader>
                 <TableBody>
                   {payoutRequests.map((request) => (
-                    <TableRow 
-                      key={request.id} 
-                      className={`border-border/20 ${
-                        request.quarter === 'Q1 2025' && request.requires_q1_2025_status 
-                          ? 'bg-blue-50/50 hover:bg-blue-50/70 dark:bg-blue-950/20 dark:hover:bg-blue-950/30 border-blue-200/50 dark:border-blue-800/50' 
-                          : ''
-                      }`}
-                    >
+                    <TableRow key={request.id} className="border-border/20">
                       <TableCell>
                         <div className="font-medium text-sm">
-                          <div className="flex items-center gap-2">
-                            {request.artist?.pseudonym}
-                            {request.quarter === 'Q1 2025' && request.requires_q1_2025_status && (
-                              <div className="w-2 h-2 bg-blue-500 rounded-full" title="Требуется по состоянию на 15.08.2025" />
-                            )}
-                          </div>
+                          {request.artist?.pseudonym}
                         </div>
                       </TableCell>
                       <TableCell>
@@ -197,15 +183,6 @@ const AdminPayouts = () => {
                             <div className="text-green-600">✓ Самозанятый/ИП</div>
                           )}
                         </div>
-                      </TableCell>
-                      <TableCell>
-                        {request.quarter === 'Q1 2025' && request.requires_q1_2025_status ? (
-                          <div className="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded border border-blue-200 dark:bg-blue-950/30 dark:text-blue-400 dark:border-blue-800">
-                            📅 по состоянию на 15.08.2025
-                          </div>
-                        ) : (
-                          <div className="text-xs text-muted-foreground">-</div>
-                        )}
                       </TableCell>
                       <TableCell>
                         {getStatusBadge(request.status)}

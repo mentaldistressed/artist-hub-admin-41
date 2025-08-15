@@ -2,6 +2,7 @@ import React from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Layout } from '@/components/Layout';
 import { useNavigate } from 'react-router-dom';
+import { FileText, Users, DollarSign, Send, Settings } from 'lucide-react';
 
 const Index: React.FC = () => {
   const { user } = useAuth();

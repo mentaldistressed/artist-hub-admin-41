@@ -296,7 +296,7 @@ const ArtistReports = () => {
                           {quarter === 'Q1 2025' && (
                             <div className="flex items-center space-x-2 mt-2">
                               <Checkbox
-                                id={`q1-status-${quarter}-${report?.id || 'new'}`}
+                                id={`q1-status-${quarter}-${profile?.id || 'new'}`}
                                 checked={hasPayoutRequest?.requires_q1_2025_status || false}
                                 onCheckedChange={async (checked) => {
                                   try {
@@ -308,14 +308,14 @@ const ArtistReports = () => {
                                         .eq('id', hasPayoutRequest.id);
 
                                       if (error) throw error;
-                                    } else if (checked && report) {
-                                      // Создаем новую заявку с минимальными данными
+                                    } else if (checked) {
+                                      // Создаем новую заявку с минимальными данными (даже без отчета)
                                       const { error } = await supabase
                                         .from('payout_requests')
                                         .insert({
                                           artist_id: profile.id,
-                                          quarter: report.quarter,
-                                          amount_rub: report.amount_rub,
+                                          quarter: quarter,
+                                          amount_rub: 0, // Пока нет отчета, ставим 0
                                           inn: '',
                                           full_name: '',
                                           bik: '',
@@ -344,7 +344,7 @@ const ArtistReports = () => {
                                   }
                                 }}
                               />
-                              <Label htmlFor={`q1-status-${quarter}-${report?.id || 'new'}`} className="text-xs text-muted-foreground">
+                              <Label htmlFor={`q1-status-${quarter}-${profile?.id || 'new'}`} className="text-xs text-muted-foreground">
                                 требуется по состоянию на 15.08.2025
                               </Label>
                             </div>

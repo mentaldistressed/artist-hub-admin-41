@@ -21,6 +21,7 @@ export type Database = {
           id: string
           name: string | null
           pseudonym: string | null
+          requires_q1_2025_status: boolean | null
           role: Database["public"]["Enums"]["user_role"]
           telegram_contact: string | null
           updated_at: string
@@ -32,6 +33,7 @@ export type Database = {
           id?: string
           name?: string | null
           pseudonym?: string | null
+          requires_q1_2025_status?: boolean | null
           role?: Database["public"]["Enums"]["user_role"]
           telegram_contact?: string | null
           updated_at?: string
@@ -43,6 +45,7 @@ export type Database = {
           id?: string
           name?: string | null
           pseudonym?: string | null
+          requires_q1_2025_status?: boolean | null
           role?: Database["public"]["Enums"]["user_role"]
           telegram_contact?: string | null
           updated_at?: string

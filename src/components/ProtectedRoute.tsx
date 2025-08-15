@@ -37,7 +37,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     );
   }
 
-  // Если есть ошибка, показываем её только если это критическая ошибка
+  // Если есть критическая ошибка
   if (error && error.includes('timeout')) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background p-4">

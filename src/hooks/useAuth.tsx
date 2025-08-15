@@ -72,6 +72,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     let mounted = true;
+    let timeoutId: NodeJS.Timeout;
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
@@ -97,15 +98,33 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // Инициализация сессии
     const initializeAuth = async () => {
       try {
+        // Устанавливаем таймаут на 10 секунд
+        timeoutId = setTimeout(() => {
+          if (mounted) {
+            console.warn('Auth initialization timeout - forcing loading to false');
+            setLoading(false);
+          }
+        }, 10000);
+
         const { data: { session }, error } = await supabase.auth.getSession();
         
         if (error) {
           console.error('Error getting session:', error);
-          setLoading(false);
+          if (mounted) {
+            setUser(null);
+            setSession(null);
+            setProfile(null);
+            setLoading(false);
+          }
           return;
         }
         
         if (!mounted) return;
+        
+        // Очищаем таймаут, так как получили ответ
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+        }
         
         setSession(session);
         setUser(session?.user ?? null);
@@ -115,12 +134,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             await fetchProfile(session.user.id);
           } catch (error) {
             console.error('Error fetching profile during init:', error);
+            setProfile(null);
           }
         } else {
           setProfile(null);
         }
       } catch (error) {
         console.error('Error initializing auth:', error);
+        if (mounted) {
+          setUser(null);
+          setSession(null);
+          setProfile(null);
+          setLoading(false);
+        }
       } finally {
         if (mounted) {
           setLoading(false);
@@ -132,6 +158,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     return () => {
       mounted = false;
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
       subscription.unsubscribe();
     };
   }, []);

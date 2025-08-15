@@ -10,22 +10,23 @@ interface LayoutProps {
 
 export const Layout = ({ children }: LayoutProps) => {
   const { user, profile, loading } = useAuth();
-
-  const [loadingTimeout, setLoadingTimeout] = useState(false);
+  const [forceReload, setForceReload] = useState(false);
   
+  // Защита от бесконечной загрузки
   useEffect(() => {
     if (loading) {
       const timeout = setTimeout(() => {
-        setLoadingTimeout(true);
-      }, 15000); // 15 second timeout
+        console.warn('Layout: Loading timeout - showing reload option');
+        setForceReload(true);
+      }, 12000); // 12 секунд
       
       return () => clearTimeout(timeout);
     } else {
-      setLoadingTimeout(false);
+      setForceReload(false);
     }
   }, [loading]);
 
-  if (loading && !loadingTimeout) {
+  if (loading && !forceReload) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
@@ -36,17 +37,17 @@ export const Layout = ({ children }: LayoutProps) => {
     );
   }
 
-  if (loadingTimeout) {
+  if (forceReload || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center space-y-4">
-          <div className="text-red-500">
-            <p className="text-lg font-medium">ошибка загрузки</p>
-            <p className="text-sm text-muted-foreground">попробуйте обновить страницу</p>
+          <div className="text-yellow-600">
+            <p className="text-lg font-medium">долгая загрузка</p>
+            <p className="text-sm text-muted-foreground">если загрузка не завершается, обновите страницу</p>
           </div>
           <button 
             onClick={() => window.location.reload()} 
-            className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+            className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
           >
             обновить страницу
           </button>

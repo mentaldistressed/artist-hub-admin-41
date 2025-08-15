@@ -75,12 +75,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       console.log('Initializing auth...');
       
-      // Получаем текущую сессию
+      const { data: { session }, error } = await supabase.auth.getSession();
       const { data: { session: currentSession }, error } = await supabase.auth.getSession();
       
       if (error) {
         console.error('Session error:', error);
-        throw error;
+        // If refresh token is invalid, clear the session
+        if (error.message?.includes('refresh_token_not_found') || 
+            error.message?.includes('Invalid Refresh Token')) {
+          console.log('Invalid refresh token detected, signing out...');
+          await supabase.auth.signOut();
+          setSession(null);
+          setUser(null);
+          setProfile(null);
+          return;
+        }
       }
 
       console.log('Current session:', currentSession ? 'exists' : 'none');
@@ -116,6 +125,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         console.log('Auth state changed:', event, session ? 'session exists' : 'no session');
+        
+        // Handle token refresh errors
+        if (event === 'TOKEN_REFRESHED') {
+          console.log('Token refreshed successfully');
+        } else if (event === 'SIGNED_OUT' || event === 'TOKEN_REFRESH_ERROR') {
+          console.log('Clearing auth state due to:', event);
+          setSession(null);
+          setUser(null);
+          setProfile(null);
+          setLoading(false);
+          return;
+        }
         
         setSession(session);
         setUser(session?.user ?? null);

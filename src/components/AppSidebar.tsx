@@ -1,4 +1,4 @@
-import { Users, DollarSign, Settings, LogOut, Home } from 'lucide-react';
+import { Users, DollarSign, Settings, LogOut, Home, FileText, Send } from 'lucide-react';
 import { NavLink, useLocation } from 'react-router-dom';
 import {
   Sidebar,
@@ -23,13 +23,16 @@ interface NavItem {
 
 const artistItems: NavItem[] = [
   { title: 'главная', url: '/', icon: Home, role: 'artist' },
+  { title: 'отчеты', url: '/reports', icon: FileText, role: 'artist' },
   { title: 'финансы', url: '/finances', icon: DollarSign, role: 'artist' },
 ];
 
 const adminItems: NavItem[] = [
   { title: 'главная', url: '/', icon: Home, role: 'admin' },
   { title: 'пользователи', url: '/admin-users', icon: Users, role: 'admin' },
+  { title: 'отчеты', url: '/admin-reports', icon: FileText, role: 'admin' },
   { title: 'финансы', url: '/admin-finances', icon: DollarSign, role: 'admin' },
+  { title: 'выплаты', url: '/admin-payouts', icon: Send, role: 'admin' },
   { title: 'настройки', url: '/admin-settings', icon: Settings, role: 'admin' },
 ];
 

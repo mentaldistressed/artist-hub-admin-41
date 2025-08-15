@@ -68,6 +68,7 @@ const ArtistReports = () => {
     if (profile.contract_number || profile.inn || profile.full_name) {
       setPayoutData({
         contract_number: profile.contract_number || '',
+        contract_number: profile.contract_number || '',
         inn: profile.inn || '',
         full_name: profile.full_name || '',
         bik: profile.bik || '',
@@ -89,6 +90,7 @@ const ArtistReports = () => {
 
       if (!error && data) {
         setPayoutData({
+          contract_number: data.contract_number || '',
           contract_number: data.contract_number || '',
           inn: data.inn || '',
           full_name: data.full_name || '',
@@ -189,6 +191,7 @@ const ArtistReports = () => {
       await supabase
         .from('profiles')
         .update({
+          contract_number: payoutData.contract_number,
           contract_number: payoutData.contract_number,
           inn: payoutData.inn,
           full_name: payoutData.full_name,

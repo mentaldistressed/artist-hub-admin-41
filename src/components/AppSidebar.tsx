@@ -23,16 +23,16 @@ interface NavItem {
 }
 
 const artistItems: NavItem[] = [
-  { title: 'Главная', url: '/', icon: Home, role: 'artist' },
-  { title: 'Отчеты', url: '/reports', icon: FileText, role: 'artist' },
+  { title: 'главная', url: '/', icon: Home, role: 'artist' },
+  { title: 'отчеты', url: '/reports', icon: FileText, role: 'artist' },
 ];
 
 const adminItems: NavItem[] = [
-  { title: 'Главная', url: '/', icon: Home, role: 'admin' },
-  { title: 'Пользователи', url: '/admin-users', icon: Users, role: 'admin' },
-  { title: 'Отчеты', url: '/admin-reports', icon: FileText, role: 'admin' },
-  { title: 'Выплаты', url: '/admin-payouts', icon: Send, role: 'admin' },
-  { title: 'Настройки', url: '/admin-settings', icon: Settings, role: 'admin' },
+  { title: 'главная', url: '/', icon: Home, role: 'admin' },
+  { title: 'пользователи', url: '/admin-users', icon: Users, role: 'admin' },
+  { title: 'отчеты', url: '/admin-reports', icon: FileText, role: 'admin' },
+  { title: 'выплаты', url: '/admin-payouts', icon: Send, role: 'admin' },
+  { title: 'настройки', url: '/admin-settings', icon: Settings, role: 'admin' },
 ];
 
 export function AppSidebar() {
@@ -66,7 +66,7 @@ export function AppSidebar() {
       <SidebarContent className="bg-transparent">
         <SidebarGroup>
           <SidebarGroupLabel className="px-4 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-widest">
-            {!collapsed && 'НАВИГАЦИЯ'}
+            {!collapsed && 'навигация'}
           </SidebarGroupLabel>
           
           <SidebarGroupContent>
@@ -99,7 +99,7 @@ export function AppSidebar() {
                     {profile?.role === 'admin' ? profile?.name : profile?.pseudonym}
                   </p>
                   <p className="text-muted-foreground text-xs uppercase tracking-wider">
-                    {profile?.role === 'admin' ? 'АДМИНИСТРАТОР' : 'АРТИСТ'}
+                    {profile?.role === 'admin' ? 'администратор' : 'артист'}
                   </p>
                 </div>
               )}
@@ -111,7 +111,7 @@ export function AppSidebar() {
                 className={`${collapsed ? 'w-10 h-10 rounded-xl' : 'w-full justify-start rounded-xl'} text-muted-foreground hover:text-foreground hover:bg-accent/70 transition-all duration-200`}
               >
                 <LogOut className="h-5 w-5" />
-                {!collapsed && <span className="ml-3 text-sm font-medium">Выйти</span>}
+                {!collapsed && <span className="ml-3 text-sm font-medium">выйти</span>}
               </Button>
             </div>
           </SidebarGroupContent>

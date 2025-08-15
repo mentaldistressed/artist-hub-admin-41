@@ -178,27 +178,27 @@ const AdminUsers = () => {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-foreground">пользователи</h1>
-          <p className="text-muted-foreground">Управление артистами и администраторами</p>
+          <p className="text-muted-foreground">управление артистами и администраторами</p>
         </div>
         
         <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
           <DialogTrigger asChild>
             <Button>
               <Plus className="h-4 w-4 mr-2" />
-              Добавить пользователя
+              добавить пользователя
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Добавить нового пользователя</DialogTitle>
+              <DialogTitle>добавить нового пользователя</DialogTitle>
               <DialogDescription>
-                Создайте аккаунт для нового артиста или администратора
+                создайте аккаунт для нового артиста или администратора
               </DialogDescription>
             </DialogHeader>
             
             <form onSubmit={handleAddUser} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="add-email">Электронная почта</Label>
+                <Label htmlFor="add-email">электронная почта</Label>
                 <Input
                   id="add-email"
                   type="email"
@@ -209,7 +209,7 @@ const AdminUsers = () => {
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="add-password">Пароль</Label>
+                <Label htmlFor="add-password">пароль</Label>
                 <Input
                   id="add-password"
                   type="password"
@@ -220,7 +220,7 @@ const AdminUsers = () => {
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="add-role">Роль</Label>
+                <Label htmlFor="add-role">роль</Label>
                 <Select value={newUserData.role} onValueChange={(value: 'artist' | 'admin') => 
                   setNewUserData(prev => ({ ...prev, role: value }))
                 }>
@@ -228,8 +228,8 @@ const AdminUsers = () => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="artist">Артист</SelectItem>
-                    <SelectItem value="admin">Администратор</SelectItem>
+                    <SelectItem value="artist">артист</SelectItem>
+                    <SelectItem value="admin">администратор</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -237,7 +237,7 @@ const AdminUsers = () => {
               {newUserData.role === 'artist' ? (
                 <>
                   <div className="space-y-2">
-                    <Label htmlFor="add-pseudonym">Псевдоним</Label>
+                    <Label htmlFor="add-pseudonym">псевдоним</Label>
                     <Input
                       id="add-pseudonym"
                       value={newUserData.pseudonym}
@@ -247,7 +247,7 @@ const AdminUsers = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="add-telegram">Телеграм контакт</Label>
+                    <Label htmlFor="add-telegram">телеграм контакт</Label>
                     <Input
                       id="add-telegram"
                       value={newUserData.telegram_contact}
@@ -258,7 +258,7 @@ const AdminUsers = () => {
                 </>
               ) : (
                 <div className="space-y-2">
-                  <Label htmlFor="add-name">Имя</Label>
+                  <Label htmlFor="add-name">имя</Label>
                   <Input
                     id="add-name"
                     value={newUserData.name}
@@ -270,10 +270,10 @@ const AdminUsers = () => {
               
               <div className="flex gap-2">
                 <Button type="submit" disabled={loading}>
-                  {loading ? "Создание..." : "Создать пользователя"}
+                  {loading ? "создание..." : "создать пользователя"}
                 </Button>
                 <Button type="button" variant="outline" onClick={() => setIsAddDialogOpen(false)}>
-                  Отмена
+                  отмена
                 </Button>
               </div>
             </form>
@@ -284,7 +284,7 @@ const AdminUsers = () => {
       <div className="flex items-center space-x-2">
         <Search className="h-4 w-4 text-muted-foreground" />
         <Input
-          placeholder="Поиск по имени, псевдониму или телеграм..."
+          placeholder="поиск по имени, псевдониму или телеграм..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="max-w-sm"
@@ -293,21 +293,21 @@ const AdminUsers = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Список пользователей</CardTitle>
+          <CardTitle>список пользователей</CardTitle>
           <CardDescription>
-            Всего пользователей: {users.length}
+            всего пользователей: {users.length}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Пользователь</TableHead>
-                <TableHead>Роль</TableHead>
-                <TableHead>Контакт</TableHead>
-                <TableHead>Баланс</TableHead>
-                <TableHead>Дата регистрации</TableHead>
-                <TableHead>Действия</TableHead>
+                <TableHead>пользователь</TableHead>
+                <TableHead>роль</TableHead>
+                <TableHead>контакт</TableHead>
+                <TableHead>баланс</TableHead>
+                <TableHead>дата регистрации</TableHead>
+                <TableHead>действия</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -322,7 +322,7 @@ const AdminUsers = () => {
                   </TableCell>
                   <TableCell>
                     <Badge variant={user.role === 'admin' ? 'default' : 'secondary'}>
-                      {user.role === 'admin' ? 'Администратор' : 'Артист'}
+                      {user.role === 'admin' ? 'администратор' : 'артист'}
                     </Badge>
                   </TableCell>
                   <TableCell>
@@ -358,15 +358,15 @@ const AdminUsers = () => {
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Изменить баланс</DialogTitle>
+            <DialogTitle>изменить баланс</DialogTitle>
             <DialogDescription>
-              Редактирование баланса пользователя: {selectedUser?.role === 'admin' ? selectedUser?.name : selectedUser?.pseudonym}
+              редактирование баланса пользователя: {selectedUser?.role === 'admin' ? selectedUser?.name : selectedUser?.pseudonym}
             </DialogDescription>
           </DialogHeader>
           
           <form onSubmit={handleUpdateBalance} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="edit-balance">Новый баланс (рубли)</Label>
+              <Label htmlFor="edit-balance">новый баланс (рубли)</Label>
               <Input
                 id="edit-balance"
                 type="number"
@@ -379,10 +379,10 @@ const AdminUsers = () => {
             
             <div className="flex gap-2">
               <Button type="submit">
-                Сохранить
+                сохранить
               </Button>
               <Button type="button" variant="outline" onClick={() => setIsEditDialogOpen(false)}>
-                Отмена
+                отмена
               </Button>
             </div>
           </form>

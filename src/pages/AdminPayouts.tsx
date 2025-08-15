@@ -96,14 +96,14 @@ const AdminPayouts = () => {
       return (
         <Badge variant="secondary" className="bg-green-50 text-green-700 border-green-200">
           <CheckCircle className="h-3 w-3 mr-1" />
-          Выполнена
+          выполнена
         </Badge>
       );
     }
     return (
       <Badge variant="secondary" className="bg-yellow-50 text-yellow-700 border-yellow-200">
         <Clock className="h-3 w-3 mr-1" />
-        В обработке
+        в обработке
       </Badge>
     );
   };
@@ -117,8 +117,8 @@ const AdminPayouts = () => {
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-medium text-foreground">Выплаты</h1>
-            <p className="text-sm text-muted-foreground">Управление заявками на выплаты</p>
+            <h1 className="text-2xl font-medium text-foreground">выплаты</h1>
+            <p className="text-sm text-muted-foreground">управление заявками на выплаты</p>
           </div>
           
           <Select value={selectedQuarter} onValueChange={setSelectedQuarter}>
@@ -137,27 +137,27 @@ const AdminPayouts = () => {
 
         <Card className="border-border/20">
           <CardHeader>
-            <CardTitle className="text-lg font-medium">Заявки на выплаты за {selectedQuarter}</CardTitle>
+            <CardTitle className="text-lg font-medium">заявки на выплаты за {selectedQuarter}</CardTitle>
             <CardDescription className="text-sm">
-              Всего заявок: {payoutRequests.length}
+              всего заявок: {payoutRequests.length}
             </CardDescription>
           </CardHeader>
           <CardContent>
             {payoutRequests.length === 0 ? (
               <div className="text-center py-8 text-muted-foreground">
-                Нет заявок на выплаты за выбранный период
+                нет заявок на выплаты за выбранный период
               </div>
             ) : (
               <Table>
                 <TableHeader>
                   <TableRow className="border-border/20">
-                    <TableHead className="text-muted-foreground">Артист</TableHead>
-                    <TableHead className="text-muted-foreground">Сумма</TableHead>
-                    <TableHead className="text-muted-foreground">Реквизиты</TableHead>
-                    <TableHead className="text-muted-foreground">Статус</TableHead>
-                    <TableHead className="text-muted-foreground">Чек об уплате налога</TableHead>
-                    <TableHead className="text-muted-foreground">Дата</TableHead>
-                    <TableHead className="text-muted-foreground">Действия</TableHead>
+                    <TableHead className="text-muted-foreground">артист</TableHead>
+                    <TableHead className="text-muted-foreground">сумма</TableHead>
+                    <TableHead className="text-muted-foreground">реквизиты</TableHead>
+                    <TableHead className="text-muted-foreground">статус</TableHead>
+                    <TableHead className="text-muted-foreground">чек об уплате налога</TableHead>
+                    <TableHead className="text-muted-foreground">дата</TableHead>
+                    <TableHead className="text-muted-foreground">действия</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -168,7 +168,7 @@ const AdminPayouts = () => {
                           {request.artist?.pseudonym}
                           {request.quarter === 'Q1 2025' && request.artist?.requires_q1_2025_status && (
                             <div className="text-xs text-orange-600 bg-orange-50 px-2 py-1 rounded border border-orange-200 mt-1 inline-block">
-                              ⚠ Требуется на 15.08.2025
+                              ⚠ требуется на 15.08.2025
                             </div>
                           )}
                         </div>
@@ -204,11 +204,11 @@ const AdminPayouts = () => {
                                 className="h-7 text-xs"
                               >
                                 <FileText className="h-3 w-3 mr-1" />
-                                Просмотреть чек
+                                просмотреть чек
                               </Button>
                             ) : (
                               <div className="text-xs text-orange-600 bg-orange-50 px-2 py-1 rounded border border-orange-200">
-                                Ожидается чек
+                                ожидается чек
                               </div>
                             )}
                           </div>
@@ -231,7 +231,7 @@ const AdminPayouts = () => {
                             }
                           />
                           <span className="text-xs text-muted-foreground">
-                            Выполнена
+                            выполнена
                           </span>
                         </div>
                       </TableCell>

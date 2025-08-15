@@ -276,16 +276,16 @@ const ArtistReports = () => {
       return (
         <div className="space-y-2">
           <div className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded border border-green-200">
-            ✓ Выплата выполнена
+            ✓ выплата выполнена
           </div>
           {!request.tax_receipt_url && (
             <div className="text-xs text-orange-600 bg-orange-50 px-2 py-1 rounded border border-orange-200">
-              ⚠ Требуется чек об уплате налога
+              ⚠ требуется чек об уплате налога
             </div>
           )}
           {request.tax_receipt_url && (
             <div className="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded border border-blue-200">
-              ✓ Чек загружен
+              ✓ чек загружен
             </div>
           )}
         </div>
@@ -294,7 +294,7 @@ const ArtistReports = () => {
     
     return (
       <div className="text-xs text-yellow-600 bg-yellow-50 px-2 py-1 rounded border border-yellow-200">
-        ⏳ Заявка в обработке
+        ⏳ заявка в обработке
       </div>
     );
   };
@@ -308,7 +308,7 @@ const ArtistReports = () => {
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-medium text-foreground">отчеты</h1>
-          <p className="text-sm text-muted-foreground">Ваши отчеты и заявки на выплаты</p>
+          <p className="text-sm text-muted-foreground">ваши отчеты и заявки на выплаты</p>
         </div>
 
         <div className="grid gap-4">
@@ -322,7 +322,7 @@ const ArtistReports = () => {
                 <CardHeader>
                   <CardTitle className="text-lg font-medium">{quarter}</CardTitle>
                   <CardDescription className="text-sm">
-                    Отчет за {quarter.toLowerCase()}
+                    отчет за {quarter.toLowerCase()}
                   </CardDescription>
                   {quarter === 'Q1 2025' && (
                     <div className="flex items-center space-x-2 mt-3 pt-3 border-t border-border/20">
@@ -358,7 +358,7 @@ const ArtistReports = () => {
                         }}
                       />
                       <Label htmlFor={`q1-status-${quarter}`} className="text-sm text-muted-foreground">
-                        Требуется по состоянию на 15.08.2025
+                        требуется по состоянию на 15.08.2025
                       </Label>
                     </div>
                   )}
@@ -367,14 +367,14 @@ const ArtistReports = () => {
                   {!report ? (
                     <div className="flex items-center gap-2 text-muted-foreground text-sm">
                       <AlertCircle className="h-4 w-4" />
-                      Нет данных
+                      нет данных
                     </div>
                   ) : (
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
                         <div className="space-y-2">
                           <div className="text-sm">
-                            <span className="text-muted-foreground">Сумма:</span>
+                            <span className="text-muted-foreground">сумма:</span>
                             <span className="font-mono ml-2">{report.amount_rub.toFixed(2)} ₽</span>
                           </div>
                           {report.file_url && (
@@ -385,7 +385,7 @@ const ArtistReports = () => {
                               className="h-8 text-xs"
                             >
                               <Download className="h-3 w-3 mr-1" />
-                              Скачать отчет
+                              скачать отчет
                             </Button>
                           )}
                         </div>
@@ -404,21 +404,21 @@ const ArtistReports = () => {
                                   className="h-8 text-xs"
                                 >
                                   <Send className="h-3 w-3 mr-1" />
-                                  Подать заявку на выплату
+                                  подать заявку на выплату
                                 </Button>
                               </DialogTrigger>
                               <DialogContent className="sm:max-w-md">
                                 <DialogHeader>
                                   <DialogTitle>заявка на выплату</DialogTitle>
                                   <DialogDescription>
-                                    Заполните реквизиты для получения выплаты за {report.quarter}
+                                    заполните реквизиты для получения выплаты за {report.quarter}
                                   </DialogDescription>
                                 </DialogHeader>
                                 
                                 <form onSubmit={handleSubmitPayoutRequest} className="space-y-4">
                                   <input type="hidden" name="reportId" value={report.id} />
                                   <div className="space-y-2">
-                                    <Label htmlFor="contract_number" className="text-sm">Номер договора</Label>
+                                    <Label htmlFor="contract_number" className="text-sm">номер договора</Label>
                                     <Input
                                       id="contract_number"
                                       value={payoutData.contract_number}
@@ -466,7 +466,7 @@ const ArtistReports = () => {
                                   </div>
                                   
                                   <div className="space-y-2">
-                                    <Label htmlFor="account_number" className="text-sm">Номер счета</Label>
+                                    <Label htmlFor="account_number" className="text-sm">номер счета</Label>
                                     <Input
                                       id="account_number"
                                       value={payoutData.account_number}
@@ -486,13 +486,13 @@ const ArtistReports = () => {
                                       }
                                     />
                                     <Label htmlFor="is_self_employed" className="text-sm">
-                                      Открытие самозанятости / ИП
+                                      открытие самозанятости / ИП
                                     </Label>
                                   </div>
                                   
                                   <div className="flex gap-2 pt-4">
                                     <Button type="submit" size="sm" className="h-9 text-sm">
-                                      Отправить заявку
+                                      отправить заявку
                                     </Button>
                                     <Button 
                                       type="button" 
@@ -500,7 +500,7 @@ const ArtistReports = () => {
                                       size="sm"
                                       className="h-9 text-sm"
                                     >
-                                      Отмена
+                                      отмена
                                     </Button>
                                   </div>
                                 </form>
@@ -510,7 +510,7 @@ const ArtistReports = () => {
                           {hasPayoutRequest && hasPayoutRequest.status === 'completed' && !hasPayoutRequest.tax_receipt_url && (
                             <div className="space-y-2">
                               <div className="space-y-2">
-                                <Label className="text-xs font-medium text-foreground">Загрузить чек об уплате налога:</Label>
+                                <Label className="text-xs font-medium text-foreground">загрузить чек об уплате налога:</Label>
                                 <FileUpload
                                   onFileSelect={(file) => handleTaxReceiptUpload(hasPayoutRequest.id, file)}
                                   accept=".pdf,.jpg,.jpeg,.png"
@@ -531,7 +531,7 @@ const ArtistReports = () => {
                               className="h-8 text-xs"
                             >
                               <Download className="h-3 w-3 mr-1" />
-                              Скачать чек
+                              скачать чек
                             </Button>
                           )}
                         </div>

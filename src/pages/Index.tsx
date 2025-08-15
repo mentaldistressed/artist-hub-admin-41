@@ -13,10 +13,10 @@ const Index: React.FC = () => {
       <div className="max-w-5xl mx-auto space-y-10 animate-fade-in">
         <div className="space-y-3">
           <h1 className="text-3xl font-bold tracking-tight text-foreground text-premium">
-            Добро пожаловать
+            добро пожаловать
           </h1>
           <p className="text-base text-muted-foreground">
-            {user?.role === 'admin' ? 'Панель администратора' : 'Ваш личный кабинет'}
+            {user?.role === 'admin' ? 'панель администратора' : 'ваш личный кабинет'}
           </p>
         </div>
         
@@ -32,7 +32,7 @@ const Index: React.FC = () => {
                 </div>
                 <h3 className="text-xl font-semibold text-foreground text-premium">финансы</h3>
                 <p className="text-muted-foreground">
-                  Управление балансом и выплатами
+                  управление балансом и выплатами
                 </p>
               </div>
             </div>
@@ -47,7 +47,7 @@ const Index: React.FC = () => {
                 </div>
                 <h3 className="text-xl font-semibold text-foreground text-premium">отчеты</h3>
                 <p className="text-muted-foreground">
-                  Просмотр отчетов и заявки на выплаты
+                  просмотр отчетов и заявки на выплаты
                 </p>
               </div>
             </div>
@@ -64,7 +64,7 @@ const Index: React.FC = () => {
                 </div>
                 <h3 className="text-xl font-semibold text-foreground text-premium">пользователи</h3>
                 <p className="text-muted-foreground">
-                  Управление артистами и администраторами
+                  управление артистами и администраторами
                 </p>
               </div>
             </div>
@@ -79,7 +79,7 @@ const Index: React.FC = () => {
                 </div>
                 <h3 className="text-xl font-semibold text-foreground text-premium">финансы</h3>
                 <p className="text-muted-foreground">
-                  Контроль балансов и выплат
+                  контроль балансов и выплат
                 </p>
               </div>
             </div>
@@ -94,7 +94,7 @@ const Index: React.FC = () => {
                 </div>
                 <h3 className="text-xl font-semibold text-foreground text-premium">отчеты</h3>
                 <p className="text-muted-foreground">
-                  Управление отчетами артистов
+                  управление отчетами артистов
                 </p>
               </div>
             </div>
@@ -109,7 +109,7 @@ const Index: React.FC = () => {
                 </div>
                 <h3 className="text-xl font-semibold text-foreground text-premium">выплаты</h3>
                 <p className="text-muted-foreground">
-                  Обработка заявок на выплаты
+                  обработка заявок на выплаты
                 </p>
               </div>
             </div>
@@ -124,7 +124,7 @@ const Index: React.FC = () => {
                 </div>
                 <h3 className="text-xl font-semibold text-foreground text-premium">настройки</h3>
                 <p className="text-muted-foreground">
-                  Конфигурация системы
+                  конфигурация системы
                 </p>
               </div>
             </div>

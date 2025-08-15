@@ -143,7 +143,7 @@ const AdminReports = () => {
           // Обновляем локальный список артистов
           setArtists(prev => prev.map(artist => 
             artist.id === artistId 
-              ? { ...artist, requires_q1_2025_status: false }
+              ? { ...artist, requires_q1_2025_status: false } as any
               : artist
           ));
         }
@@ -317,7 +317,7 @@ const AdminReports = () => {
                       <TableCell>
                         <div className={`font-medium text-sm ${isComplete ? 'text-green-700 dark:text-green-400' : ''}`}>
                           {artist.pseudonym}
-                          {selectedQuarter === 'Q1 2025' && artist.requires_q1_2025_status && !report?.file_url && (
+                          {selectedQuarter === 'Q1 2025' && (artist as any).requires_q1_2025_status && !report?.file_url && (
                             <div className="text-xs text-orange-600 bg-orange-50 px-2 py-1 rounded border border-orange-200 mt-1 inline-block dark:bg-orange-900/30 dark:text-orange-400 dark:border-orange-800">
                               ⚠ требуется статус на 15.08.2025
                             </div>

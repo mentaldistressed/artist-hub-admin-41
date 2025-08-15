@@ -263,6 +263,44 @@ const ArtistReports = () => {
                   <CardDescription className="text-sm">
                     отчет за {quarter.toLowerCase()}
                   </CardDescription>
+                  {quarter === 'Q1 2025' && (
+                    <div className="flex items-center space-x-2 mt-3 pt-3 border-t border-border/20">
+                      <Checkbox
+                        id={`q1-status-${quarter}`}
+                        checked={profile?.requires_q1_2025_status || false}
+                        onCheckedChange={async (checked) => {
+                          try {
+                            const { error } = await supabase
+                              .from('profiles')
+                              .update({ requires_q1_2025_status: checked as boolean })
+                              .eq('id', profile?.id);
+
+                            if (error) throw error;
+
+                            toast({
+                              title: "статус обновлен",
+                              description: checked ? "отмечено как требующее статус" : "статус снят",
+                            });
+
+                            // Обновляем локальный профиль
+                            if (profile) {
+                              profile.requires_q1_2025_status = checked as boolean;
+                            }
+                          } catch (error) {
+                            console.error('Error updating Q1 2025 status:', error);
+                            toast({
+                              title: "ошибка обновления",
+                              description: "не удалось обновить статус",
+                              variant: "destructive",
+                            });
+                          }
+                        }}
+                      />
+                      <Label htmlFor={`q1-status-${quarter}`} className="text-sm text-muted-foreground">
+                        требуется по состоянию на 15.08.2025
+                      </Label>
+                    </div>
+                  )}
                 </CardHeader>
                 <CardContent>
                   {!report ? (
@@ -293,45 +331,6 @@ const ArtistReports = () => {
                         
                         <div className="flex flex-col items-end gap-2">
                           {payoutStatus}
-                          {quarter === 'Q1 2025' && (
-                            <div className="flex items-center space-x-2 mt-2">
-                              <Checkbox
-                                id={`q1-status-${quarter}`}
-                                checked={profile?.requires_q1_2025_status || false}
-                                onCheckedChange={async (checked) => {
-                                  try {
-                                    // Обновляем статус в профиле пользователя
-                                    const { error } = await supabase
-                                      .from('profiles')
-                                      .update({ requires_q1_2025_status: checked as boolean })
-                                      .eq('id', profile?.id);
-
-                                    if (error) throw error;
-
-                                    toast({
-                                      title: "статус обновлен",
-                                      description: checked ? "отмечено как требующее статус" : "статус снят",
-                                    });
-
-                                    // Обновляем локальный профиль
-                                    if (profile) {
-                                      profile.requires_q1_2025_status = checked as boolean;
-                                    }
-                                  } catch (error) {
-                                    console.error('Error updating Q1 2025 status:', error);
-                                    toast({
-                                      title: "ошибка обновления",
-                                      description: "не удалось обновить статус",
-                                      variant: "destructive",
-                                    });
-                                  }
-                                }}
-                              />
-                              <Label htmlFor={`q1-status-${quarter}`} className="text-xs text-muted-foreground">
-                                требуется по состоянию на 15.08.2025
-                              </Label>
-                            </div>
-                          )}
                           {!hasPayoutRequest && (
                             <Dialog>
                               <DialogTrigger asChild>

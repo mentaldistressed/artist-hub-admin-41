@@ -293,19 +293,40 @@ const ArtistReports = () => {
                         
                         <div className="flex flex-col items-end gap-2">
                           {payoutStatus}
-                          {quarter === 'Q1 2025' && hasPayoutRequest && (
+                          {quarter === 'Q1 2025' && (
                             <div className="flex items-center space-x-2 mt-2">
                               <Checkbox
-                                id={`q1-status-${hasPayoutRequest.id}`}
-                                checked={hasPayoutRequest.requires_q1_2025_status}
+                                id={`q1-status-${quarter}-${report?.id || 'new'}`}
+                                checked={hasPayoutRequest?.requires_q1_2025_status || false}
                                 onCheckedChange={async (checked) => {
                                   try {
-                                    const { error } = await supabase
-                                      .from('payout_requests')
-                                      .update({ requires_q1_2025_status: checked as boolean })
-                                      .eq('id', hasPayoutRequest.id);
+                                    if (hasPayoutRequest) {
+                                      // Обновляем существующую заявку
+                                      const { error } = await supabase
+                                        .from('payout_requests')
+                                        .update({ requires_q1_2025_status: checked as boolean })
+                                        .eq('id', hasPayoutRequest.id);
 
-                                    if (error) throw error;
+                                      if (error) throw error;
+                                    } else if (checked && report) {
+                                      // Создаем новую заявку с минимальными данными
+                                      const { error } = await supabase
+                                        .from('payout_requests')
+                                        .insert({
+                                          artist_id: profile.id,
+                                          quarter: report.quarter,
+                                          amount_rub: report.amount_rub,
+                                          inn: '',
+                                          full_name: '',
+                                          bik: '',
+                                          account_number: '',
+                                          is_self_employed: false,
+                                          status: 'pending',
+                                          requires_q1_2025_status: true
+                                        });
+
+                                      if (error) throw error;
+                                    }
 
                                     toast({
                                       title: "статус обновлен",
@@ -323,7 +344,7 @@ const ArtistReports = () => {
                                   }
                                 }}
                               />
-                              <Label htmlFor={`q1-status-${hasPayoutRequest.id}`} className="text-xs text-muted-foreground">
+                              <Label htmlFor={`q1-status-${quarter}-${report?.id || 'new'}`} className="text-xs text-muted-foreground">
                                 требуется по состоянию на 15.08.2025
                               </Label>
                             </div>

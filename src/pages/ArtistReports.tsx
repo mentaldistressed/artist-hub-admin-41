@@ -389,7 +389,7 @@ const ArtistReports = () => {
                                     </Label>
                                   </div>
                                   
-                                  {report.quarter === 'Q1 2025' && (
+                                  {quarter === 'Q1 2025' && (
                                     <div className="flex items-center space-x-2">
                                       <Checkbox
                                         id="requires_q1_2025_status"

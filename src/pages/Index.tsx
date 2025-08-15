@@ -2,9 +2,10 @@ import React from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Layout } from '@/components/Layout';
 import { useNavigate } from 'react-router-dom';
+import { FileText, Users, DollarSign, Send, Settings } from 'lucide-react';
 
 const Index: React.FC = () => {
-  const { profile } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   return (
@@ -15,19 +16,19 @@ const Index: React.FC = () => {
             добро пожаловать
           </h1>
           <p className="text-base text-muted-foreground">
-            {profile?.role === 'admin' ? 'панель администратора' : 'ваш личный кабинет'}
+            {user?.role === 'admin' ? 'панель администратора' : 'ваш личный кабинет'}
           </p>
         </div>
         
-        {profile?.role === 'artist' ? (
+        {user?.role === 'artist' ? (
           <div className="grid gap-6 md:grid-cols-2">
             <div 
-              className="group p-8 card-premium-interactive animate-slide-up"
+              className="group p-8 card-premium-interactive animate-slide-up cursor-pointer"
               onClick={() => navigate('/finances')}
             >
               <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200">
-                  <span className="text-white text-xl">₽</span>
+                <div className="w-12 h-12 rounded-xl bg-muted/30 border border-border/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/50">
+                  <span className="text-muted-foreground text-xl font-semibold">₽</span>
                 </div>
                 <h3 className="text-xl font-semibold text-foreground text-premium">финансы</h3>
                 <p className="text-muted-foreground">
@@ -36,13 +37,13 @@ const Index: React.FC = () => {
               </div>
             </div>
             <div 
-              className="group p-8 card-premium-interactive animate-slide-up"
+              className="group p-8 card-premium-interactive animate-slide-up cursor-pointer"
               style={{ animationDelay: '0.1s' }}
               onClick={() => navigate('/reports')}
             >
               <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200">
-                  <span className="text-white text-xl">📊</span>
+                <div className="w-12 h-12 rounded-xl bg-muted/30 border border-border/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/50">
+                  <FileText className="h-6 w-6 text-muted-foreground" />
                 </div>
                 <h3 className="text-xl font-semibold text-foreground text-premium">отчеты</h3>
                 <p className="text-muted-foreground">
@@ -54,12 +55,12 @@ const Index: React.FC = () => {
         ) : (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <div 
-              className="group p-8 card-premium-interactive animate-slide-up"
+              className="group p-8 card-premium-interactive animate-slide-up cursor-pointer"
               onClick={() => navigate('/admin-users')}
             >
               <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200">
-                  <span className="text-white text-xl">👥</span>
+                <div className="w-12 h-12 rounded-xl bg-muted/30 border border-border/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/50">
+                  <Users className="h-6 w-6 text-muted-foreground" />
                 </div>
                 <h3 className="text-xl font-semibold text-foreground text-premium">пользователи</h3>
                 <p className="text-muted-foreground">
@@ -68,13 +69,13 @@ const Index: React.FC = () => {
               </div>
             </div>
             <div 
-              className="group p-8 card-premium-interactive animate-slide-up"
+              className="group p-8 card-premium-interactive animate-slide-up cursor-pointer"
               style={{ animationDelay: '0.1s' }}
               onClick={() => navigate('/admin-finances')}
             >
               <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200">
-                  <span className="text-white text-xl">💰</span>
+                <div className="w-12 h-12 rounded-xl bg-muted/30 border border-border/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/50">
+                  <DollarSign className="h-6 w-6 text-muted-foreground" />
                 </div>
                 <h3 className="text-xl font-semibold text-foreground text-premium">финансы</h3>
                 <p className="text-muted-foreground">
@@ -83,13 +84,13 @@ const Index: React.FC = () => {
               </div>
             </div>
             <div 
-              className="group p-8 card-premium-interactive animate-slide-up"
+              className="group p-8 card-premium-interactive animate-slide-up cursor-pointer"
               style={{ animationDelay: '0.2s' }}
               onClick={() => navigate('/admin-reports')}
             >
               <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200">
-                  <span className="text-white text-xl">📈</span>
+                <div className="w-12 h-12 rounded-xl bg-muted/30 border border-border/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/50">
+                  <FileText className="h-6 w-6 text-muted-foreground" />
                 </div>
                 <h3 className="text-xl font-semibold text-foreground text-premium">отчеты</h3>
                 <p className="text-muted-foreground">
@@ -98,13 +99,13 @@ const Index: React.FC = () => {
               </div>
             </div>
             <div 
-              className="group p-8 card-premium-interactive animate-slide-up"
+              className="group p-8 card-premium-interactive animate-slide-up cursor-pointer"
               style={{ animationDelay: '0.3s' }}
               onClick={() => navigate('/admin-payouts')}
             >
               <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200">
-                  <span className="text-white text-xl">💸</span>
+                <div className="w-12 h-12 rounded-xl bg-muted/30 border border-border/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/50">
+                  <Send className="h-6 w-6 text-muted-foreground" />
                 </div>
                 <h3 className="text-xl font-semibold text-foreground text-premium">выплаты</h3>
                 <p className="text-muted-foreground">
@@ -113,13 +114,13 @@ const Index: React.FC = () => {
               </div>
             </div>
             <div 
-              className="group p-8 card-premium-interactive animate-slide-up"
+              className="group p-8 card-premium-interactive animate-slide-up cursor-pointer"
               style={{ animationDelay: '0.4s' }}
               onClick={() => navigate('/admin-settings')}
             >
               <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-gray-500 to-gray-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200">
-                  <span className="text-white text-xl">⚙️</span>
+                <div className="w-12 h-12 rounded-xl bg-muted/30 border border-border/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/50">
+                  <Settings className="h-6 w-6 text-muted-foreground" />
                 </div>
                 <h3 className="text-xl font-semibold text-foreground text-premium">настройки</h3>
                 <p className="text-muted-foreground">

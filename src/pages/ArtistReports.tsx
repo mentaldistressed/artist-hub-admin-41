@@ -52,6 +52,7 @@ const ArtistReports = () => {
   const quarters = ['Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025'];
 
   const [payoutData, setPayoutData] = useState({
+    contract_number: '',
     inn: '',
     full_name: '',
     bik: '',
@@ -59,6 +60,48 @@ const ArtistReports = () => {
     is_self_employed: false
   });
 
+  // Функция для загрузки данных из профиля или предыдущих заявок
+  const loadPayoutData = async () => {
+    if (!profile?.id) return;
+    
+    // Сначала пытаемся взять из профиля
+    if (profile.contract_number || profile.inn || profile.full_name) {
+      setPayoutData({
+        contract_number: profile.contract_number || '',
+        inn: profile.inn || '',
+        full_name: profile.full_name || '',
+        bik: profile.bik || '',
+        account_number: profile.account_number || '',
+        is_self_employed: profile.is_self_employed || false
+      });
+      return;
+    }
+    
+    // Если в профиле нет данных, берем из последней заявки
+    try {
+      const { data, error } = await supabase
+        .from('payout_requests')
+        .select('contract_number, inn, full_name, bik, account_number, is_self_employed')
+        .eq('artist_id', profile.id)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (!error && data) {
+        setPayoutData({
+          contract_number: data.contract_number || '',
+          inn: data.inn || '',
+          full_name: data.full_name || '',
+          bik: data.bik || '',
+          account_number: data.account_number || '',
+          is_self_employed: data.is_self_employed || false
+        });
+      }
+    } catch (error) {
+      // Если нет предыдущих заявок, оставляем пустые поля
+      console.log('No previous payout requests found');
+    }
+  };
   const fetchReports = async () => {
     if (!profile?.id) return;
     
@@ -131,6 +174,7 @@ const ArtistReports = () => {
           artist_id: profile.id,
           quarter: report.quarter,
           amount_rub: report.amount_rub,
+          contract_number: payoutData.contract_number,
           inn: payoutData.inn,
           full_name: payoutData.full_name,
           bik: payoutData.bik,
@@ -141,12 +185,25 @@ const ArtistReports = () => {
 
       if (error) throw error;
 
+      // Сохраняем данные в профиль для будущего использования
+      await supabase
+        .from('profiles')
+        .update({
+          contract_number: payoutData.contract_number,
+          inn: payoutData.inn,
+          full_name: payoutData.full_name,
+          bik: payoutData.bik,
+          account_number: payoutData.account_number,
+          is_self_employed: payoutData.is_self_employed
+        })
+        .eq('id', profile.id);
       toast({
         title: "заявка отправлена",
         description: "ваша заявка на выплату принята в обработку",
       });
 
       setPayoutData({
+        contract_number: '',
         inn: '',
         full_name: '',
         bik: '',
@@ -154,6 +211,7 @@ const ArtistReports = () => {
         is_self_employed: false
       });
 
+      setIsPayoutDialogOpen(false);
       await fetchPayoutRequests();
     } catch (error) {
       console.error('Error submitting payout request:', error);
@@ -338,13 +396,7 @@ const ArtistReports = () => {
                                   size="sm"
                                   onClick={() => {
                                     setCurrentReport(report);
-                                    setPayoutData({
-                                      inn: '',
-                                      full_name: '',
-                                      bik: '',
-                                      account_number: '',
-                                      is_self_employed: false
-                                    });
+                                    loadPayoutData();
                                   }}
                                   className="h-8 text-xs"
                                 >

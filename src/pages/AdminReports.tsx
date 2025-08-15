@@ -3,13 +3,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Layout } from '@/components/Layout';
 import { FileUpload } from '@/components/ui/file-upload';
-import { FileText, Save } from 'lucide-react';
+import { FileText, Save, CheckCircle, AlertCircle } from 'lucide-react';
 
 interface Profile {
   id: string;
@@ -190,6 +191,27 @@ const AdminReports = () => {
     return reports.find(r => r.artist_id === artistId);
   };
 
+  const isReportComplete = (artistId: string) => {
+    const report = getReportForArtist(artistId);
+    const hasFile = report?.file_url;
+    const hasAmount = report?.amount_rub && report.amount_rub > 0;
+    return hasFile && hasAmount;
+  };
+
+  const getCompletionStatus = (artistId: string) => {
+    const report = getReportForArtist(artistId);
+    const hasFile = report?.file_url;
+    const hasAmount = report?.amount_rub && report.amount_rub > 0;
+    
+    if (hasFile && hasAmount) {
+      return { status: 'complete', label: 'готов', color: 'green' };
+    } else if (hasFile || hasAmount) {
+      return { status: 'partial', label: 'частично', color: 'yellow' };
+    } else {
+      return { status: 'empty', label: 'не заполнен', color: 'gray' };
+    }
+  };
+
   if (loading) {
     return <div className="flex items-center justify-center h-64">загрузка...</div>;
   }
@@ -228,6 +250,7 @@ const AdminReports = () => {
             <Table>
               <TableHeader>
                 <TableRow className="border-border/20">
+                  <TableHead className="text-muted-foreground">статус</TableHead>
                   <TableHead className="text-muted-foreground">артист</TableHead>
                   <TableHead className="text-muted-foreground">файл отчета</TableHead>
                   <TableHead className="text-muted-foreground">сумма (₽)</TableHead>
@@ -237,47 +260,103 @@ const AdminReports = () => {
               <TableBody>
                 {artists.map((artist) => {
                   const report = getReportForArtist(artist.id);
+                  const completionStatus = getCompletionStatus(artist.id);
+                  const isComplete = isReportComplete(artist.id);
+                  
                   return (
-                    <TableRow key={artist.id} className="border-border/20">
+                    <TableRow 
+                      key={artist.id} 
+                      className={`border-border/20 transition-colors ${
+                        isComplete 
+                          ? 'bg-green-50/50 hover:bg-green-50/70 dark:bg-green-950/20 dark:hover:bg-green-950/30' 
+                          : completionStatus.status === 'partial'
+                          ? 'bg-yellow-50/50 hover:bg-yellow-50/70 dark:bg-yellow-950/20 dark:hover:bg-yellow-950/30'
+                          : 'hover:bg-muted/50'
+                      }`}
+                    >
                       <TableCell>
-                        <div className="font-medium text-sm">
-                          {artist.pseudonym}
+                        <div className="flex items-center gap-2">
+                          {completionStatus.status === 'complete' && (
+                            <Badge variant="secondary" className="bg-green-100 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800">
+                              <CheckCircle className="h-3 w-3 mr-1" />
+                              {completionStatus.label}
+                            </Badge>
+                          )}
+                          {completionStatus.status === 'partial' && (
+                            <Badge variant="secondary" className="bg-yellow-100 text-yellow-700 border-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-400 dark:border-yellow-800">
+                              <AlertCircle className="h-3 w-3 mr-1" />
+                              {completionStatus.label}
+                            </Badge>
+                          )}
+                          {completionStatus.status === 'empty' && (
+                            <Badge variant="outline" className="text-muted-foreground border-muted-foreground/30">
+                              {completionStatus.label}
+                            </Badge>
+                          )}
                         </div>
                       </TableCell>
                       <TableCell>
-                        <FileUpload
-                          onFileSelect={(file) => handleFileUpload(artist.id, file)}
-                          accept=".pdf,.doc,.docx,.xls,.xlsx"
-                          maxSize={10}
-                          isUploading={uploadingFiles[artist.id]}
-                          currentFile={report?.file_url}
-                          placeholder="Загрузить отчет"
-                          variant="minimal"
-                          disabled={uploadingFiles[artist.id]}
-                        />
+                        <div className={`font-medium text-sm ${isComplete ? 'text-green-700 dark:text-green-400' : ''}`}>
+                          {artist.pseudonym}
+                          {isComplete && (
+                            <div className="text-xs text-green-600 dark:text-green-500 mt-1">
+                              отчет готов
+                            </div>
+                          )}
+                        </div>
                       </TableCell>
                       <TableCell>
-                        <Input
-                          type="number"
-                          step="0.01"
-                          placeholder="0.00"
-                          value={amounts[artist.id] || ''}
-                          onChange={(e) => setAmounts(prev => ({ 
-                            ...prev, 
-                            [artist.id]: e.target.value 
-                          }))}
-                          className="w-24 h-8 text-xs"
-                        />
+                        <div className="flex items-center gap-2">
+                          <FileUpload
+                            onFileSelect={(file) => handleFileUpload(artist.id, file)}
+                            accept=".pdf,.doc,.docx,.xls,.xlsx"
+                            maxSize={10}
+                            isUploading={uploadingFiles[artist.id]}
+                            currentFile={report?.file_url}
+                            placeholder="Загрузить отчет"
+                            variant="minimal"
+                            disabled={uploadingFiles[artist.id]}
+                          />
+                          {report?.file_url && (
+                            <CheckCircle className="h-4 w-4 text-green-600" />
+                          )}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <Input
+                            type="number"
+                            step="0.01"
+                            placeholder="0.00"
+                            value={amounts[artist.id] || ''}
+                            onChange={(e) => setAmounts(prev => ({ 
+                              ...prev, 
+                              [artist.id]: e.target.value 
+                            }))}
+                            className={`w-24 h-8 text-xs ${
+                              report?.amount_rub && report.amount_rub > 0 
+                                ? 'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/20' 
+                                : ''
+                            }`}
+                          />
+                          {report?.amount_rub && report.amount_rub > 0 && (
+                            <CheckCircle className="h-4 w-4 text-green-600" />
+                          )}
+                        </div>
                       </TableCell>
                       <TableCell>
                         <Button
                           size="sm"
-                          variant="outline"
+                          variant={isComplete ? "default" : "outline"}
                           onClick={() => handleSaveAmount(artist.id)}
-                          className="h-8 px-3 text-xs"
+                          className={`h-8 px-3 text-xs ${
+                            isComplete 
+                              ? 'bg-green-600 hover:bg-green-700 text-white' 
+                              : ''
+                          }`}
                         >
                           <Save className="h-3 w-3 mr-1" />
-                          сохранить
+                          {isComplete ? 'обновить' : 'сохранить'}
                         </Button>
                       </TableCell>
                     </TableRow>

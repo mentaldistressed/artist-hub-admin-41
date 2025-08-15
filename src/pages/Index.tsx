@@ -7,6 +7,8 @@ const Index = () => {
   const { user, profile, loading } = useAuth();
   const navigate = useNavigate();
 
+  console.log('Index render:', { user: !!user, profile: !!profile, loading });
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -19,6 +21,7 @@ const Index = () => {
   }
 
   if (!user || !profile) {
+    console.log('No user or profile in Index, showing auth form');
     return <AuthForm />;
   }
 

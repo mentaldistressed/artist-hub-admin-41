@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
-import { useNavigate } from 'react-router-dom';
 
 interface Profile {
   id: string;
@@ -41,10 +40,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
-  const [initialized, setInitialized] = useState(false);
 
-  const fetchProfile = async (userId: string) => {
+  const fetchProfile = async (userId: string): Promise<Profile | null> => {
     try {
+      console.log('Fetching profile for user:', userId);
+      
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
@@ -52,160 +52,188 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         .single();
       
       if (error) {
-        console.error('Error fetching profile:', error);
-        setProfile(null);
-        return;
+        console.error('Profile fetch error:', error);
+        return null;
       }
       
-      setProfile(data);
+      console.log('Profile fetched successfully:', data);
+      return data;
     } catch (error) {
       console.error('Error in fetchProfile:', error);
-      setProfile(null);
+      return null;
     }
   };
 
   const refreshProfile = async () => {
     if (user) {
-      await fetchProfile(user.id);
+      const profileData = await fetchProfile(user.id);
+      setProfile(profileData);
     }
   };
 
   // Инициализация авторизации
   useEffect(() => {
-    let mounted = true;
+    let isMounted = true;
     
-    const initAuth = async () => {
+    const initializeAuth = async () => {
       try {
         console.log('Initializing auth...');
         
         // Получаем текущую сессию
-        const { data: { session: currentSession }, error } = await supabase.auth.getSession();
+        const { data: { session: currentSession }, error: sessionError } = await supabase.auth.getSession();
         
-        if (error) {
-          console.error('Session error:', error);
-          if (mounted) {
-            setUser(null);
+        if (sessionError) {
+          console.error('Session error:', sessionError);
+          // Очищаем поврежденную сессию
+          await supabase.auth.signOut();
+          if (isMounted) {
             setSession(null);
+            setUser(null);
             setProfile(null);
             setLoading(false);
-            setInitialized(true);
           }
           return;
         }
 
-        if (mounted) {
+        console.log('Current session:', currentSession ? 'exists' : 'none');
+
+        if (isMounted) {
           setSession(currentSession);
           setUser(currentSession?.user ?? null);
           
           if (currentSession?.user) {
             console.log('User found, fetching profile...');
-            await fetchProfile(currentSession.user.id);
+            const profileData = await fetchProfile(currentSession.user.id);
+            if (isMounted) {
+              setProfile(profileData);
+            }
           } else {
             console.log('No user found');
             setProfile(null);
           }
           
           setLoading(false);
-          setInitialized(true);
         }
       } catch (error) {
         console.error('Auth initialization error:', error);
-        if (mounted) {
-          setUser(null);
+        if (isMounted) {
           setSession(null);
+          setUser(null);
           setProfile(null);
           setLoading(false);
-          setInitialized(true);
         }
       }
     };
 
-    // Принудительный таймаут
+    // Таймаут для принудительного завершения загрузки
     const timeout = setTimeout(() => {
-      if (mounted && !initialized) {
-        console.warn('Auth initialization timeout');
+      if (isMounted && loading) {
+        console.warn('Auth initialization timeout - forcing completion');
         setLoading(false);
-        setInitialized(true);
       }
-    }, 5000);
+    }, 8000);
 
-    initAuth();
+    initializeAuth();
 
     return () => {
-      mounted = false;
+      isMounted = false;
       clearTimeout(timeout);
     };
-  }, []);
+  }, []); // Пустой массив зависимостей - инициализация только один раз
 
   // Слушатель изменений авторизации
   useEffect(() => {
+    console.log('Setting up auth state listener...');
+    
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        console.log('Auth state changed:', event);
+        console.log('Auth state changed:', event, session ? 'session exists' : 'no session');
         
         setSession(session);
         setUser(session?.user ?? null);
         
         if (session?.user) {
-          await fetchProfile(session.user.id);
+          const profileData = await fetchProfile(session.user.id);
+          setProfile(profileData);
         } else {
           setProfile(null);
         }
+        
+        // Убеждаемся, что loading выключен после любого изменения состояния
+        setLoading(false);
       }
     );
 
-    return () => subscription.unsubscribe();
+    return () => {
+      console.log('Cleaning up auth state listener');
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signUp = async (email: string, password: string, role: 'artist' | 'admin', additionalData: any) => {
     setLoading(true);
     
-    const metadata: any = { role };
-    
-    if (role === 'artist') {
-      metadata.pseudonym = additionalData.pseudonym;
-      metadata.telegram_contact = additionalData.telegram_contact;
-    } else {
-      metadata.name = additionalData.name;
-    }
-    
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: metadata
+    try {
+      const metadata: any = { role };
+      
+      if (role === 'artist') {
+        metadata.pseudonym = additionalData.pseudonym;
+        metadata.telegram_contact = additionalData.telegram_contact;
+      } else {
+        metadata.name = additionalData.name;
       }
-    });
-    
-    setLoading(false);
-    return { error };
+      
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: metadata
+        }
+      });
+      
+      setLoading(false);
+      return { error };
+    } catch (error) {
+      setLoading(false);
+      return { error };
+    }
   };
 
   const signIn = async (email: string, password: string) => {
     setLoading(true);
     
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    
-    setLoading(false);
-    return { error };
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      
+      setLoading(false);
+      return { error };
+    } catch (error) {
+      setLoading(false);
+      return { error };
+    }
   };
 
   const signOut = async () => {
     setLoading(true);
     
-    const { error } = await supabase.auth.signOut();
-    
-    if (!error) {
-      setUser(null);
-      setSession(null);
-      setProfile(null);
+    try {
+      const { error } = await supabase.auth.signOut();
+      
+      if (!error) {
+        setUser(null);
+        setSession(null);
+        setProfile(null);
+      }
+      
+      setLoading(false);
+      return { error };
+    } catch (error) {
+      setLoading(false);
+      return { error };
     }
-    
-    setLoading(false);
-    return { error };
   };
 
   const value = {

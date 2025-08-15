@@ -9,6 +9,8 @@ interface ProtectedRouteProps {
 const ProtectedRoute = ({ children, requiredRole }: ProtectedRouteProps) => {
   const { user, profile, loading } = useAuth();
 
+  console.log('ProtectedRoute render:', { user: !!user, profile: !!profile, loading });
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -21,6 +23,7 @@ const ProtectedRoute = ({ children, requiredRole }: ProtectedRouteProps) => {
   }
 
   if (!user || !profile) {
+    console.log('No user or profile, showing auth form');
     return <AuthForm />;
   }
 
@@ -35,6 +38,7 @@ const ProtectedRoute = ({ children, requiredRole }: ProtectedRouteProps) => {
     );
   }
 
+  console.log('User authenticated, showing protected content');
   return <>{children}</>;
 };
 

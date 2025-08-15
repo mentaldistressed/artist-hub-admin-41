@@ -10,6 +10,8 @@ interface LayoutProps {
 export const Layout = ({ children }: LayoutProps) => {
   const { user, profile, loading } = useAuth();
 
+  console.log('Layout render:', { user: !!user, profile: !!profile, loading });
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -22,6 +24,7 @@ export const Layout = ({ children }: LayoutProps) => {
   }
 
   if (!user || !profile) {
+    console.log('No user or profile in Layout, showing auth form');
     return <AuthForm />;
   }
 

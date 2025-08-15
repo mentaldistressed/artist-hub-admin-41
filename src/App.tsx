@@ -7,10 +7,8 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import Index from "./pages/Index";
-import ArtistFinances from "./pages/ArtistFinances";
 import ArtistReports from "./pages/ArtistReports";
 import AdminUsers from "./pages/AdminUsers";
-import AdminFinances from "./pages/AdminFinances";
 import AdminReports from "./pages/AdminReports";
 import AdminPayouts from "./pages/AdminPayouts";
 import AdminSettings from "./pages/AdminSettings";
@@ -67,11 +65,6 @@ const App = () => {
                     <Index />
                   </ProtectedRoute>
                 } />
-                <Route path="/finances" element={
-                  <ProtectedRoute requiredRole="artist">
-                    <ArtistFinances />
-                  </ProtectedRoute>
-                } />
                 <Route path="/reports" element={
                   <ProtectedRoute requiredRole="artist">
                     <ArtistReports />
@@ -80,11 +73,6 @@ const App = () => {
                 <Route path="/admin-users" element={
                   <ProtectedRoute requiredRole="admin">
                     <AdminUsers />
-                  </ProtectedRoute>
-                } />
-                <Route path="/admin-finances" element={
-                  <ProtectedRoute requiredRole="admin">
-                    <AdminFinances />
                   </ProtectedRoute>
                 } />
                 <Route path="/admin-reports" element={

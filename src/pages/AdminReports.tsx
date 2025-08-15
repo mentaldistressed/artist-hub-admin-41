@@ -206,9 +206,9 @@ const AdminReports = () => {
     if (hasFile && hasAmount) {
       return { status: 'complete', label: 'готов', color: 'green' };
     } else if (hasFile || hasAmount) {
-      return { status: 'partial', label: 'частично', color: 'yellow' };
+      return { status: 'partial', label: 'частично готов', color: 'yellow' };
     } else {
-      return { status: 'empty', label: 'не заполнен', color: 'gray' };
+      return { status: 'empty', label: 'не готов', color: 'gray' };
     }
   };
 
@@ -278,7 +278,6 @@ const AdminReports = () => {
                         <div className="flex items-center gap-2">
                           {completionStatus.status === 'complete' && (
                             <Badge variant="secondary" className="bg-green-100 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800">
-                              <CheckCircle className="h-3 w-3 mr-1" />
                               {completionStatus.label}
                             </Badge>
                           )}
@@ -300,7 +299,7 @@ const AdminReports = () => {
                           {artist.pseudonym}
                           {isComplete && (
                             <div className="text-xs text-green-600 dark:text-green-500 mt-1">
-                              отчет готов
+                              отчет направлен
                             </div>
                           )}
                         </div>

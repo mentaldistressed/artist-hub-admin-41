@@ -41,10 +41,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Функция для загрузки профиля
   const fetchProfile = async (userId: string): Promise<Profile | null> => {
     try {
-      console.log('Fetching profile for user:', userId);
-      
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
@@ -56,7 +55,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return null;
       }
       
-      console.log('Profile fetched successfully:', data);
       return data;
     } catch (error) {
       console.error('Error in fetchProfile:', error);
@@ -64,6 +62,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  // Функция для обновления профиля
   const refreshProfile = async () => {
     if (user) {
       const profileData = await fetchProfile(user.id);
@@ -71,87 +70,65 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const initializeAuth = async () => {
-    try {
-      console.log('Initializing auth...');
-      
-      const { data: { session: currentSession }, error } = await supabase.auth.getSession();
-      
-      if (error) {
-        console.error('Session error:', error);
-        // If refresh token is invalid, clear the session
-        if (error.message?.includes('refresh_token_not_found') || 
-            error.message?.includes('Invalid Refresh Token')) {
-          console.log('Invalid refresh token detected, signing out...');
-          await supabase.auth.signOut();
-          setSession(null);
-          setUser(null);
-          setProfile(null);
-          return;
+  // Инициализация при загрузке
+  useEffect(() => {
+    let mounted = true;
+
+    const initAuth = async () => {
+      try {
+        // Получаем текущую сессию
+        const { data: { session: currentSession } } = await supabase.auth.getSession();
+        
+        if (!mounted) return;
+
+        if (currentSession?.user) {
+          setSession(currentSession);
+          setUser(currentSession.user);
+          
+          // Загружаем профиль
+          const profileData = await fetchProfile(currentSession.user.id);
+          if (mounted) {
+            setProfile(profileData);
+          }
+        }
+      } catch (error) {
+        console.error('Auth initialization error:', error);
+      } finally {
+        if (mounted) {
+          setLoading(false);
         }
       }
+    };
 
-      console.log('Current session:', currentSession ? 'exists' : 'none');
-
-      if (currentSession?.user) {
-        setSession(currentSession);
-        setUser(currentSession.user);
-        
-        // Загружаем профиль
-        const profileData = await fetchProfile(currentSession.user.id);
-        setProfile(profileData);
-      } else {
-        setSession(null);
-        setUser(null);
-        setProfile(null);
-      }
-    } catch (error) {
-      console.error('Auth initialization error:', error);
-      // При ошибке очищаем все данные
-      setSession(null);
-      setUser(null);
-      setProfile(null);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    // Инициализация при загрузке
-    initializeAuth();
+    initAuth();
 
     // Слушатель изменений авторизации
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        console.log('Auth state changed:', event, session ? 'session exists' : 'no session');
-        
-        // Handle token refresh errors
-        if (event === 'TOKEN_REFRESHED') {
-          console.log('Token refreshed successfully');
-        } else if (event === 'SIGNED_OUT' || event === 'TOKEN_REFRESH_ERROR') {
-          console.log('Clearing auth state due to:', event);
-          setSession(null);
-          setUser(null);
-          setProfile(null);
-          setLoading(false);
-          return;
-        }
+        if (!mounted) return;
+
+        console.log('Auth state changed:', event);
         
         setSession(session);
         setUser(session?.user ?? null);
         
         if (session?.user) {
           const profileData = await fetchProfile(session.user.id);
-          setProfile(profileData);
+          if (mounted) {
+            setProfile(profileData);
+          }
         } else {
           setProfile(null);
         }
         
-        setLoading(false);
+        if (mounted) {
+          setLoading(false);
+        }
       }
     );
 
     return () => {
+      mounted = false;
       subscription.unsubscribe();
     };
   }, []);

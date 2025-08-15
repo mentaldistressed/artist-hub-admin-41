@@ -10,7 +10,7 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole }) => {
   const { user, profile, loading } = useAuth();
 
-  // Показываем загрузку
+  // Показываем загрузку только первые несколько секунд
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">

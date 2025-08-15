@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 export const AuthForm = () => {
-  const { signIn, signUp, error, clearError } = useAuth();
+  const { login, signUp, error, clearError, emailConfirmationSent, clearEmailConfirmation } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   
@@ -126,6 +126,75 @@ export const AuthForm = () => {
     
     setIsLoading(false);
   };
+
+  // Если отправлено подтверждение email, показываем соответствующее сообщение
+  if (emailConfirmationSent) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-muted/20 p-4">
+        <div className="w-full max-w-md mx-auto animate-scale-in">
+          <div className="text-center mb-10">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center mx-auto mb-6 premium-shadow-lg">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <h1 className="text-3xl font-bold tracking-tight text-foreground mb-3 text-premium-tight">
+              проверьте почту
+            </h1>
+            <p className="text-muted-foreground mb-6">
+              мы отправили письмо с подтверждением на вашу электронную почту
+            </p>
+          </div>
+
+          <Card className="card-premium border-border/30 premium-shadow-lg">
+            <CardContent className="p-8">
+              <div className="space-y-6">
+                <div className="text-center space-y-4">
+                  <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 flex items-center justify-center mx-auto">
+                    <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <h3 className="text-lg font-semibold text-foreground">
+                      подтвердите регистрацию
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      перейдите по ссылке в письме, чтобы активировать аккаунт
+                    </p>
+                  </div>
+                  
+                  <div className="bg-muted/50 rounded-xl p-4 text-left space-y-2">
+                    <p className="text-xs font-medium text-foreground">что делать дальше:</p>
+                    <ul className="text-xs text-muted-foreground space-y-1">
+                      <li>• откройте свою электронную почту</li>
+                      <li>• найдите письмо от rplus</li>
+                      <li>• нажмите на ссылку подтверждения</li>
+                      <li>• вернитесь сюда для входа в систему</li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <div className="space-y-3">
+                  <Button 
+                    onClick={clearEmailConfirmation}
+                    className="w-full h-12 btn-premium bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground font-semibold rounded-xl text-base"
+                  >
+                    понятно, перейти к входу
+                  </Button>
+                  
+                  <p className="text-xs text-center text-muted-foreground">
+                    не получили письмо? проверьте папку "спам"
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-muted/20 p-4">

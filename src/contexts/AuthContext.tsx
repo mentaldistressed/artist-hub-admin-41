@@ -7,6 +7,7 @@ import { Session } from "@supabase/supabase-js";
 interface AuthContextType {
   user: User | null;
   profile: any | null;
+  emailConfirmationSent: boolean;
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
   signUp: (email: string, password: string, role: 'artist' | 'admin', additionalData: any) => Promise<{ error: string | null }>;
   signOut: () => Promise<{ error: string | null }>;
@@ -15,6 +16,7 @@ interface AuthContextType {
   clearError: () => void;
   refreshProfile: () => Promise<void>;
   isInitialized: boolean;
+  clearEmailConfirmation: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -26,9 +28,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isInitialized, setIsInitialized] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [emailConfirmationSent, setEmailConfirmationSent] = useState(false);
   const { toast } = useToast();
 
   const clearError = () => setError(null);
+  const clearEmailConfirmation = () => setEmailConfirmationSent(false);
 
   const loadProfile = async (userId: string): Promise<any | null> => {
     try {
@@ -228,6 +232,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return { error: error.message };
       }
 
+      // Показываем сообщение о подтверждении email
+      setEmailConfirmationSent(true);
       // Success will be handled by onAuthStateChange
       return { error: null };
     } catch (error: any) {
@@ -265,6 +271,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const value: AuthContextType = {
     user,
     profile,
+    emailConfirmationSent,
     signIn,
     signUp,
     signOut,
@@ -273,6 +280,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     clearError,
     refreshProfile,
     isInitialized,
+    clearEmailConfirmation,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -348,19 +348,17 @@ export const AuthForm = () => {
                     </Button>
                   </form>
                 )}
-              </TabsContent>
-            </Tabs>
-                  {!showAdminForm && (
-                    <Button 
-                      type="button" 
-                      variant="ghost" 
-                      className="text-xs text-muted-foreground hover:text-foreground"
-                      onClick={() => setShowAdminForm(true)}
-                    >
-                      регистрация администратора
-                    </Button>
-                  )}
-                </div>
+              
+              {!showAdminForm && (
+                <Button 
+                  type="button" 
+                  variant="ghost" 
+                  className="text-xs text-muted-foreground hover:text-foreground mt-4"
+                  onClick={() => setShowAdminForm(true)}
+                >
+                  регистрация администратора
+                </Button>
+              )}
               </TabsContent>
             </Tabs>
           </CardContent>

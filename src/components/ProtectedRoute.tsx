@@ -31,7 +31,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       <div className="min-h-screen flex items-center justify-center bg-background">
         <LoadingSpinner 
           size="lg" 
-          message="Загрузка приложения..." 
+          message="инициализация приложения..." 
         />
       </div>
     );
@@ -91,13 +91,13 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       <div className="min-h-screen flex items-center justify-center bg-background p-4">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle>Загрузка профиля</CardTitle>
+            <CardTitle>загрузка профиля</CardTitle>
             <CardDescription>
-              Настройка вашего аккаунта...
+              настройка вашего аккаунта...
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <LoadingSpinner size="md" message="Загрузка данных профиля..." />
+            <LoadingSpinner size="md" message="загрузка данных профиля..." />
             
             <div className="flex flex-col gap-2">
               <Button 
@@ -107,7 +107,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
                 className="w-full"
               >
                 <RefreshCw className="h-4 w-4 mr-2" />
-                Повторить загрузку
+                повторить загрузку
               </Button>
               
               <Button 
@@ -117,7 +117,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
                 className="w-full"
               >
                 <Home className="h-4 w-4 mr-2" />
-                Перезагрузить приложение
+                перезагрузить приложение
               </Button>
             </div>
           </CardContent>
@@ -129,26 +129,20 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   // Проверка ролей
   if (requiredRole && profile.role !== requiredRole) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle>Доступ запрещен</CardTitle>
+            <CardTitle>доступ запрещен</CardTitle>
             <CardDescription>
-              У вас нет прав для просмотра этой страницы
+              у вас нет прав для просмотра этой страницы
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-2">
-            <p className="text-sm text-muted-foreground">
-              Требуемая роль: {requiredRole === 'admin' ? 'Администратор' : 'Артист'}
-            </p>
-            <p className="text-sm text-muted-foreground">
-              Ваша роль: {profile.role === 'admin' ? 'Администратор' : 'Артист'}
-            </p>
+          <CardContent>
             <Button 
               onClick={() => window.history.back()} 
               variant="outline" 
               size="sm"
-              className="w-full mt-4"
+              className="w-full"
             >
               Назад
             </Button>

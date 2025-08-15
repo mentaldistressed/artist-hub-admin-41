@@ -404,7 +404,7 @@ export const AuthForm = () => {
                   </form>
                 )}
               
-              {!showAdminForm && (
+              {/* {!showAdminForm && (
                 <Button 
                   type="button" 
                   variant="ghost" 
@@ -413,7 +413,7 @@ export const AuthForm = () => {
                 >
                   регистрация администратора
                 </Button>
-              )}
+              )} */}
               </TabsContent>
             </Tabs>
           </CardContent>

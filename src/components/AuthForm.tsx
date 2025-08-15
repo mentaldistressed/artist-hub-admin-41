@@ -8,9 +8,10 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { Eye, EyeOff } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 export const AuthForm = () => {
-  const { signIn, signUp } = useAuth();
+  const { signIn, signUp, error, clearError } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   
@@ -42,6 +43,7 @@ export const AuthForm = () => {
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    clearError();
     
     const { error } = await signIn(signInData.email, signInData.password);
     
@@ -65,6 +67,7 @@ export const AuthForm = () => {
   const handleArtistSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    clearError();
     
     const { error } = await signUp(
       artistData.email, 
@@ -96,6 +99,7 @@ export const AuthForm = () => {
   const handleAdminSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    clearError();
     
     const { error } = await signUp(
       adminData.email, 
@@ -133,6 +137,11 @@ export const AuthForm = () => {
           <p className="text-sm text-muted-foreground">
             портал выплат для артистов
           </p>
+          {error && (
+            <div className="text-sm text-destructive bg-destructive/10 p-2 rounded">
+              {error}
+            </div>
+          )}
         </div>
 
         <Card className="border-border/50 shadow-none">
@@ -190,7 +199,7 @@ export const AuthForm = () => {
                     className="w-full h-10 bg-primary hover:bg-primary/90 text-primary-foreground font-medium" 
                     disabled={isLoading}
                   >
-                    {isLoading ? "вход..." : "войти"}
+                    {isLoading ? <LoadingSpinner size="sm" message="" /> : "войти"}
                   </Button>
                 </form>
               </TabsContent>
@@ -271,7 +280,7 @@ export const AuthForm = () => {
                       className="w-full h-10 bg-primary hover:bg-primary/90 text-primary-foreground font-medium" 
                       disabled={isLoading}
                     >
-                      {isLoading ? "регистрация..." : "зарегистрироваться"}
+                      {isLoading ? <LoadingSpinner size="sm" message="" /> : "зарегистрироваться"}
                     </Button>
                   </form>
                 ) : (
@@ -335,7 +344,7 @@ export const AuthForm = () => {
                       className="w-full h-10 bg-primary hover:bg-primary/90 text-primary-foreground font-medium" 
                       disabled={isLoading}
                     >
-                      {isLoading ? "регистрация..." : "зарегистрироваться как администратор"}
+                      {isLoading ? <LoadingSpinner size="sm" message="" /> : "зарегистрироваться как администратор"}
                     </Button>
                     
                     <Button 

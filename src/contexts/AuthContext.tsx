@@ -1,29 +1,7 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User, Session } from '@supabase/supabase-js';
-import { supabase } from '@/integrations/supabase/client';
-
-interface Profile {
-  id: string;
-  user_id: string;
-  role: 'artist' | 'admin';
-  pseudonym?: string;
-  telegram_contact?: string;
-  name?: string;
-  balance_rub: number;
-  created_at: string;
-  updated_at: string;
-}
-
-interface AuthContextType {
-  user: User | null;
-  session: Session | null;
-  profile: Profile | null;
-  loading: boolean;
-  signUp: (email: string, password: string, role: 'artist' | 'admin', additionalData: any) => Promise<{ error: any }>;
-  signIn: (email: string, password: string) => Promise<{ error: any }>;
-  signOut: () => Promise<{ error: any }>;
-  refreshProfile: () => Promise<void>;
-}
+import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
+import { authService } from '@/services/authService';
+import { useLoadingTimeout } from '@/hooks/useLoadingTimeout';
+import type { AuthContextType, AuthState, User, Profile } from '@/types/auth';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -36,165 +14,198 @@ export const useAuth = () => {
 };
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [state, setState] = useState<AuthState>({
+    user: null,
+    profile: null,
+    isAuthenticated: false,
+    isLoading: true,
+    isInitialized: false,
+    error: null,
+  });
 
-  // Функция для загрузки профиля
-  const fetchProfile = async (userId: string): Promise<Profile | null> => {
-    try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('user_id', userId)
-        .single();
-      
-      if (error) {
-        console.error('Profile fetch error:', error);
-        return null;
+  const mountedRef = useRef(true);
+  const initializationRef = useRef(false);
+
+  // Prevent infinite loading with timeout
+  const { clearLoadingTimeout } = useLoadingTimeout({
+    timeout: 15000,
+    enabled: state.isLoading && !state.isInitialized,
+    onTimeout: () => {
+      console.warn('[AuthProvider] Loading timeout - forcing initialization complete');
+      if (mountedRef.current) {
+        setState(prev => ({
+          ...prev,
+          isLoading: false,
+          isInitialized: true,
+          error: 'Authentication timeout - please refresh the page'
+        }));
+      }
+    }
+  });
+
+  // Safe state update function
+  const updateState = (updates: Partial<AuthState>) => {
+    if (mountedRef.current) {
+      setState(prev => ({ ...prev, ...updates }));
+    }
+  };
+
+  // Initialize authentication
+  useEffect(() => {
+    let isCancelled = false;
+
+    const initializeAuth = async () => {
+      // Prevent multiple initializations
+      if (initializationRef.current) {
+        return;
       }
       
-      return data;
-    } catch (error) {
-      console.error('Error in fetchProfile:', error);
-      return null;
-    }
-  };
+      initializationRef.current = true;
+      console.log('[AuthProvider] Starting authentication initialization...');
 
-  // Функция для обновления профиля
-  const refreshProfile = async () => {
-    if (user) {
-      const profileData = await fetchProfile(user.id);
-      setProfile(profileData);
-    }
-  };
-
-  // Инициализация при загрузке
-  useEffect(() => {
-    let mounted = true;
-
-    const initAuth = async () => {
       try {
-        // Получаем текущую сессию
-        const { data: { session: currentSession } } = await supabase.auth.getSession();
+        const result = await authService.initialize();
         
-        if (!mounted) return;
-
-        if (currentSession?.user) {
-          setSession(currentSession);
-          setUser(currentSession.user);
-          
-          // Загружаем профиль
-          const profileData = await fetchProfile(currentSession.user.id);
-          if (mounted) {
-            setProfile(profileData);
-          }
+        if (isCancelled || !mountedRef.current) {
+          return;
         }
+
+        const isAuthenticated = !!(result.user && result.profile);
+
+        updateState({
+          user: result.user,
+          profile: result.profile,
+          isAuthenticated,
+          isLoading: false,
+          isInitialized: true,
+          error: result.error,
+        });
+
+        clearLoadingTimeout();
+        console.log('[AuthProvider] Authentication initialization completed');
       } catch (error) {
-        console.error('Auth initialization error:', error);
-      } finally {
-        if (mounted) {
-          setLoading(false);
+        console.error('[AuthProvider] Authentication initialization failed:', error);
+        
+        if (!isCancelled && mountedRef.current) {
+          updateState({
+            user: null,
+            profile: null,
+            isAuthenticated: false,
+            isLoading: false,
+            isInitialized: true,
+            error: 'Authentication initialization failed',
+          });
+          clearLoadingTimeout();
         }
       }
     };
 
-    initAuth();
+    initializeAuth();
 
-    // Слушатель изменений авторизации
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    return () => {
+      isCancelled = true;
+    };
+  }, [clearLoadingTimeout]);
+
+  // Set up auth state change listener
+  useEffect(() => {
+    console.log('[AuthProvider] Setting up auth state change listener...');
+    
+    const { data: { subscription } } = authService.onAuthStateChange(
       async (event, session) => {
-        if (!mounted) return;
+        console.log('[AuthProvider] Auth state changed:', event);
 
-        console.log('Auth state changed:', event);
-        
-        setSession(session);
-        setUser(session?.user ?? null);
-        
-        if (session?.user) {
-          const profileData = await fetchProfile(session.user.id);
-          if (mounted) {
-            setProfile(profileData);
-          }
-        } else {
-          setProfile(null);
+        if (!mountedRef.current) {
+          return;
         }
-        
-        if (mounted) {
-          setLoading(false);
+
+        try {
+          if (event === 'SIGNED_IN' && session?.user) {
+            const profile = await authService.getUserProfile(session.user.id);
+            
+            updateState({
+              user: session.user as User,
+              profile,
+              isAuthenticated: !!(session.user && profile),
+              error: null,
+            });
+          } else if (event === 'SIGNED_OUT' || event === 'TOKEN_REFRESHED' && !session) {
+            updateState({
+              user: null,
+              profile: null,
+              isAuthenticated: false,
+              error: null,
+            });
+          }
+        } catch (error) {
+          console.error('[AuthProvider] Error handling auth state change:', error);
+          updateState({
+            error: 'Authentication state update failed',
+          });
         }
       }
     );
 
     return () => {
-      mounted = false;
+      console.log('[AuthProvider] Cleaning up auth state change listener...');
       subscription.unsubscribe();
     };
   }, []);
 
-  const signUp = async (email: string, password: string, role: 'artist' | 'admin', additionalData: any) => {
-    try {
-      const metadata: any = { role };
-      
-      if (role === 'artist') {
-        metadata.pseudonym = additionalData.pseudonym;
-        metadata.telegram_contact = additionalData.telegram_contact;
-      } else {
-        metadata.name = additionalData.name;
-      }
-      
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: metadata
-        }
-      });
-      
-      return { error };
-    } catch (error) {
-      return { error };
-    }
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
+
+  // Auth methods
+  const signIn = async (email: string, password: string) => {
+    updateState({ error: null });
+    return authService.signIn(email, password);
   };
 
-  const signIn = async (email: string, password: string) => {
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      
-      return { error };
-    } catch (error) {
-      return { error };
-    }
+  const signUp = async (email: string, password: string, role: 'artist' | 'admin', additionalData: any) => {
+    updateState({ error: null });
+    return authService.signUp(email, password, role, additionalData);
   };
 
   const signOut = async () => {
+    updateState({ error: null });
+    const result = await authService.signOut();
+    
+    if (!result.error) {
+      updateState({
+        user: null,
+        profile: null,
+        isAuthenticated: false,
+      });
+    }
+    
+    return result;
+  };
+
+  const clearError = () => {
+    updateState({ error: null });
+  };
+
+  const refreshProfile = async () => {
+    if (!state.user) return;
+    
     try {
-      const { error } = await supabase.auth.signOut();
-      
-      if (!error) {
-        setUser(null);
-        setSession(null);
-        setProfile(null);
-      }
-      
-      return { error };
+      const profile = await authService.getUserProfile(state.user.id);
+      updateState({ profile });
     } catch (error) {
-      return { error };
+      console.error('[AuthProvider] Failed to refresh profile:', error);
     }
   };
 
-  const value = {
-    user,
-    session,
-    profile,
-    loading,
-    signUp,
+  const value: AuthContextType = {
+    ...state,
     signIn,
+    signUp,
     signOut,
+    clearError,
     refreshProfile,
   };
 

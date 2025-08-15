@@ -297,6 +297,37 @@ const AdminReports = () => {
                       <TableCell>
                         <div className={`font-medium text-sm ${isComplete ? 'text-green-700 dark:text-green-400' : ''}`}>
                           {artist.pseudonym}
+                          {selectedQuarter === 'Q1 2025' && (() => {
+                            // Проверяем есть ли у артиста заявка на выплату с требованием статуса
+                            const [hasQ1StatusRequirement, setHasQ1StatusRequirement] = useState(false);
+                            
+                            useEffect(() => {
+                              const checkQ1Status = async () => {
+                                try {
+                                  const { data, error } = await supabase
+                                    .from('payout_requests')
+                                    .select('requires_q1_2025_status')
+                                    .eq('artist_id', artist.id)
+                                    .eq('quarter', 'Q1 2025')
+                                    .single();
+                                  
+                                  if (!error && data?.requires_q1_2025_status) {
+                                    setHasQ1StatusRequirement(true);
+                                  }
+                                } catch (error) {
+                                  // Игнорируем ошибки если заявки нет
+                                }
+                              };
+                              
+                              checkQ1Status();
+                            }, [artist.id]);
+                            
+                            return hasQ1StatusRequirement ? (
+                              <div className="text-xs text-orange-600 bg-orange-50 px-2 py-1 rounded border border-orange-200 mt-1 inline-block dark:bg-orange-900/30 dark:text-orange-400 dark:border-orange-800">
+                                ⚠ требуется статус на 15.08.2025
+                              </div>
+                            ) : null;
+                          })()}
                           {isComplete && (
                             <div className="text-xs text-green-600 dark:text-green-500 mt-1">
                               отчет направлен

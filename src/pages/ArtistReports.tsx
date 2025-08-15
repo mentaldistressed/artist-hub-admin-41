@@ -293,6 +293,41 @@ const ArtistReports = () => {
                         
                         <div className="flex flex-col items-end gap-2">
                           {payoutStatus}
+                          {quarter === 'Q1 2025' && hasPayoutRequest && (
+                            <div className="flex items-center space-x-2 mt-2">
+                              <Checkbox
+                                id={`q1-status-${hasPayoutRequest.id}`}
+                                checked={hasPayoutRequest.requires_q1_2025_status}
+                                onCheckedChange={async (checked) => {
+                                  try {
+                                    const { error } = await supabase
+                                      .from('payout_requests')
+                                      .update({ requires_q1_2025_status: checked as boolean })
+                                      .eq('id', hasPayoutRequest.id);
+
+                                    if (error) throw error;
+
+                                    toast({
+                                      title: "статус обновлен",
+                                      description: checked ? "отмечено как требующее статус" : "статус снят",
+                                    });
+
+                                    await fetchPayoutRequests();
+                                  } catch (error) {
+                                    console.error('Error updating Q1 2025 status:', error);
+                                    toast({
+                                      title: "ошибка обновления",
+                                      description: "не удалось обновить статус",
+                                      variant: "destructive",
+                                    });
+                                  }
+                                }}
+                              />
+                              <Label htmlFor={`q1-status-${hasPayoutRequest.id}`} className="text-xs text-muted-foreground">
+                                требуется по состоянию на 15.08.2025
+                              </Label>
+                            </div>
+                          )}
                           {!hasPayoutRequest && (
                             <Dialog>
                               <DialogTrigger asChild>

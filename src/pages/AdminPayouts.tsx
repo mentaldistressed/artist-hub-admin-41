@@ -8,7 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Layout } from '@/components/Layout';
-import { CheckCircle, Clock, Download } from 'lucide-react';
+import { CheckCircle, Clock, Download, FileText } from 'lucide-react';
 
 interface PayoutRequest {
   id: string;
@@ -21,6 +21,7 @@ interface PayoutRequest {
   account_number: string;
   is_self_employed: boolean;
   status: 'pending' | 'completed';
+  tax_receipt_url?: string;
   created_at: string;
   updated_at: string;
   artist?: {
@@ -154,6 +155,7 @@ const AdminPayouts = () => {
                     <TableHead className="text-muted-foreground">сумма</TableHead>
                     <TableHead className="text-muted-foreground">реквизиты</TableHead>
                     <TableHead className="text-muted-foreground">статус</TableHead>
+                    <TableHead className="text-muted-foreground">чек об уплате налога</TableHead>
                     <TableHead className="text-muted-foreground">дата</TableHead>
                     <TableHead className="text-muted-foreground">действия</TableHead>
                   </TableRow>
@@ -184,6 +186,30 @@ const AdminPayouts = () => {
                       </TableCell>
                       <TableCell>
                         {getStatusBadge(request.status)}
+                      </TableCell>
+                      <TableCell>
+                        {request.status === 'completed' && (
+                          <div className="space-y-2">
+                            {request.tax_receipt_url ? (
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => window.open(request.tax_receipt_url, '_blank')}
+                                className="h-7 text-xs"
+                              >
+                                <FileText className="h-3 w-3 mr-1" />
+                                просмотреть чек
+                              </Button>
+                            ) : (
+                              <div className="text-xs text-orange-600 bg-orange-50 px-2 py-1 rounded border border-orange-200">
+                                ожидается чек
+                              </div>
+                            )}
+                          </div>
+                        )}
+                        {request.status === 'pending' && (
+                          <div className="text-xs text-muted-foreground">-</div>
+                        )}
                       </TableCell>
                       <TableCell>
                         <div className="text-xs text-muted-foreground">

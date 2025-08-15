@@ -10,7 +10,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
 import { Layout } from '@/components/Layout';
-import { FileText, Download, Send, AlertCircle } from 'lucide-react';
+import { FileText, Download, Send, AlertCircle, Upload } from 'lucide-react';
 
 interface Report {
   id: string;
@@ -33,6 +33,7 @@ interface PayoutRequest {
   account_number: string;
   is_self_employed: boolean;
   status: 'pending' | 'completed';
+  tax_receipt_url?: string;
   created_at: string;
 }
 
@@ -44,6 +45,7 @@ const ArtistReports = () => {
   const [loading, setLoading] = useState(true);
   const [isPayoutDialogOpen, setIsPayoutDialogOpen] = useState(false);
   const [currentReport, setCurrentReport] = useState<Report | null>(null);
+  const [uploadingReceipt, setUploadingReceipt] = useState<{ [key: string]: boolean }>({});
   const { toast } = useToast();
 
   const quarters = ['Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025'];
@@ -162,14 +164,68 @@ const ArtistReports = () => {
     }
   };
 
+  const handleTaxReceiptUpload = async (requestId: string, file: File) => {
+    setUploadingReceipt(prev => ({ ...prev, [requestId]: true }));
+    
+    try {
+      const fileName = `tax_receipt_${requestId}_${Date.now()}.${file.name.split('.').pop()}`;
+      const filePath = `tax-receipts/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('reports')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('reports')
+        .getPublicUrl(filePath);
+
+      const { error } = await supabase
+        .from('payout_requests')
+        .update({ tax_receipt_url: publicUrl })
+        .eq('id', requestId);
+
+      if (error) throw error;
+
+      toast({
+        title: "чек загружен",
+        description: "чек об уплате налога успешно загружен",
+      });
+
+      await fetchPayoutRequests();
+    } catch (error) {
+      console.error('Error uploading tax receipt:', error);
+      toast({
+        title: "ошибка загрузки",
+        description: "не удалось загрузить чек",
+        variant: "destructive",
+      });
+    } finally {
+      setUploadingReceipt(prev => ({ ...prev, [requestId]: false }));
+    }
+  };
+
   const getPayoutStatus = (quarter: string) => {
     const request = getPayoutRequestForQuarter(quarter);
     if (!request) return null;
     
     if (request.status === 'completed') {
       return (
-        <div className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded border border-green-200">
-          ✓ выплата выполнена
+        <div className="space-y-2">
+          <div className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded border border-green-200">
+            ✓ выплата выполнена
+          </div>
+          {!request.tax_receipt_url && (
+            <div className="text-xs text-orange-600 bg-orange-50 px-2 py-1 rounded border border-orange-200">
+              ⚠ требуется чек об уплате налога
+            </div>
+          )}
+          {request.tax_receipt_url && (
+            <div className="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded border border-blue-200">
+              ✓ чек загружен
+            </div>
+          )}
         </div>
       );
     }
@@ -344,6 +400,37 @@ const ArtistReports = () => {
                                 </form>
                               </DialogContent>
                             </Dialog>
+                          )}
+                          {hasPayoutRequest && hasPayoutRequest.status === 'completed' && !hasPayoutRequest.tax_receipt_url && (
+                            <div className="space-y-2">
+                              <Label className="text-xs text-muted-foreground">загрузить чек об уплате налога:</Label>
+                              <Input
+                                type="file"
+                                accept=".pdf,.jpg,.jpeg,.png"
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) {
+                                    handleTaxReceiptUpload(hasPayoutRequest.id, file);
+                                  }
+                                }}
+                                disabled={uploadingReceipt[hasPayoutRequest.id]}
+                                className="text-xs h-8"
+                              />
+                              {uploadingReceipt[hasPayoutRequest.id] && (
+                                <div className="text-xs text-muted-foreground">загрузка...</div>
+                              )}
+                            </div>
+                          )}
+                          {hasPayoutRequest && hasPayoutRequest.tax_receipt_url && (
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => window.open(hasPayoutRequest.tax_receipt_url, '_blank')}
+                              className="h-8 text-xs"
+                            >
+                              <Download className="h-3 w-3 mr-1" />
+                              скачать чек
+                            </Button>
                           )}
                         </div>
                       </div>

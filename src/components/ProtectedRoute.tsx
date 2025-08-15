@@ -8,19 +8,6 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute = ({ children, requiredRole }: ProtectedRouteProps) => {
   const { user, profile, loading } = useAuth();
-  
-  // Дополнительная защита от бесконечной загрузки
-  React.useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (loading) {
-        console.warn('ProtectedRoute: Loading timeout reached');
-        // Принудительно перезагружаем страницу если загрузка длится более 15 секунд
-        window.location.reload();
-      }
-    }, 15000);
-    
-    return () => clearTimeout(timeout);
-  }, [loading]);
 
   if (loading) {
     return (

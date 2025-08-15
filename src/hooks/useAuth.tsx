@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from 'react-router-dom';
-import { SessionManager } from '@/utils/sessionManager';
 
 interface Profile {
   id: string;
@@ -42,6 +41,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [initialized, setInitialized] = useState(false);
 
   const fetchProfile = async (userId: string) => {
     try {
@@ -70,99 +70,91 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // Инициализация авторизации
   useEffect(() => {
     let mounted = true;
-    let timeoutId: NodeJS.Timeout;
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        if (!mounted) return;
-        
-        setSession(session);
-        setUser(session?.user ?? null);
-        
-        if (session?.user) {
-          try {
-            await fetchProfile(session.user.id);
-          } catch (error) {
-            console.error('Error fetching profile after auth change:', error);
-          }
-        } else {
-          setProfile(null);
-        }
-        
-        setLoading(false);
-      }
-    );
-
-    // Инициализация сессии
-    const initializeAuth = async () => {
+    
+    const initAuth = async () => {
       try {
-        // Устанавливаем таймаут на 10 секунд
-        timeoutId = setTimeout(() => {
-          if (mounted) {
-            console.warn('Auth initialization timeout - forcing loading to false');
-            setLoading(false);
-          }
-        }, 10000);
-
-        const { data: { session }, error } = await supabase.auth.getSession();
+        console.log('Initializing auth...');
+        
+        // Получаем текущую сессию
+        const { data: { session: currentSession }, error } = await supabase.auth.getSession();
         
         if (error) {
-          console.error('Error getting session:', error);
+          console.error('Session error:', error);
           if (mounted) {
             setUser(null);
             setSession(null);
             setProfile(null);
             setLoading(false);
+            setInitialized(true);
           }
           return;
         }
-        
-        if (!mounted) return;
-        
-        // Очищаем таймаут, так как получили ответ
-        if (timeoutId) {
-          clearTimeout(timeoutId);
-        }
-        
-        setSession(session);
-        setUser(session?.user ?? null);
-        
-        if (session?.user) {
-          try {
-            await fetchProfile(session.user.id);
-          } catch (error) {
-            console.error('Error fetching profile during init:', error);
+
+        if (mounted) {
+          setSession(currentSession);
+          setUser(currentSession?.user ?? null);
+          
+          if (currentSession?.user) {
+            console.log('User found, fetching profile...');
+            await fetchProfile(currentSession.user.id);
+          } else {
+            console.log('No user found');
             setProfile(null);
           }
-        } else {
-          setProfile(null);
+          
+          setLoading(false);
+          setInitialized(true);
         }
       } catch (error) {
-        console.error('Error initializing auth:', error);
+        console.error('Auth initialization error:', error);
         if (mounted) {
           setUser(null);
           setSession(null);
           setProfile(null);
           setLoading(false);
-        }
-      } finally {
-        if (mounted) {
-          setLoading(false);
+          setInitialized(true);
         }
       }
     };
 
-    initializeAuth();
+    // Принудительный таймаут
+    const timeout = setTimeout(() => {
+      if (mounted && !initialized) {
+        console.warn('Auth initialization timeout');
+        setLoading(false);
+        setInitialized(true);
+      }
+    }, 5000);
+
+    initAuth();
 
     return () => {
       mounted = false;
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-      subscription.unsubscribe();
+      clearTimeout(timeout);
     };
+  }, []);
+
+  // Слушатель изменений авторизации
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        console.log('Auth state changed:', event);
+        
+        setSession(session);
+        setUser(session?.user ?? null);
+        
+        if (session?.user) {
+          await fetchProfile(session.user.id);
+        } else {
+          setProfile(null);
+        }
+      }
+    );
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const signUp = async (email: string, password: string, role: 'artist' | 'admin', additionalData: any) => {

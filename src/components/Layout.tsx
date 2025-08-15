@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/AppSidebar';
 import { useAuth } from '@/hooks/useAuth';
@@ -10,47 +9,13 @@ interface LayoutProps {
 
 export const Layout = ({ children }: LayoutProps) => {
   const { user, profile, loading } = useAuth();
-  const [forceReload, setForceReload] = useState(false);
-  
-  // Защита от бесконечной загрузки
-  useEffect(() => {
-    if (loading) {
-      const timeout = setTimeout(() => {
-        console.warn('Layout: Loading timeout - showing reload option');
-        setForceReload(true);
-      }, 12000); // 12 секунд
-      
-      return () => clearTimeout(timeout);
-    } else {
-      setForceReload(false);
-    }
-  }, [loading]);
 
-  if (loading && !forceReload) {
+  if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
           <div className="animate-spin rounded-full h-6 w-6 border-2 border-primary border-t-transparent mx-auto"></div>
           <p className="mt-3 text-sm text-muted-foreground">загрузка...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (forceReload || loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-center space-y-4">
-          <div className="text-yellow-600">
-            <p className="text-lg font-medium">долгая загрузка</p>
-            <p className="text-sm text-muted-foreground">если загрузка не завершается, обновите страницу</p>
-          </div>
-          <button 
-            onClick={() => window.location.reload()} 
-            className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
-          >
-            обновить страницу
-          </button>
         </div>
       </div>
     );

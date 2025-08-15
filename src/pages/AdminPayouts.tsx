@@ -180,6 +180,7 @@ const AdminPayouts = () => {
                       </TableCell>
                       <TableCell>
                         <div className="text-xs space-y-1">
+                          <div><span className="text-muted-foreground">Договор:</span> {request.contract_number}</div>
                           <div><span className="text-muted-foreground">ИНН:</span> {request.inn}</div>
                           <div><span className="text-muted-foreground">ФИО:</span> {request.full_name}</div>
                           <div><span className="text-muted-foreground">БИК:</span> {request.bik}</div>

@@ -363,6 +363,18 @@ const ArtistReports = () => {
                                 <form onSubmit={handleSubmitPayoutRequest} className="space-y-4">
                                   <input type="hidden" name="reportId" value={report.id} />
                                   <div className="space-y-2">
+                                    <Label htmlFor="contract_number" className="text-sm">номер договора</Label>
+                                    <Input
+                                      id="contract_number"
+                                      value={payoutData.contract_number}
+                                      onChange={(e) => setPayoutData(prev => ({ ...prev, contract_number: e.target.value }))}
+                                      placeholder="№ 123/2025"
+                                      required
+                                      className="h-9 text-sm"
+                                    />
+                                  </div>
+                                  
+                                  <div className="space-y-2">
                                     <Label htmlFor="inn" className="text-sm">ИНН</Label>
                                     <Input
                                       id="inn"

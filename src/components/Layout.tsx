@@ -14,7 +14,7 @@ export const Layout = ({ children }: LayoutProps) => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-6 w-6 border-2 border-foreground border-t-transparent mx-auto"></div>
+          <div className="animate-spin rounded-full h-6 w-6 border-2 border-primary border-t-transparent mx-auto"></div>
           <p className="mt-3 text-sm text-muted-foreground">загрузка...</p>
         </div>
       </div>

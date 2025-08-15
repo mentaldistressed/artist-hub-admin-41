@@ -85,20 +85,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
     );
 
-    // Проверяем текущую сессию
-    const initializeAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+    // Проверяем текущую сессию при инициализации
+    supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
       
       if (session?.user) {
-        await fetchProfile(session.user.id);
+        fetchProfile(session.user.id).finally(() => setLoading(false));
+      } else {
+        setLoading(false);
       }
-      
-      setLoading(false);
-    };
-
-    initializeAuth();
+    });
 
     return () => subscription.unsubscribe();
   }, []);

@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/AppSidebar';
 import { useAuth } from '@/hooks/useAuth';
@@ -10,7 +11,6 @@ interface LayoutProps {
 export const Layout = ({ children }: LayoutProps) => {
   const { user, profile, loading } = useAuth();
 
-  // Add timeout for loading state to prevent infinite loading
   const [loadingTimeout, setLoadingTimeout] = useState(false);
   
   useEffect(() => {
@@ -24,6 +24,7 @@ export const Layout = ({ children }: LayoutProps) => {
       setLoadingTimeout(false);
     }
   }, [loading]);
+
   if (loading && !loadingTimeout) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -35,7 +36,6 @@ export const Layout = ({ children }: LayoutProps) => {
     );
   }
 
-  // If loading timed out, show error and clear session
   if (loadingTimeout) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -54,6 +54,7 @@ export const Layout = ({ children }: LayoutProps) => {
       </div>
     );
   }
+
   if (!user || !profile) {
     return <AuthForm />;
   }

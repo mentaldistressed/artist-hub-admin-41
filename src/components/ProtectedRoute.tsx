@@ -4,7 +4,7 @@ import { AuthForm } from '@/components/AuthForm';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { AlertCircle, RefreshCw } from 'lucide-react';
+import { AlertCircle, RefreshCw, Home } from 'lucide-react';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -21,43 +21,34 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     user, 
     profile, 
     error,
-    retry,
-    refreshAuth,
-    retryCount,
+    refreshProfile,
     clearError 
   } = useAuth();
 
-  // Show loading spinner during initialization
+  // Показываем загрузку только во время инициализации
   if (isLoading || !isInitialized) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-center space-y-4">
-          <LoadingSpinner 
-            size="lg" 
-            message="Initializing application..." 
-          />
-          {retryCount > 0 && (
-            <p className="text-sm text-muted-foreground">
-              Retry attempt {retryCount}/3
-            </p>
-          )}
-        </div>
+        <LoadingSpinner 
+          size="lg" 
+          message="Загрузка приложения..." 
+        />
       </div>
     );
   }
 
-  // Show error state with retry options
-  if (error) {
+  // Если есть ошибка, показываем её только если это критическая ошибка
+  if (error && error.includes('timeout')) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background p-4">
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-destructive">
               <AlertCircle className="h-5 w-5" />
-              Authentication Error
+              Ошибка подключения
             </CardTitle>
             <CardDescription>
-              There was a problem with authentication
+              Проблема с подключением к серверу
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -65,23 +56,58 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
             
             <div className="flex flex-col gap-2">
               <Button 
-                onClick={retry} 
+                onClick={() => window.location.reload()} 
                 variant="default" 
                 size="sm"
-                disabled={retryCount >= 3}
                 className="w-full"
               >
                 <RefreshCw className="h-4 w-4 mr-2" />
-                {retryCount >= 3 ? 'Max retries reached' : 'Try Again'}
+                Перезагрузить страницу
               </Button>
               
               <Button 
-                onClick={refreshAuth} 
+                onClick={clearError} 
                 variant="outline" 
                 size="sm"
                 className="w-full"
               >
-                Refresh Authentication
+                Продолжить без профиля
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Если нет пользователя, показываем форму входа
+  if (!user) {
+    return <AuthForm />;
+  }
+
+  // Если нет профиля, но есть пользователь, пытаемся загрузить профиль
+  if (!profile) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background p-4">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle>Загрузка профиля</CardTitle>
+            <CardDescription>
+              Настройка вашего аккаунта...
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <LoadingSpinner size="md" message="Загрузка данных профиля..." />
+            
+            <div className="flex flex-col gap-2">
+              <Button 
+                onClick={refreshProfile} 
+                variant="outline" 
+                size="sm"
+                className="w-full"
+              >
+                <RefreshCw className="h-4 w-4 mr-2" />
+                Повторить загрузку
               </Button>
               
               <Button 
@@ -90,19 +116,9 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
                 size="sm"
                 className="w-full"
               >
-                Reload Page
+                <Home className="h-4 w-4 mr-2" />
+                Перезагрузить приложение
               </Button>
-              
-              {error && (
-                <Button 
-                  onClick={clearError} 
-                  variant="ghost" 
-                  size="sm"
-                  className="w-full text-muted-foreground"
-                >
-                  Dismiss Error
-                </Button>
-              )}
             </div>
           </CardContent>
         </Card>
@@ -110,28 +126,23 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     );
   }
 
-  // Show login form if not authenticated
-  if (!user || !profile) {
-    return <AuthForm />;
-  }
-
-  // Check role permissions
+  // Проверка ролей
   if (requiredRole && profile.role !== requiredRole) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background p-4">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle>Access Denied</CardTitle>
+            <CardTitle>Доступ запрещен</CardTitle>
             <CardDescription>
-              You don't have permission to view this page
+              У вас нет прав для просмотра этой страницы
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
             <p className="text-sm text-muted-foreground">
-              Required role: {requiredRole === 'admin' ? 'Administrator' : 'Artist'}
+              Требуемая роль: {requiredRole === 'admin' ? 'Администратор' : 'Артист'}
             </p>
             <p className="text-sm text-muted-foreground">
-              Your role: {profile.role === 'admin' ? 'Administrator' : 'Artist'}
+              Ваша роль: {profile.role === 'admin' ? 'Администратор' : 'Артист'}
             </p>
             <Button 
               onClick={() => window.history.back()} 
@@ -139,7 +150,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
               size="sm"
               className="w-full mt-4"
             >
-              Go Back
+              Назад
             </Button>
           </CardContent>
         </Card>
@@ -147,6 +158,6 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     );
   }
 
-  // Render protected content
+  // Рендерим защищенный контент
   return <>{children}</>;
 };

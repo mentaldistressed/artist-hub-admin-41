@@ -369,9 +369,3 @@ export const AuthForm = () => {
     </div>
   );
 };
-          </CardContent>
-        </Card>
-      </div>
-    </div>
-  );
-};

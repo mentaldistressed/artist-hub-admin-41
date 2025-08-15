@@ -8,6 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Layout } from '@/components/Layout';
+import { FileUpload } from '@/components/ui/file-upload';
 import { FileText, Save } from 'lucide-react';
 
 interface Profile {
@@ -244,23 +245,16 @@ const AdminReports = () => {
                         </div>
                       </TableCell>
                       <TableCell>
-                        <div className="flex items-center gap-2">
-                          <Input
-                            type="file"
-                            accept=".pdf,.doc,.docx,.xls,.xlsx"
-                            onChange={(e) => {
-                              const file = e.target.files?.[0];
-                              if (file) {
-                                handleFileUpload(artist.id, file);
-                              }
-                            }}
-                            disabled={uploadingFiles[artist.id]}
-                            className="text-xs h-8"
-                          />
-                          {report?.file_url && (
-                            <FileText className="h-4 w-4 text-muted-foreground" />
-                          )}
-                        </div>
+                        <FileUpload
+                          onFileSelect={(file) => handleFileUpload(artist.id, file)}
+                          accept=".pdf,.doc,.docx,.xls,.xlsx"
+                          maxSize={10}
+                          isUploading={uploadingFiles[artist.id]}
+                          currentFile={report?.file_url}
+                          placeholder="Загрузить отчет"
+                          variant="minimal"
+                          disabled={uploadingFiles[artist.id]}
+                        />
                       </TableCell>
                       <TableCell>
                         <Input

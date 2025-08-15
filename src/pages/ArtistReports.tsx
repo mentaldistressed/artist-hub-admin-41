@@ -10,6 +10,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
 import { Layout } from '@/components/Layout';
+import { FileUpload } from '@/components/ui/file-upload';
 import { FileText, Download, Send, AlertCircle, Upload } from 'lucide-react';
 
 interface Report {
@@ -403,22 +404,18 @@ const ArtistReports = () => {
                           )}
                           {hasPayoutRequest && hasPayoutRequest.status === 'completed' && !hasPayoutRequest.tax_receipt_url && (
                             <div className="space-y-2">
-                              <Label className="text-xs text-muted-foreground">загрузить чек об уплате налога:</Label>
-                              <Input
-                                type="file"
-                                accept=".pdf,.jpg,.jpeg,.png"
-                                onChange={(e) => {
-                                  const file = e.target.files?.[0];
-                                  if (file) {
-                                    handleTaxReceiptUpload(hasPayoutRequest.id, file);
-                                  }
-                                }}
-                                disabled={uploadingReceipt[hasPayoutRequest.id]}
-                                className="text-xs h-8"
-                              />
-                              {uploadingReceipt[hasPayoutRequest.id] && (
-                                <div className="text-xs text-muted-foreground">загрузка...</div>
-                              )}
+                              <div className="space-y-2">
+                                <Label className="text-xs font-medium text-foreground">загрузить чек об уплате налога:</Label>
+                                <FileUpload
+                                  onFileSelect={(file) => handleTaxReceiptUpload(hasPayoutRequest.id, file)}
+                                  accept=".pdf,.jpg,.jpeg,.png"
+                                  maxSize={5}
+                                  isUploading={uploadingReceipt[hasPayoutRequest.id]}
+                                  placeholder="Выберите чек об уплате налога"
+                                  variant="compact"
+                                  disabled={uploadingReceipt[hasPayoutRequest.id]}
+                                />
+                              </div>
                             </div>
                           )}
                           {hasPayoutRequest && hasPayoutRequest.tax_receipt_url && (

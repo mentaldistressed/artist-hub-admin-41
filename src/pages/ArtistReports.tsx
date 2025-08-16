@@ -358,7 +358,7 @@ const ArtistReports = () => {
                         }}
                       />
                       <Label htmlFor={`q1-status-${quarter}`} className="text-sm text-muted-foreground">
-                        требуется по состоянию на 15.08.2025
+                        я ещё НЕ получал деньги/отчёт за Q1 2025
                       </Label>
                     </div>
                   )}

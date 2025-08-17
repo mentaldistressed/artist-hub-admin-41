@@ -12,6 +12,7 @@ import AdminUsers from "./pages/AdminUsers";
 import AdminReports from "./pages/AdminReports";
 import AdminPayouts from "./pages/AdminPayouts";
 import AdminSettings from "./pages/AdminSettings";
+import Releases from "./pages/Releases"
 import NotFound from "./pages/NotFound";
 
 // Configure React Query with better defaults for authentication
@@ -88,6 +89,11 @@ const App = () => {
                 <Route path="/admin-settings" element={
                   <ProtectedRoute requiredRole="admin">
                     <AdminSettings />
+                  </ProtectedRoute>
+                } />
+                <Route path="/releases" element={
+                  <ProtectedRoute requiredRole="admin">
+                    <Releases />
                   </ProtectedRoute>
                 } />
                 <Route path="*" element={<NotFound />} />

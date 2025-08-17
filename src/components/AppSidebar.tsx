@@ -1,4 +1,4 @@
-import { Users, DollarSign, Settings, LogOut, Home, FileText, Send } from 'lucide-react';
+import { Users, DollarSign, Settings, LogOut, Home, FileText, Send, FileMusic } from 'lucide-react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -25,6 +25,7 @@ interface NavItem {
 const artistItems: NavItem[] = [
   { title: 'Главная', url: '/', icon: Home, role: 'artist' },
   { title: 'Отчеты', url: '/reports', icon: FileText, role: 'artist' },
+  { title: 'Релизы', url: '/releases', icon: FileMusic, role: 'artist'}
 ];
 
 const adminItems: NavItem[] = [

@@ -24,16 +24,17 @@ interface NavItem {
 
 const artistItems: NavItem[] = [
   { title: 'Главная', url: '/', icon: Home, role: 'artist' },
-  { title: 'Отчеты', url: '/reports', icon: FileText, role: 'artist' },
-  { title: 'Релизы', url: '/releases', icon: FileMusic, role: 'artist'}
+  { title: 'Релизы', url: '/releases', icon: FileMusic, role: 'artist'},
+  { title: 'Отчеты', url: '/reports', icon: FileText, role: 'artist' }
 ];
 
 const adminItems: NavItem[] = [
   { title: 'Главная', url: '/', icon: Home, role: 'admin' },
   { title: 'Пользователи', url: '/admin-users', icon: Users, role: 'admin' },
+  { title: 'Релизы', url: '/releases', icon: FileMusic, role: 'admin'},
   { title: 'Отчеты', url: '/admin-reports', icon: FileText, role: 'admin' },
   { title: 'Выплаты', url: '/admin-payouts', icon: Send, role: 'admin' },
-  { title: 'Настройки', url: '/admin-settings', icon: Settings, role: 'admin' },
+  { title: 'Настройки', url: '/admin-settings', icon: Settings, role: 'admin' }
 ];
 
 export function AppSidebar() {

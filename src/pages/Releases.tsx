@@ -4,7 +4,7 @@ import { Layout } from '@/components/Layout';
 import { Info } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
-const ArtistFinances = () => {
+const Releases = () => {
   const { profile } = useAuth();
 
   return (

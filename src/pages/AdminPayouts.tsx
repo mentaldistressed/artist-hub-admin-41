@@ -8,6 +8,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Layout } from '@/components/Layout';
+import { CopyableLine } from "@/components/CopyableLine";
+import { CopyButton } from "@/components/CopyButton";
 import { CheckCircle, Clock, Download, FileText } from 'lucide-react';
 
 interface PayoutRequest {
@@ -175,16 +177,17 @@ const AdminPayouts = () => {
                       </TableCell>
                       <TableCell>
                         <div className="font-mono text-sm">
-                          {request.amount_rub.toFixed(2)} ₽
+                          {request.amount_rub.toFixed(2).replace(".", ",")} ₽
+                          <CopyButton value={request.amount_rub.toFixed(2).replace(".", ",")} ariaLabel="Скопировать сумму" />
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="text-xs space-y-1">
-                          <div><span className="text-muted-foreground">Договор:</span> {request.contract_number}</div>
-                          <div><span className="text-muted-foreground">ИНН:</span> {request.inn}</div>
-                          <div><span className="text-muted-foreground">ФИО:</span> {request.full_name}</div>
-                          <div><span className="text-muted-foreground">БИК:</span> {request.bik}</div>
-                          <div><span className="text-muted-foreground">Счет:</span> {request.account_number}</div>
+                          <CopyableLine label="Договор" value={request.contract_number} mono />
+                          <CopyableLine label="ИНН" value={request.inn} mono />
+                          <CopyableLine label="ФИО" value={request.full_name} />
+                          <CopyableLine label="БИК" value={request.bik} mono />
+                          <CopyableLine label="Счет" value={request.account_number} mono />
                           {request.is_self_employed && (
                             <div className="text-green-600">✓ Самозанятый/ИП</div>
                           )}

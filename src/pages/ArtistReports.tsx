@@ -326,40 +326,12 @@ const ArtistReports = () => {
                   </CardDescription>
                   {quarter === 'Q1 2025' && (
                     <div className="flex items-center space-x-2 mt-3 pt-3 border-t border-border/20">
-                      <Checkbox
-                        id={`q1-status-${quarter}`}
-                        checked={profile?.requires_q1_2025_status || false}
-                        onCheckedChange={async (checked) => {
-                          try {
-                            const { error } = await supabase
-                              .from('profiles')
-                              .update({ requires_q1_2025_status: checked as boolean })
-                              .eq('id', profile?.id);
-
-                            if (error) throw error;
-
-                            toast({
-                              title: "Статус обновлен",
-                              description: checked ? "Отмечено как требующееся" : "Статус снят",
-                            });
-
-                            // Обновляем локальный профиль
-                            if (profile) {
-                              profile.requires_q1_2025_status = checked as boolean;
-                            }
-                          } catch (error) {
-                            console.error('Error updating Q1 2025 status:', error);
-                            toast({
-                              title: "Ошибка обновления",
-                              description: "Не удалось обновить статус",
-                              variant: "destructive",
-                            });
-                          }
-                        }}
-                      />
-                      <Label htmlFor={`q1-status-${quarter}`} className="text-sm text-muted-foreground">
-                        Я ещё НЕ получал деньги/отчёт за Q1 2025
-                      </Label>
+                        <p className="text-xs text-muted-foreground">* Галочка «Я ещё НЕ получал деньги/отчёт за Q1 2025» убрана, нужно разобрать текущий наплыв заявок</p>
+                    </div>
+                  )}
+                  {quarter === 'Q2 2025' && (
+                    <div className="flex items-center space-x-2 mt-3 pt-3 border-t border-border/20">
+                        <p className="text-xs text-muted-foreground">Планируем закончить с отчётами за {quarter} до 25 августа 2025 года</p>
                     </div>
                   )}
                 </CardHeader>

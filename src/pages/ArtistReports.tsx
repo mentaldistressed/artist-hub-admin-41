@@ -335,14 +335,43 @@ const ArtistReports = () => {
                         <p className="text-xs text-muted-foreground">Если Вы ещё не получили свой отчёт — не стоит переживать, мы планируем закончить с отчётами за {quarter} до 25 августа 2025 года</p>
                     </div>
                   )}
+                  {quarter === 'Q3 2025' && (
+                    <div className="flex items-center space-x-2 mt-3 pt-3 border-t border-border/20">
+                        <p className="text-xs text-muted-foreground">Примерная запланированная дата получения отчёта за {quarter}: 15 ноября 2025 года</p>
+                    </div>
+                  )}
+                  {quarter === 'Q4 2025' && (
+                    <div className="flex items-center space-x-2 mt-3 pt-3 border-t border-border/20">
+                        <p className="text-xs text-muted-foreground">Примерная запланированная дата получения отчёта за {quarter}: 15 февраля 2026 года</p>
+                    </div>
+                  )}
                 </CardHeader>
                 <CardContent>
                   {!report ? (
-                    <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                      <AlertCircle className="h-4 w-4" />
-                      Данные в настоящее время отсутствуют
-                    </div>
-                  ) : (
+                  <>
+                    {quarter === 'Q1 2025' ? (
+                      <div className="flex items-center gap-2 text-amber-600 text-sm">
+                        <AlertCircle className="h-4 w-4" />
+                        Отчётный период завершён
+                      </div>
+                    ) : quarter === 'Q3 2025' ? (
+                      <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                        <AlertCircle className="h-4 w-4" />
+                        Отчётный период ещё не начался
+                      </div>
+                    ) : quarter === 'Q4 2025' ? (
+                      <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                        <AlertCircle className="h-4 w-4" />
+                        Отчётный период ещё не начался
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                        <AlertCircle className="h-4 w-4" />
+                        Данные в настоящее время отсутствуют
+                      </div>
+                        )}
+                      </>
+                    ) : (
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
                         <div className="space-y-2">

@@ -11,7 +11,8 @@ import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
 import { Layout } from '@/components/Layout';
 import { FileUpload } from '@/components/ui/file-upload';
-import { FileText, Download, Send, AlertCircle, Upload } from 'lucide-react';
+import { FileText, Download, Send, AlertCircle, Upload, Info } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface Report {
   id: string;
@@ -304,7 +305,7 @@ const ArtistReports = () => {
   }
 
   return (
-    <Layout>
+    <Layout>        
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-medium text-foreground">Отчеты</h1>

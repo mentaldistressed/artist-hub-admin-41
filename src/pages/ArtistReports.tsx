@@ -327,12 +327,12 @@ const ArtistReports = () => {
                   </CardDescription>
                   {quarter === 'Q1 2025' && (
                     <div className="flex items-center space-x-2 mt-3 pt-3 border-t border-border/20">
-                        <p className="text-xs text-muted-foreground">* Галочка «Я ещё НЕ получал деньги/отчёт за Q1 2025» убрана, нужно разобрать текущий наплыв заявок</p>
+                        <p className="text-xs text-muted-foreground">* Галочка «Я ещё НЕ получал деньги/отчёт за {quarter}» убрана, нужно разобрать текущий наплыв заявок</p>
                     </div>
                   )}
                   {quarter === 'Q2 2025' && (
                     <div className="flex items-center space-x-2 mt-3 pt-3 border-t border-border/20">
-                        <p className="text-xs text-muted-foreground">Планируем закончить с отчётами за {quarter} до 25 августа 2025 года</p>
+                        <p className="text-xs text-muted-foreground">Если Вы ещё не получили свой отчёт — не стоит переживать, мы планируем закончить с отчётами за {quarter} до 25 августа 2025 года</p>
                     </div>
                   )}
                 </CardHeader>

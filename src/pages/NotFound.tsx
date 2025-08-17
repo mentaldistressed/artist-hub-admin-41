@@ -18,7 +18,7 @@ const NotFound = () => {
     <div className="min-h-screen flex items-center justify-center bg-background">
       <div className="text-center">
         <h1 className="text-4xl font-medium mb-4 text-foreground">404</h1>
-        <p className="text-lg text-muted-foreground mb-6">страница не найдена</p>
+        <p className="text-lg text-muted-foreground mb-6">Страница не найдена</p>
         <Button onClick={() => navigate('/')} variant="outline">
           вернуться на главную
         </Button>

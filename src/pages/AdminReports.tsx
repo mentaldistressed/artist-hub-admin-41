@@ -150,16 +150,16 @@ const AdminReports = () => {
       }
 
       toast({
-        title: "файл загружен",
-        description: "отчет успешно сохранен",
+        title: "Файл загружен",
+        description: "Отчет успешно сохранен",
       });
 
       await fetchReports();
     } catch (error) {
       console.error('Error uploading file:', error);
       toast({
-        title: "ошибка загрузки",
-        description: "не удалось загрузить файл",
+        title: "Ошибка загрузки",
+        description: "Не удалось загрузить файл",
         variant: "destructive",
       });
     } finally {
@@ -192,16 +192,16 @@ const AdminReports = () => {
       }
 
       toast({
-        title: "сумма сохранена",
-        description: "данные успешно обновлены",
+        title: "Сумма сохранена",
+        description: "Данные успешно обновлены",
       });
 
       await fetchReports();
     } catch (error) {
       console.error('Error saving amount:', error);
       toast({
-        title: "ошибка сохранения",
-        description: "не удалось сохранить сумму",
+        title: "Ошибка сохранения",
+        description: "Не удалось сохранить сумму",
         variant: "destructive",
       });
     }
@@ -224,11 +224,11 @@ const AdminReports = () => {
     const hasAmount = report?.amount_rub && report.amount_rub > 0;
     
     if (hasFile && hasAmount) {
-      return { status: 'complete', label: 'готов', color: 'green' };
+      return { status: 'complete', label: 'направлен', color: 'green' };
     } else if (hasFile || hasAmount) {
-      return { status: 'partial', label: 'частично готов', color: 'yellow' };
+      return { status: 'partial', label: 'частично направлен', color: 'yellow' };
     } else {
-      return { status: 'empty', label: 'не готов', color: 'gray' };
+      return { status: 'empty', label: 'не направлен', color: 'gray' };
     }
   };
 
@@ -241,8 +241,8 @@ const AdminReports = () => {
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-medium text-foreground">отчеты</h1>
-            <p className="text-sm text-muted-foreground">управление отчетами артистов</p>
+            <h1 className="text-2xl font-medium text-foreground">Отчеты</h1>
+            <p className="text-sm text-muted-foreground">Управление отчетами артистов</p>
           </div>
           
           <Select value={selectedQuarter} onValueChange={setSelectedQuarter}>
@@ -261,20 +261,20 @@ const AdminReports = () => {
 
         <Card className="border-border/20">
           <CardHeader>
-            <CardTitle className="text-lg font-medium">отчеты за {selectedQuarter}</CardTitle>
+            <CardTitle className="text-lg font-medium">Отчеты за {selectedQuarter}</CardTitle>
             <CardDescription className="text-sm">
-              загрузка файлов и указание сумм для артистов
+              Загрузка файлов и указание сумм для артистов
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow className="border-border/20">
-                  <TableHead className="text-muted-foreground">статус</TableHead>
-                  <TableHead className="text-muted-foreground">артист</TableHead>
-                  <TableHead className="text-muted-foreground">файл отчета</TableHead>
-                  <TableHead className="text-muted-foreground">сумма (₽)</TableHead>
-                  <TableHead className="text-muted-foreground">действия</TableHead>
+                  <TableHead className="text-muted-foreground">Статус</TableHead>
+                  <TableHead className="text-muted-foreground">Артист</TableHead>
+                  <TableHead className="text-muted-foreground">Файл отчета</TableHead>
+                  <TableHead className="text-muted-foreground">Сумма (₽)</TableHead>
+                  <TableHead className="text-muted-foreground">Действия</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -319,12 +319,12 @@ const AdminReports = () => {
                           {artist.pseudonym}
                           {selectedQuarter === 'Q1 2025' && (artist as any).requires_q1_2025_status && !report?.file_url && (
                             <div className="text-xs text-orange-600 bg-orange-50 px-2 py-1 rounded border border-orange-200 mt-1 inline-block dark:bg-orange-900/30 dark:text-orange-400 dark:border-orange-800">
-                              ⚠ требуется на 15.08.2025
+                              ⚠ Требуется на 15.08.2025
                             </div>
                           )}
                           {isComplete && (
                             <div className="text-xs text-green-600 dark:text-green-500 mt-1">
-                              отчет направлен
+                              Отчет направлен
                             </div>
                           )}
                         </div>
@@ -380,7 +380,7 @@ const AdminReports = () => {
                           }`}
                         >
                           <Save className="h-3 w-3 mr-1" />
-                          {isComplete ? 'обновить' : 'сохранить'}
+                          {isComplete ? 'Обновить' : 'Сохранить'}
                         </Button>
                       </TableCell>
                     </TableRow>

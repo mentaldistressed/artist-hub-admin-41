@@ -201,8 +201,8 @@ const ArtistReports = () => {
         })
         .eq('id', profile.id);
       toast({
-        title: "заявка отправлена",
-        description: "ваша заявка на выплату принята в обработку",
+        title: "Заявка отправлена",
+        description: "Ваша заявка на выплату принята в обработку",
       });
 
       setPayoutData({
@@ -219,8 +219,8 @@ const ArtistReports = () => {
     } catch (error) {
       console.error('Error submitting payout request:', error);
       toast({
-        title: "ошибка отправки",
-        description: "не удалось отправить заявку на выплату",
+        title: "Ошибка отправки",
+        description: "Не удалось отправить заявку на выплату",
         variant: "destructive",
       });
     }
@@ -251,16 +251,16 @@ const ArtistReports = () => {
       if (error) throw error;
 
       toast({
-        title: "чек загружен",
-        description: "чек об уплате налога успешно загружен",
+        title: "Чек загружен",
+        description: "Чек об уплате налога успешно загружен",
       });
 
       await fetchPayoutRequests();
     } catch (error) {
       console.error('Error uploading tax receipt:', error);
       toast({
-        title: "ошибка загрузки",
-        description: "не удалось загрузить чек",
+        title: "Ошибка загрузки",
+        description: "Не удалось загрузить чек",
         variant: "destructive",
       });
     } finally {
@@ -276,16 +276,16 @@ const ArtistReports = () => {
       return (
         <div className="space-y-2">
           <div className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded border border-green-200">
-            ✓ выплата выполнена
+            ✓ Выплата выполнена
           </div>
           {!request.tax_receipt_url && (
             <div className="text-xs text-orange-600 bg-orange-50 px-2 py-1 rounded border border-orange-200">
-              ⚠ требуется чек об уплате налога
+              ⚠ Требуется чек об уплате налога
             </div>
           )}
           {request.tax_receipt_url && (
             <div className="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded border border-blue-200">
-              ✓ чек загружен
+              ✓ Чек загружен
             </div>
           )}
         </div>
@@ -294,21 +294,21 @@ const ArtistReports = () => {
     
     return (
       <div className="text-xs text-yellow-600 bg-yellow-50 px-2 py-1 rounded border border-yellow-200">
-        ⏳ заявка в обработке
+        ⏳ Заявка в обработке
       </div>
     );
   };
 
   if (loading) {
-    return <div className="flex items-center justify-center h-64">загрузка...</div>;
+    return <div className="flex items-center justify-center h-64">Загрузка...</div>;
   }
 
   return (
     <Layout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-medium text-foreground">отчеты</h1>
-          <p className="text-sm text-muted-foreground">ваши отчеты и заявки на выплаты</p>
+          <h1 className="text-2xl font-medium text-foreground">Отчеты</h1>
+          <p className="text-sm text-muted-foreground">Ваши отчеты и заявки на выплаты</p>
         </div>
 
         <div className="grid gap-4">
@@ -322,7 +322,7 @@ const ArtistReports = () => {
                 <CardHeader>
                   <CardTitle className="text-lg font-medium">{quarter}</CardTitle>
                   <CardDescription className="text-sm">
-                    отчет за {quarter.toLowerCase()}
+                    Отчет за {quarter}
                   </CardDescription>
                   {quarter === 'Q1 2025' && (
                     <div className="flex items-center space-x-2 mt-3 pt-3 border-t border-border/20">
@@ -339,8 +339,8 @@ const ArtistReports = () => {
                             if (error) throw error;
 
                             toast({
-                              title: "статус обновлен",
-                              description: checked ? "отмечено как требующее статус" : "статус снят",
+                              title: "Статус обновлен",
+                              description: checked ? "Отмечено как требующееся" : "Статус снят",
                             });
 
                             // Обновляем локальный профиль
@@ -350,15 +350,15 @@ const ArtistReports = () => {
                           } catch (error) {
                             console.error('Error updating Q1 2025 status:', error);
                             toast({
-                              title: "ошибка обновления",
-                              description: "не удалось обновить статус",
+                              title: "Ошибка обновления",
+                              description: "Не удалось обновить статус",
                               variant: "destructive",
                             });
                           }
                         }}
                       />
                       <Label htmlFor={`q1-status-${quarter}`} className="text-sm text-muted-foreground">
-                        я ещё НЕ получал деньги/отчёт за Q1 2025
+                        Я ещё НЕ получал деньги/отчёт за Q1 2025
                       </Label>
                     </div>
                   )}
@@ -367,14 +367,14 @@ const ArtistReports = () => {
                   {!report ? (
                     <div className="flex items-center gap-2 text-muted-foreground text-sm">
                       <AlertCircle className="h-4 w-4" />
-                      нет данных
+                      Данные в настоящее время отсутствуют
                     </div>
                   ) : (
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
                         <div className="space-y-2">
                           <div className="text-sm">
-                            <span className="text-muted-foreground">сумма:</span>
+                            <span className="text-muted-foreground">Сумма:</span>
                             <span className="font-mono ml-2">{report.amount_rub.toFixed(2)} ₽</span>
                           </div>
                           {report.file_url && (
@@ -385,7 +385,7 @@ const ArtistReports = () => {
                               className="h-8 text-xs"
                             >
                               <Download className="h-3 w-3 mr-1" />
-                              скачать отчет
+                              Скачать отчет
                             </Button>
                           )}
                         </div>
@@ -404,21 +404,21 @@ const ArtistReports = () => {
                                   className="h-8 text-xs"
                                 >
                                   <Send className="h-3 w-3 mr-1" />
-                                  подать заявку на выплату
+                                  Подать заявку на выплату
                                 </Button>
                               </DialogTrigger>
                               <DialogContent className="sm:max-w-md">
                                 <DialogHeader>
-                                  <DialogTitle>заявка на выплату</DialogTitle>
+                                  <DialogTitle>Заявка на выплату</DialogTitle>
                                   <DialogDescription>
-                                    заполните реквизиты для получения выплаты за {report.quarter}
+                                    Заполните реквизиты для получения выплаты за {report.quarter}
                                   </DialogDescription>
                                 </DialogHeader>
                                 
                                 <form onSubmit={handleSubmitPayoutRequest} className="space-y-4">
                                   <input type="hidden" name="reportId" value={report.id} />
                                   <div className="space-y-2">
-                                    <Label htmlFor="contract_number" className="text-sm">номер договора</Label>
+                                    <Label htmlFor="contract_number" className="text-sm">Номер договора</Label>
                                     <Input
                                       id="contract_number"
                                       value={payoutData.contract_number}
@@ -430,7 +430,7 @@ const ArtistReports = () => {
                                   </div>
                                   
                                   <div className="space-y-2">
-                                    <Label htmlFor="inn" className="text-sm">ИНН</Label>
+                                    <Label htmlFor="inn" className="text-sm">ИНН (ваш)</Label>
                                     <Input
                                       id="inn"
                                       value={payoutData.inn}
@@ -466,7 +466,7 @@ const ArtistReports = () => {
                                   </div>
                                   
                                   <div className="space-y-2">
-                                    <Label htmlFor="account_number" className="text-sm">номер счета</Label>
+                                    <Label htmlFor="account_number" className="text-sm">Номер счёта</Label>
                                     <Input
                                       id="account_number"
                                       value={payoutData.account_number}
@@ -486,13 +486,13 @@ const ArtistReports = () => {
                                       }
                                     />
                                     <Label htmlFor="is_self_employed" className="text-sm">
-                                      открытие самозанятости / ИП
+                                      Наличие открытой самозанятости / ИП
                                     </Label>
                                   </div>
                                   
                                   <div className="flex gap-2 pt-4">
                                     <Button type="submit" size="sm" className="h-9 text-sm">
-                                      отправить заявку
+                                      Отправить заявку
                                     </Button>
                                     <Button 
                                       type="button" 
@@ -500,7 +500,7 @@ const ArtistReports = () => {
                                       size="sm"
                                       className="h-9 text-sm"
                                     >
-                                      отмена
+                                      Отмена
                                     </Button>
                                   </div>
                                 </form>
@@ -510,7 +510,7 @@ const ArtistReports = () => {
                           {hasPayoutRequest && hasPayoutRequest.status === 'completed' && !hasPayoutRequest.tax_receipt_url && (
                             <div className="space-y-2">
                               <div className="space-y-2">
-                                <Label className="text-xs font-medium text-foreground">загрузить чек об уплате налога:</Label>
+                                <Label className="text-xs font-medium text-foreground">Загрузить чек об уплате налога:</Label>
                                 <FileUpload
                                   onFileSelect={(file) => handleTaxReceiptUpload(hasPayoutRequest.id, file)}
                                   accept=".pdf,.jpg,.jpeg,.png"
@@ -531,7 +531,7 @@ const ArtistReports = () => {
                               className="h-8 text-xs"
                             >
                               <Download className="h-3 w-3 mr-1" />
-                              скачать чек
+                              Скачать чек
                             </Button>
                           )}
                         </div>

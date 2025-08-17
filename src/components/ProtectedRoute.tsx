@@ -31,7 +31,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       <div className="min-h-screen flex items-center justify-center bg-background">
         <LoadingSpinner 
           size="lg" 
-          message="инициализация приложения..." 
+          message="Инициализация приложения..." 
         />
       </div>
     );
@@ -91,9 +91,9 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       <div className="min-h-screen flex items-center justify-center bg-background p-4">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle>загрузка профиля</CardTitle>
+            <CardTitle>Загрузка профиля</CardTitle>
             <CardDescription>
-              настройка вашего аккаунта...
+              Настройка вашего аккаунта...
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -107,7 +107,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
                 className="w-full"
               >
                 <RefreshCw className="h-4 w-4 mr-2" />
-                повторить загрузку
+                Повторить загрузку
               </Button>
               
               <Button 
@@ -117,7 +117,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
                 className="w-full"
               >
                 <Home className="h-4 w-4 mr-2" />
-                перезагрузить приложение
+                Перезагрузить приложение
               </Button>
             </div>
           </CardContent>
@@ -132,9 +132,9 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       <div className="min-h-screen flex items-center justify-center bg-background">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle>доступ запрещен</CardTitle>
+            <CardTitle>Доступ запрещен</CardTitle>
             <CardDescription>
-              у вас нет прав для просмотра этой страницы
+              У Вас нет прав для просмотра этой страницы
             </CardDescription>
           </CardHeader>
           <CardContent>

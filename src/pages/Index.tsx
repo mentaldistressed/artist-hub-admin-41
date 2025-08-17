@@ -13,10 +13,10 @@ const Index: React.FC = () => {
       <div className="max-w-5xl mx-auto space-y-10 animate-fade-in">
         <div className="space-y-3">
           <h1 className="text-3xl font-bold tracking-tight text-foreground text-premium">
-            добро пожаловать
+            Добро пожаловать!
           </h1>
           <p className="text-base text-muted-foreground">
-            {user?.role === 'admin' ? 'панель администратора' : 'ваш личный кабинет'}
+            {user?.role === 'admin' ? 'Панель администратора' : 'Ваш личный кабинет'}
           </p>
         </div>
         
@@ -31,9 +31,9 @@ const Index: React.FC = () => {
                 <div className="w-12 h-12 rounded-xl bg-muted/30 border border-border/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/50">
                   <FileText className="h-6 w-6 text-muted-foreground" />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground text-premium">отчеты</h3>
+                <h3 className="text-xl font-semibold text-foreground text-premium">Отчеты</h3>
                 <p className="text-muted-foreground">
-                  просмотр отчетов и заявки на выплаты
+                  Просмотр отчетов и заявки на выплаты
                 </p>
               </div>
             </div>
@@ -48,9 +48,9 @@ const Index: React.FC = () => {
                 <div className="w-12 h-12 rounded-xl bg-muted/30 border border-border/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/50">
                   <Users className="h-6 w-6 text-muted-foreground" />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground text-premium">пользователи</h3>
+                <h3 className="text-xl font-semibold text-foreground text-premium">Пользователи</h3>
                 <p className="text-muted-foreground">
-                  управление артистами и администраторами
+                  Управление артистами и администраторами
                 </p>
               </div>
             </div>
@@ -63,9 +63,9 @@ const Index: React.FC = () => {
                 <div className="w-12 h-12 rounded-xl bg-muted/30 border border-border/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/50">
                   <FileText className="h-6 w-6 text-muted-foreground" />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground text-premium">отчеты</h3>
+                <h3 className="text-xl font-semibold text-foreground text-premium">Отчеты</h3>
                 <p className="text-muted-foreground">
-                  управление отчетами артистов
+                  Управление отчетами артистов
                 </p>
               </div>
             </div>
@@ -78,9 +78,9 @@ const Index: React.FC = () => {
                 <div className="w-12 h-12 rounded-xl bg-muted/30 border border-border/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/50">
                   <Send className="h-6 w-6 text-muted-foreground" />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground text-premium">выплаты</h3>
+                <h3 className="text-xl font-semibold text-foreground text-premium">Выплаты</h3>
                 <p className="text-muted-foreground">
-                  обработка заявок на выплаты
+                  Обработка заявок на выплаты
                 </p>
               </div>
             </div>
@@ -93,9 +93,9 @@ const Index: React.FC = () => {
                 <div className="w-12 h-12 rounded-xl bg-muted/30 border border-border/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/50">
                   <Settings className="h-6 w-6 text-muted-foreground" />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground text-premium">настройки</h3>
+                <h3 className="text-xl font-semibold text-foreground text-premium">Настройки</h3>
                 <p className="text-muted-foreground">
-                  конфигурация системы
+                  Конфигурация системы
                 </p>
               </div>
             </div>

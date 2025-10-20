@@ -10,7 +10,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Layout } from '@/components/Layout';
 import { FileUpload } from '@/components/ui/file-upload';
-import { FileText, Save, CheckCircle, AlertCircle } from 'lucide-react';
+import { Save, CheckCircle, AlertCircle } from 'lucide-react';
 
 interface Profile {
   id: string;
@@ -34,6 +34,7 @@ const AdminReports = () => {
   const [artists, setArtists] = useState<Profile[]>([]);
   const [reports, setReports] = useState<Report[]>([]);
   const [selectedQuarter, setSelectedQuarter] = useState('Q1 2025');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'complete' | 'partial' | 'empty'>('all');
   const [loading, setLoading] = useState(true);
   const [uploadingFiles, setUploadingFiles] = useState<{ [key: string]: boolean }>({});
   const [amounts, setAmounts] = useState<{ [key: string]: string }>({});
@@ -66,7 +67,6 @@ const AdminReports = () => {
       if (error) throw error;
       setReports(data || []);
       
-      // Заполняем amounts из существующих отчетов
       const newAmounts: { [key: string]: string } = {};
       data?.forEach(report => {
         newAmounts[report.artist_id] = report.amount_rub.toString();
@@ -107,7 +107,6 @@ const AdminReports = () => {
         .from('reports')
         .getPublicUrl(filePath);
 
-      // Обновляем или создаем отчет
       const existingReport = reports.find(r => r.artist_id === artistId);
       
       if (existingReport) {
@@ -128,25 +127,6 @@ const AdminReports = () => {
           });
         
         if (error) throw error;
-      }
-
-      // Если загружаем отчет за Q1 2025, убираем статус требования
-      if (selectedQuarter === 'Q1 2025') {
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .update({ requires_q1_2025_status: false })
-          .eq('id', artistId);
-        
-        if (profileError) {
-          console.error('Error updating Q1 status:', profileError);
-        } else {
-          // Обновляем локальный список артистов
-          setArtists(prev => prev.map(artist => 
-            artist.id === artistId 
-              ? { ...artist, requires_q1_2025_status: false } as any
-              : artist
-          ));
-        }
       }
 
       toast({
@@ -207,30 +187,30 @@ const AdminReports = () => {
     }
   };
 
-  const getReportForArtist = (artistId: string) => {
-    return reports.find(r => r.artist_id === artistId);
-  };
+  const getReportForArtist = (artistId: string) => reports.find(r => r.artist_id === artistId);
 
   const isReportComplete = (artistId: string) => {
     const report = getReportForArtist(artistId);
-    const hasFile = report?.file_url;
-    const hasAmount = report?.amount_rub && report.amount_rub > 0;
-    return hasFile && hasAmount;
+    if (!report) return false;
+    return typeof report.amount_rub === 'number' && report.amount_rub >= 0;
   };
 
   const getCompletionStatus = (artistId: string) => {
     const report = getReportForArtist(artistId);
-    const hasFile = report?.file_url;
-    const hasAmount = report?.amount_rub && report.amount_rub > 0;
-    
-    if (hasFile && hasAmount) {
+    if (report && typeof report.amount_rub === 'number' && report.amount_rub >= 0) {
       return { status: 'complete', label: 'направлен', color: 'green' };
-    } else if (hasFile || hasAmount) {
-      return { status: 'partial', label: 'частично направлен', color: 'yellow' };
-    } else {
-      return { status: 'empty', label: 'не направлен', color: 'gray' };
     }
+    if (report?.file_url) {
+      return { status: 'partial', label: 'частично направлен', color: 'yellow' };
+    }
+    return { status: 'empty', label: 'не направлен', color: 'gray' };
   };
+
+  const filteredArtists = artists.filter(artist => {
+    if (statusFilter === 'all') return true;
+    const { status } = getCompletionStatus(artist.id);
+    return status === statusFilter;
+  });
 
   if (loading) {
     return <div className="flex items-center justify-center h-64">загрузка...</div>;
@@ -244,19 +224,31 @@ const AdminReports = () => {
             <h1 className="text-2xl font-medium text-foreground">Отчеты</h1>
             <p className="text-sm text-muted-foreground">Управление отчетами артистов</p>
           </div>
-          
-          <Select value={selectedQuarter} onValueChange={setSelectedQuarter}>
-            <SelectTrigger className="w-32">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {quarters.map(quarter => (
-                <SelectItem key={quarter} value={quarter}>
-                  {quarter}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="flex gap-2">
+            <Select value={selectedQuarter} onValueChange={setSelectedQuarter}>
+              <SelectTrigger className="w-32">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {quarters.map(quarter => (
+                  <SelectItem key={quarter} value={quarter}>
+                    {quarter}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select value={statusFilter} onValueChange={(v: any) => setStatusFilter(v)}>
+              <SelectTrigger className="w-40">
+                <SelectValue placeholder="Фильтр по статусу" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Все</SelectItem>
+                <SelectItem value="complete">Направлен</SelectItem>
+                <SelectItem value="partial">Частично</SelectItem>
+                <SelectItem value="empty">Не направлен</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         <Card className="border-border/20">
@@ -278,7 +270,7 @@ const AdminReports = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {artists.map((artist) => {
+                {filteredArtists.map((artist) => {
                   const report = getReportForArtist(artist.id);
                   const completionStatus = getCompletionStatus(artist.id);
                   const isComplete = isReportComplete(artist.id);
@@ -317,11 +309,6 @@ const AdminReports = () => {
                       <TableCell>
                         <div className={`font-medium text-sm ${isComplete ? 'text-green-700 dark:text-green-400' : ''}`}>
                           {artist.pseudonym}
-                          {selectedQuarter === 'Q1 2025' && (artist as any).requires_q1_2025_status && !report?.file_url && (
-                            <div className="text-xs text-orange-600 bg-orange-50 px-2 py-1 rounded border border-orange-200 mt-1 inline-block dark:bg-orange-900/30 dark:text-orange-400 dark:border-orange-800">
-                              ⚠ Требуется на 15.08.2025
-                            </div>
-                          )}
                           {isComplete && (
                             <div className="text-xs text-green-600 dark:text-green-500 mt-1">
                               Отчет направлен
@@ -358,12 +345,12 @@ const AdminReports = () => {
                               [artist.id]: e.target.value 
                             }))}
                             className={`w-24 h-8 text-xs ${
-                              report?.amount_rub && report.amount_rub > 0 
+                              report && typeof report.amount_rub === 'number' && report.amount_rub >= 0
                                 ? 'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/20' 
                                 : ''
                             }`}
                           />
-                          {report?.amount_rub && report.amount_rub > 0 && (
+                          {report && typeof report.amount_rub === 'number' && report.amount_rub >= 0 && (
                             <CheckCircle className="h-4 w-4 text-green-600" />
                           )}
                         </div>

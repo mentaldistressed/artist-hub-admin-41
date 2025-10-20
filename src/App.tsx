@@ -92,7 +92,12 @@ const App = () => {
                   </ProtectedRoute>
                 } />
                 <Route path="/releases" element={
-                  <ProtectedRoute requiredRole="admin">
+                  <ProtectedRoute requiredRole="sadmin">
+                    <Releases />
+                  </ProtectedRoute>
+                } />
+                <Route path="/match" element={
+                  <ProtectedRoute requiredRole="sadmin">
                     <Releases />
                   </ProtectedRoute>
                 } />

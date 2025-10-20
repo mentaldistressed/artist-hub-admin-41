@@ -31,9 +31,9 @@ const Index: React.FC = () => {
                 <div className="w-12 h-12 rounded-xl bg-muted/30 border border-border/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/50">
                   <FileText className="h-6 w-6 text-muted-foreground" />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground text-premium">Отчеты</h3>
+                <h3 className="text-xl font-semibold text-foreground text-premium">Отчёты</h3>
                 <p className="text-muted-foreground">
-                  Просмотр отчетов и заявки на выплаты
+                  Просмотр отчётов и заявки на выплаты
                 </p>
               </div>
             </div>
@@ -63,9 +63,9 @@ const Index: React.FC = () => {
                 <div className="w-12 h-12 rounded-xl bg-muted/30 border border-border/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/50">
                   <FileText className="h-6 w-6 text-muted-foreground" />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground text-premium">Отчеты</h3>
+                <h3 className="text-xl font-semibold text-foreground text-premium">Отчёты</h3>
                 <p className="text-muted-foreground">
-                  Управление отчетами артистов
+                  Управление отчётами артистов
                 </p>
               </div>
             </div>

@@ -71,32 +71,32 @@ const App = () => {
                     <ArtistReports />
                   </ProtectedRoute>
                 } />
-                <Route path="/admin-users" element={
+                <Route path="/admin/users" element={
                   <ProtectedRoute requiredRole="admin">
                     <AdminUsers />
                   </ProtectedRoute>
                 } />
-                <Route path="/admin-reports" element={
+                <Route path="/admin/reports" element={
                   <ProtectedRoute requiredRole="admin">
                     <AdminReports />
                   </ProtectedRoute>
                 } />
-                <Route path="/admin-payouts" element={
+                <Route path="/admin/payouts" element={
                   <ProtectedRoute requiredRole="admin">
                     <AdminPayouts />
                   </ProtectedRoute>
                 } />
-                <Route path="/admin-settings" element={
+                <Route path="/admin/settings" element={
                   <ProtectedRoute requiredRole="admin">
                     <AdminSettings />
                   </ProtectedRoute>
                 } />
                 <Route path="/releases" element={
-                  <ProtectedRoute requiredRole="sadmin">
+                  <ProtectedRoute>
                     <Releases />
                   </ProtectedRoute>
                 } />
-                <Route path="/match" element={
+                <Route path="/admin/reports/matching" element={
                   <ProtectedRoute requiredRole="sadmin">
                     <Releases />
                   </ProtectedRoute>

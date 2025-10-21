@@ -359,7 +359,6 @@ const ArtistReports = () => {
                         <div className="flex flex-col items-end gap-2">
                           {payoutStatus}
                           {!hasPayoutRequest && (
-                            // 🔽 Логика порога 50 рублей: если меньше 50 — блокируем кнопку и меняем текст
                             report.amount_rub < 50 ? (
                               <Button size="sm" disabled className="h-8 text-xs opacity-70 cursor-not-allowed">
                                 Выплаты осуществляются от 50 рублей

@@ -24,18 +24,18 @@ interface NavItem {
 
 const artistItems: NavItem[] = [
   { title: 'Главная', url: '/', icon: Home, role: 'artist' },
-  // { title: 'Релизы', url: '/releases', icon: FileMusic, role: 'artist'},
-  { title: 'Отчёты', url: '/reports', icon: FileText, role: 'artist' }
+  { title: 'Мои релизы', url: '/releases', icon: FileMusic, role: 'artist'},
+  { title: 'Мои отчёты', url: '/reports', icon: FileText, role: 'artist' }
 ];
 
 const adminItems: NavItem[] = [
   { title: 'Главная', url: '/', icon: Home, role: 'admin' },
-  { title: 'Пользователи', url: '/admin-users', icon: Users, role: 'admin' },
-  { title: 'Релизы', url: '/releases', icon: FileMusic, role: 'admin'},
-  { title: 'Мэтчинг авторских отчетов', url: '/match', icon: ArrowLeftRight, role: 'admin'},
-  { title: 'Отчёты', url: '/admin-reports', icon: FileText, role: 'admin' },
-  { title: 'Выплаты', url: '/admin-payouts', icon: Send, role: 'admin' },
-  { title: 'Настройки', url: '/admin-settings', icon: Settings, role: 'admin' }
+  { title: 'Управление пользователями', url: '/admin/users', icon: Users, role: 'admin' },
+  { title: 'Управление релизами', url: '/releases', icon: FileMusic, role: 'admin'},
+  { title: 'Управление отчётами', url: '/admin/reports', icon: FileText, role: 'admin' },
+  { title: 'Мэтчинг авторских отчетов', url: '/admin/reports/matching', icon: ArrowLeftRight, role: 'admin'},
+  { title: 'Управление выплатами', url: '/admin/payouts', icon: Send, role: 'admin' },
+  { title: 'Системные настройки', url: '/admin/settings', icon: Settings, role: 'admin' }
 ];
 
 export function AppSidebar() {

@@ -31,7 +31,7 @@ const Index: React.FC = () => {
                 <div className="w-12 h-12 rounded-xl bg-muted/30 border border-border/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/50">
                   <FileText className="h-6 w-6 text-muted-foreground" />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground text-premium">Отчёты</h3>
+                <h3 className="text-xl font-semibold text-foreground text-premium">Мои отчёты</h3>
                 <p className="text-muted-foreground">
                   Просмотр отчётов и заявки на выплаты
                 </p>
@@ -42,7 +42,7 @@ const Index: React.FC = () => {
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <div 
               className="group p-8 card-premium-interactive animate-slide-up cursor-pointer"
-              onClick={() => navigate('/admin-users')}
+              onClick={() => navigate('/admin/users')}
             >
               <div className="space-y-3">
                 <div className="w-12 h-12 rounded-xl bg-muted/30 border border-border/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/50">
@@ -57,7 +57,7 @@ const Index: React.FC = () => {
             <div 
               className="group p-8 card-premium-interactive animate-slide-up cursor-pointer"
               style={{ animationDelay: '0.2s' }}
-              onClick={() => navigate('/admin-reports')}
+              onClick={() => navigate('/admin/reports')}
             >
               <div className="space-y-3">
                 <div className="w-12 h-12 rounded-xl bg-muted/30 border border-border/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/50">
@@ -72,7 +72,7 @@ const Index: React.FC = () => {
             <div 
               className="group p-8 card-premium-interactive animate-slide-up cursor-pointer"
               style={{ animationDelay: '0.3s' }}
-              onClick={() => navigate('/admin-payouts')}
+              onClick={() => navigate('/admin/payouts')}
             >
               <div className="space-y-3">
                 <div className="w-12 h-12 rounded-xl bg-muted/30 border border-border/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/50">
@@ -87,7 +87,7 @@ const Index: React.FC = () => {
             <div 
               className="group p-8 card-premium-interactive animate-slide-up cursor-pointer"
               style={{ animationDelay: '0.4s' }}
-              onClick={() => navigate('/admin-settings')}
+              onClick={() => navigate('/admin/settings')}
             >
               <div className="space-y-3">
                 <div className="w-12 h-12 rounded-xl bg-muted/30 border border-border/40 flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-200 group-hover:bg-muted/50">

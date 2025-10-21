@@ -12,15 +12,15 @@ const Releases = () => {
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="space-y-2">
           <h1 className="text-2xl font-semibold tracking-tight text-foreground">Релизы</h1>
-          {/* <p className="text-sm text-muted-foreground">управление вашими выплатами</p> */}
+          {/* <p className="text-sm text-muted-foreground">управление вашими релизами</p> */}
         </div>
 
         <Alert className="border-border/50">
           <Info className="h-4 w-4" />
           <AlertDescription className="text-sm">
-            <strong>Раздел в разработке</strong>
+            <strong>Раздел в активной разработке</strong>
             <br />
-            Мы работаем над этим разделом. Планируем запустить его в следующем месяце
+            Привет, {profile.pseudonym}! Сейчас мы работаем над этим разделом, здесь уже начинает появляться первичный функционал. Планируем запустить его в следующем месяце
           </AlertDescription>
         </Alert>
 
@@ -28,7 +28,7 @@ const Releases = () => {
           <CardHeader>
             <CardTitle className="text-lg font-medium">Что будет доступно</CardTitle>
             <CardDescription className="text-sm text-muted-foreground">
-              Функции, которые появятся в разделе финансов
+              Функции, которые появятся в разделе релизов
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -41,6 +41,10 @@ const Releases = () => {
             </div>
           </CardContent>
         </Card>
+        <div className="space-y-2">
+          <h1 className="text-2xl font-semibold tracking-tight text-foreground">Ваши загруженные релизы</h1>
+          <p className="text-sm text-muted-foreground">Здесь пока пусто...</p>
+        </div>
       </div>
     </Layout>
   );

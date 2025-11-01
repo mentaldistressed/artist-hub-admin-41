@@ -295,11 +295,8 @@ const ArtistReports = () => {
                   <CardTitle className="text-lg font-medium">{quarter}</CardTitle>
                   <CardDescription className="text-sm">Отчёт за {quarter}</CardDescription>
                   {quarter === 'Q3 2025' && (
-                    // <div className="flex items-center space-x-2 mt-3 pt-3 border-t border-border/20">
-                    //   <p className="text-xs text-muted-foreground">Примерная запланированная дата получения отчёта за {quarter}: 15 ноября 2025 года</p>
-                    // </div>
-                    <div className="flex items-center space-x-2 mt-3 pt-3 border-t border-border/20">
-                      <p className="text-xs text-muted-foreground">Мы уже начали отправку отчётов за {quarter}. Благодарим за ожидание!</p>
+                    <div className='flex items-center space-x-2 mt-3 pt-3 border-t border-border/20'>
+                      <p className='text-xs text-muted-foreground'>Мы уже начали обработку отчётов за {quarter}. Благодарим за терпение!</p>
                     </div>
                   )}
                   {quarter === 'Q4 2025' && (

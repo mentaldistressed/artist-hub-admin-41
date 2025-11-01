@@ -295,8 +295,11 @@ const ArtistReports = () => {
                   <CardTitle className="text-lg font-medium">{quarter}</CardTitle>
                   <CardDescription className="text-sm">Отчёт за {quarter}</CardDescription>
                   {quarter === 'Q3 2025' && (
+                    // <div className="flex items-center space-x-2 mt-3 pt-3 border-t border-border/20">
+                    //   <p className="text-xs text-muted-foreground">Примерная запланированная дата получения отчёта за {quarter}: 15 ноября 2025 года</p>
+                    // </div>
                     <div className="flex items-center space-x-2 mt-3 pt-3 border-t border-border/20">
-                      <p className="text-xs text-muted-foreground">Примерная запланированная дата получения отчёта за {quarter}: 15 ноября 2025 года</p>
+                      <p className="text-xs text-muted-foreground">Мы уже начали отправку отчётов за {quarter}. Благодарим за ожидание!</p>
                     </div>
                   )}
                   {quarter === 'Q4 2025' && (
@@ -317,11 +320,6 @@ const ArtistReports = () => {
                         <div className="flex items-center gap-2 text-amber-600 text-sm">
                           <AlertCircle className="h-4 w-4" />
                           Отчётный период завершён
-                        </div>
-                      ) : quarter === 'Q3 2025' ? (
-                        <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                          <AlertCircle className="h-4 w-4" />
-                          Отчётный период ещё не начался
                         </div>
                       ) : quarter === 'Q4 2025' ? (
                         <div className="flex items-center gap-2 text-muted-foreground text-sm">

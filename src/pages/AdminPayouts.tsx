@@ -37,7 +37,7 @@ const AdminPayouts = () => {
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
-  const quarters = ['Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025'];
+  const quarters = ['Более ранние периоды', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025'];
 
   const fetchPayoutRequests = async () => {
     try {

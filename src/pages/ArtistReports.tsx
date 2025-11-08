@@ -46,7 +46,7 @@ const ArtistReports = () => {
   const [uploadingReceipt, setUploadingReceipt] = useState<{ [key: string]: boolean }>({});
   const { toast } = useToast();
 
-  const quarters = ['Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025'];
+  const quarters = ['Более ранние периоды', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025'];
 
   const [payoutData, setPayoutData] = useState({
     contract_number: '',
@@ -304,6 +304,11 @@ const ArtistReports = () => {
                       <p className="text-xs text-muted-foreground">Примерная запланированная дата получения отчёта за {quarter}: 15 февраля 2026 года</p>
                     </div>
                   )}
+                  {quarter === 'Более ранние периоды' && (
+                    <div className="flex items-center space-x-2 mt-3 pt-3 border-т border-border/20">
+                      <p className="text-xs text-muted-foreground">Если Вы нуждаетесь в отчёте за данный период, пожалуйста, свяжитесь с @amirknyazev (Telegram)</p>
+                    </div>
+                  )}
                 </CardHeader>
                 <CardContent>
                   {!report || report.amount_rub === 0 ? (
@@ -322,6 +327,11 @@ const ArtistReports = () => {
                         <div className="flex items-center gap-2 text-muted-foreground text-sm">
                           <AlertCircle className="h-4 w-4" />
                           Отчётный период ещё не начался
+                        </div>
+                      ) : quarter === 'Более ранние периоды' ? (
+                        <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                          <AlertCircle className="h-4 w-4" />
+                          Предоставляется по запросу
                         </div>
                       ) : (
                         <div className="flex items-center gap-2 text-muted-foreground text-sm">

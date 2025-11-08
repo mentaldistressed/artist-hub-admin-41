@@ -40,7 +40,7 @@ const AdminReports = () => {
   const [amounts, setAmounts] = useState<{ [key: string]: string }>({});
   const { toast } = useToast();
 
-  const quarters = ['Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025'];
+  const quarters = ['Более ранние периоды', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025'];
 
   const fetchArtists = async () => {
     try {

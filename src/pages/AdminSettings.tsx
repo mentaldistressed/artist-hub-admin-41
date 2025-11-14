@@ -54,11 +54,11 @@ const AdminSettings = () => {
           <CardContent className="space-y-3">
             <div className="flex justify-between">
               <span className="text-sm text-muted-foreground">Версия системы</span>
-              <span className="text-sm font-mono">v1.2.1</span>
+              <span className="text-sm font-mono">v2.0.0</span>
             </div>
             <div className="flex justify-between">
               <span className="text-sm text-muted-foreground">Последнее обновление</span>
-              <span className="text-sm font-mono">18.08.2025 02:56</span>
+              <span className="text-sm font-mono">15.11.2025 01:02</span>
             </div>
           </CardContent>
         </Card>
